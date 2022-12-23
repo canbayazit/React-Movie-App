@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ListResponse, Movie } from "../Types/movie";
+import { ListResponse, Movie, Query } from "../Types/movie";
 import { MovieDetail } from "../Types/movieDetail";
 import { Person } from "../Types/person";
 import { PersonMovies } from "../Types/personMovie";
 import { upcomingMovies } from "../Types/upcomingMovies";
 import { baseURL, clientURL } from "./constant";
-
 
 export const movieApi = createApi({
   reducerPath: "movieApi",
@@ -25,30 +24,33 @@ export const movieApi = createApi({
   // geçersiz kılma niyetinde olup olmadığını belirlemek için 'etiketler' kavramını kullanır .
   endpoints: (builder) => ({
     //<result type, query type>
-    getMoviesService: builder.query<ListResponse<Movie>, string | number>({
-      query: (category: string, page: number = 1) =>
-        `${clientURL.categories} ?api_key= ${process.env.REACT_APP_API_KEY} &sort_by=${category}.desc&page=${page}`,
+    getMoviesService: builder.query<
+      ListResponse<Movie>,
+      { category: string; page: number; }
+    >({
+      query: (arg) =>
+        `${clientURL.categories}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&page=${arg.page}`,
       providesTags: (result) =>
         result
           ? [
-              ...result.result.map(({ id }) => ({ type: "Post" as const, id })),
+              ...result.results.map(({ id }) => ({ type: "Post" as const, id })),
               { type: "Post", id: "LIST" }, // bütün bir listeye sahip olmak istiyorsak id LIST tanımlamak gerek
             ]
           : [{ type: "Post", id: "LIST" }],
     }),
     getMovieDetailService: builder.query<MovieDetail, number>({
       query: (id) =>
-        `${clientURL.detail} ${id} ?api_key= ${process.env.REACT_APP_API_KEY}`,
+        `${clientURL.detail} ${id}?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
     getPersonService: builder.query<Person, number>({
       query: (id) =>
-        `${clientURL.person} ${id} ?api_key= ${process.env.REACT_APP_API_KEY}`,
+        `${clientURL.person} ${id}?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
     getPersonMoviesService: builder.query<PersonMovies, number>({
       query: (id) =>
-        `${clientURL.person} ${id} ${clientURL.person_movie} ?api_key= ${process.env.REACT_APP_API_KEY}`,
+        `${clientURL.person} ${id} ${clientURL.person_movie}?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result) =>
         result
           ? [
@@ -59,7 +61,7 @@ export const movieApi = createApi({
     }),
     getUpcomingMoviesService: builder.query<upcomingMovies, number>({
       query: (page) =>
-        `${clientURL.upcoming} ?api_key= ${process.env.REACT_APP_API_KEY} &page=${page}`,
+        `${clientURL.upcoming}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`,
       providesTags: (result) =>
         result
           ? [
@@ -73,3 +75,11 @@ export const movieApi = createApi({
     }),
   }),
 });
+
+export const {
+  useGetMoviesServiceQuery,
+  useGetMovieDetailServiceQuery,
+  useGetPersonServiceQuery,
+  useGetPersonMoviesServiceQuery,
+  useGetUpcomingMoviesServiceQuery,
+} = movieApi;

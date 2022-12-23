@@ -17,7 +17,12 @@ export interface Movie{
 
 export interface ListResponse<T>{
     page:number,
-    result: T[],
+    results: T[],
     total_pages:number,
     total_results:number
+}
+
+export interface Query{
+    category:string,
+    page:number
 }
