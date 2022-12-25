@@ -50,12 +50,12 @@
         text-shadow: 0 0 20px aquamarine;
       }
       &:nth-child(1)[class="active"] ~ .indicator {
-        transform: translateX(calc(5px));
-        width: 90px;
+        transform: translateX(calc(8px));
+        width: 88px;
       }
       &:nth-child(2)[class="active"] ~ .indicator {
-        transform: translateX(calc(127px));
-        width: 90px;
+        transform: translateX(calc(128px));
+        width: 88px;
       }
       &:nth-child(3)[class="active"] ~ .indicator {
         transform: translateX(calc(245px));

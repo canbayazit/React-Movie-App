@@ -7,6 +7,10 @@ export interface ISetting {
         slidesToShow: number,
         slidesToScroll: number,
         initialSlide: number,
+        autoplay: boolean,
+        autoplaySpeed:number,
+        cssEase: string,
+        pauseOnHover: true,
         nextArrow: JSX.Element,
         prevArrow: JSX.Element,
         responsive: Responsive[]
