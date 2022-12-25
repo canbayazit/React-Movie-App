@@ -20,7 +20,7 @@ export interface Result {
     vote_count: number;
 }
 
-export interface upcomingMovies {
+export interface IUpcomingMovies {
     dates: Dates;
     page: number;
     results: Result[];

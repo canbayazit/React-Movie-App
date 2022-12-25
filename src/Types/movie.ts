@@ -1,4 +1,4 @@
-export interface Movie{
+export interface IMovie{
     adult: boolean;
     backdrop_path: string;
     genre_ids: number[];
@@ -15,14 +15,14 @@ export interface Movie{
     vote_count: number;
 }
 
-export interface ListResponse<T>{
+export interface IListResponse<T>{
     page:number,
     results: T[],
     total_pages:number,
     total_results:number
 }
 
-export interface Query{
+export interface IQuery{
     category:string,
     page:number
 }

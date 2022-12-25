@@ -28,7 +28,7 @@ export interface SpokenLanguage {
     name: string;
 }
 
-export interface MovieDetail {
+export interface IMovieDetail {
     adult: boolean;
     backdrop_path: string;
     belongs_to_collection: BelongsToCollection;

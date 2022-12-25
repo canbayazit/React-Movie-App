@@ -1,6 +1,6 @@
 import { arrowButtonLeft, arrowButtonRight } from '../../Assets/svg/svg';
 import Slider from "react-slick";
-import { Setting } from '../../Types/slide';
+import { ISetting } from '../../Types/sliderTypes';
 
 const SliderMovie = () => {
     function SamplePrevArrow(props:any) {
@@ -40,7 +40,7 @@ const SliderMovie = () => {
           </div>
         );
       }
-      const settings: Setting = {
+      const settings: ISetting = {
         dots: false,
         arrows: true,
         infinite: true,

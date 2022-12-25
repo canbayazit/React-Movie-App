@@ -1,4 +1,4 @@
-export interface PersonMovies {
+export interface IPersonMovies {
     cast:Cast[],
     crew:Crew[],
     id:number,

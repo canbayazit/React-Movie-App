@@ -1,4 +1,4 @@
-export interface Setting {
+export interface ISetting {
         dots: boolean,
         arrows: boolean,
         infinite: boolean,

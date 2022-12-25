@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ListResponse, Movie, Query } from "../Types/movie";
-import { MovieDetail } from "../Types/movieDetail";
-import { Person } from "../Types/person";
-import { PersonMovies } from "../Types/personMovie";
-import { upcomingMovies } from "../Types/upcomingMovies";
+import { IListResponse, IMovie } from "../Types/movie";
+import { IMovieDetail } from "../Types/movieDetail";
+import { IPerson } from "../Types/person";
+import { IPersonMovies } from "../Types/personMovies";
+import { IUpcomingMovies } from "../Types/upcomingMovies";
 import { baseURL, clientURL } from "./constant";
 
 export const movieApi = createApi({
@@ -25,7 +25,7 @@ export const movieApi = createApi({
   endpoints: (builder) => ({
     //<result type, query type>
     getMoviesService: builder.query<
-      ListResponse<Movie>,
+      IListResponse<IMovie>,
       { category: string; page: number; }
     >({
       query: (arg) =>
@@ -38,17 +38,17 @@ export const movieApi = createApi({
             ]
           : [{ type: "Post", id: "LIST" }],
     }),
-    getMovieDetailService: builder.query<MovieDetail, number>({
+    getMovieDetailService: builder.query<IMovieDetail, number>({
       query: (id) =>
         `${clientURL.detail} ${id}?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
-    getPersonService: builder.query<Person, number>({
+    getPersonService: builder.query<IPerson, number>({
       query: (id) =>
         `${clientURL.person} ${id}?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
-    getPersonMoviesService: builder.query<PersonMovies, number>({
+    getPersonMoviesService: builder.query<IPersonMovies, number>({
       query: (id) =>
         `${clientURL.person} ${id} ${clientURL.person_movie}?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result) =>
@@ -59,7 +59,7 @@ export const movieApi = createApi({
             ]
           : [{ type: "Post", id: "LIST" }],
     }),
-    getUpcomingMoviesService: builder.query<upcomingMovies, number>({
+    getUpcomingMoviesService: builder.query<IUpcomingMovies, number>({
       query: (page) =>
         `${clientURL.upcoming}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`,
       providesTags: (result) =>

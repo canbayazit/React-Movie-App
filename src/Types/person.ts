@@ -1,4 +1,4 @@
-export interface Person {
+export interface IPerson {
     adult: boolean;
     backdrop_path: string;
     genre_ids: number[];
