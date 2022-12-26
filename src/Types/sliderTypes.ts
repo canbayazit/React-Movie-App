@@ -3,7 +3,7 @@ export interface ISetting {
         arrows: boolean,
         infinite: boolean,
         adaptiveHeight: boolean,
-        speed: number,
+        speed?: number,
         slidesToShow: number,
         slidesToScroll: number,
         initialSlide: number,

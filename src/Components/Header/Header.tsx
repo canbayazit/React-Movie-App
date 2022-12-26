@@ -18,7 +18,7 @@ const Header = () => {
         <NavLink to={"/"}>
           <span>{logo()}</span>
           <h1>
-            Film <span style={{ color: "#fff" }}>Makinası</span>
+            Film<span style={{ color: "#fff" }}>Makinası</span>
           </h1>
         </NavLink>
       </div>
