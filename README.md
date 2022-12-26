@@ -11,6 +11,6 @@ The development process continues...
 * HTTPS Request RTK Queries
 * Responsive Design
 * React Lazy Loading
-* Bootstrap and CSS For Styling and Design
+* SCSS For Styling and Design
 * React Routing
 * ...
