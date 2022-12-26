@@ -8,4 +8,5 @@ export const clientURL = {
   person: `/person/`,
   person_movie: `/movie_credits`,
   upcoming: `/movie/upcoming`,
+  genre:'/genre/movie/list'
 };

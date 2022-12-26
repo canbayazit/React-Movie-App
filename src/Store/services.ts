@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IGenres } from "../Types/genres";
 import { IListResponse, IMovie } from "../Types/movie";
 import { IMovieDetail } from "../Types/movieDetail";
 import { IPerson } from "../Types/person";
@@ -73,6 +74,20 @@ export const movieApi = createApi({
             ]
           : [{ type: "Post", id: "LIST" }],
     }),
+    getGenresService: builder.query<IGenres, void>({
+      query: () =>
+        `${clientURL.genre}?api_key=${process.env.REACT_APP_API_KEY}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.genres.map(({ id }) => ({
+                type: "Post" as const,
+                id,
+              })),
+              { type: "Post", id: "LIST" },
+            ]
+          : [{ type: "Post", id: "LIST" }],
+    }),
   }),
 });
 
@@ -82,4 +97,5 @@ export const {
   useGetPersonServiceQuery,
   useGetPersonMoviesServiceQuery,
   useGetUpcomingMoviesServiceQuery,
+  useGetGenresServiceQuery,
 } = movieApi;
