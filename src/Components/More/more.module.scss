@@ -1,0 +1,34 @@
+@use "../../Scss/variables" as *;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  border: none;
+  background-color: $bg-color;
+  text-decoration: none;
+  cursor: pointer;
+  color: $theme-color;
+  z-index: 998;
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    font-family: Metropolis, Helvetica, Arial, sans-serif;
+    span {
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 10px;
+      &:hover{
+        filter: drop-shadow(0 0 5px $theme-color);  
+      }
+
+    }
+  }
+}
