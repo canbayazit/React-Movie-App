@@ -5,7 +5,7 @@ const More = () => {
   return (
     <div className={styles.container} >
       <Link
-        react-scrollink
+        react-scrollink="true"
         activeClass="active"
         to="content"
         spy={true}

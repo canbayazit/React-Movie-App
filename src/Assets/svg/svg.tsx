@@ -7,7 +7,7 @@ export const arrowButtonRight = () => (
     style={{ transform: `rotate(180deg)` }}
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M12 29L1.5 16L12 1.5" stroke="red" strokeWidth="2" />
+    <path d="M12 29L1.5 16L12 1.5" stroke="#7fffd4" strokeWidth="3" />
   </svg>
 );
 
@@ -20,7 +20,7 @@ export const arrowButtonLeft = () => (
     xmlns="http://www.w3.org/2000/svg"
  
   >
-    <path d="M12 29L1.5 16L12 1.5" stroke="#fff" strokeWidth="1" />
+    <path d="M12 29L1.5 16L12 1.5" stroke="#7fffd4" strokeWidth="3" />
   </svg>
 );
 

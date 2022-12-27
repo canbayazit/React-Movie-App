@@ -19,12 +19,13 @@ const SliderMovie = () => {
         style={{
           display: "flex",
           position: "absolute",
-          left: "0",
+          left: "10px",
           top: "50%",
           marginLeft: 0,
           opacity: 0.7,
           zIndex: 999,
           cursor:"Pointer",
+
         }}
         onClick={onClick}
       >
@@ -39,7 +40,7 @@ const SliderMovie = () => {
         style={{
           display: "flex",
           position: "absolute",
-          right: "0",
+          right: "10px",
           top: "50%",
           marginRight: 0,
           justifyContent: "flex-end",
@@ -54,7 +55,7 @@ const SliderMovie = () => {
     );
   }
   const settings: ISetting = {
-    dots: false,
+    dots: true,
     arrows: true,
     infinite: true,
     adaptiveHeight: true,
@@ -115,7 +116,7 @@ const SliderMovie = () => {
       <div className={styles.container_slider}>
         <Slider {...settings} className={styles.container_slider_movie}>
           {getUpcomingMovieList.data?.results.map((movie, index) => (
-            <SlideItem item={movie} index={index} />
+            <SlideItem item={movie} index={index} key={movie.id}/>
           ))}
         </Slider>
       </div>
