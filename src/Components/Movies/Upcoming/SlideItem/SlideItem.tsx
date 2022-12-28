@@ -3,17 +3,17 @@ import { imageOriginal, imageSize } from "../../../../Store/constant";
 import { useGetGenresServiceQuery } from "../../../../Store/services";
 import { Result } from "../../../../Types/upcomingMovies";
 import styles from "./slideItem.module.scss";
-interface props {
+interface IProps {
   item: Result;
   index: number;
 }
 
-const SlideItem = (props: props) => {
+const SlideItem = (props: IProps) => {
   const [active, setActive] = useState<boolean>(false)
   const { item, index } = props;
-  console.log("item", item);
+  // console.log("item", item);
   const { data } = useGetGenresServiceQuery();
-  console.log("data", data);
+  // console.log("data", data);
   useEffect(() => {
   setActive(true);
 }, [])

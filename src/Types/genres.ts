@@ -1,7 +1,7 @@
 export interface IGenres{
-    genres:Genres[]
+    genres:Genre[]
 }
-export interface Genres{
+export interface Genre{
     id:number,
     name:string
 }

@@ -1,9 +1,12 @@
 import React from 'react'
-
-const MovieCard = () => {
+import { Genre } from '../../Types/genres';
+interface IProps {
+  genre: Genre;  
+}
+const MovieCard = (props:IProps) => {
   return (
     <div>
-        
+        asdjkbkjjk
     </div>
   )
 }

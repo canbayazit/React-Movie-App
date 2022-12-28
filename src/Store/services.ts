@@ -27,10 +27,10 @@ export const movieApi = createApi({
     //<result type, query type>
     getMoviesService: builder.query<
       IListResponse<IMovie>,
-      { category: string; page: number; }
+      { category: string; id:number; page: number; }
     >({
       query: (arg) =>
-        `${clientURL.categories}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&page=${arg.page}`,
+        `${clientURL.categories}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&with_genres=${arg.id}&page=${arg.page}`,
       providesTags: (result) =>
         result
           ? [
