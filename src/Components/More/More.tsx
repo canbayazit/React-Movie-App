@@ -10,11 +10,11 @@ const More = () => {
         to="content"
         spy={true}
         smooth={true}
-        offset={-50}
+        offset={-95}
         duration={500}
       >
         <span>MORE</span>
-        <span>{arrowDown("#7fffd4")}</span>
+        <span>{arrowDown("#0f0f0f")}</span>
       </Link>
     </div>
   );

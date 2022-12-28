@@ -3,7 +3,8 @@ export const imageOriginal = "https://image.tmdb.org/t/p/original/";
 export const baseURL = "https://api.themoviedb.org/3";
 
 export const clientURL = {
-  categories: `/discover/movie`,
+  categoriesMovie: `/discover/movie`,
+  categoriesTv: `/discover/tv`,
   detail: `/movie/`,
   person: `/person/`,
   person_movie: `/movie_credits`,

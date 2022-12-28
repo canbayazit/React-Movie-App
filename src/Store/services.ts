@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IGenres } from "../Types/genres";
-import { IListResponse, IMovie } from "../Types/movie";
+import { IListMovieResponse, IMovie } from "../Types/movie";
 import { IMovieDetail } from "../Types/movieDetail";
 import { IPerson } from "../Types/person";
 import { IPersonMovies } from "../Types/personMovies";
+import { IListTvResponse, ITv } from "../Types/tv";
 import { IUpcomingMovies } from "../Types/upcomingMovies";
 import { baseURL, clientURL } from "./constant";
 
@@ -26,15 +27,18 @@ export const movieApi = createApi({
   endpoints: (builder) => ({
     //<result type, query type>
     getMoviesService: builder.query<
-      IListResponse<IMovie>,
-      { category: string; id:number; page: number; }
+      IListMovieResponse<IMovie>,
+      { category: string; page: number; id?: number; }
     >({
       query: (arg) =>
-        `${clientURL.categories}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&with_genres=${arg.id}&page=${arg.page}`,
+        `${clientURL.categoriesMovie}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&page=${arg.page}&with_genres=${arg.id}`,
       providesTags: (result) =>
         result
           ? [
-              ...result.results.map(({ id }) => ({ type: "Post" as const, id })),
+              ...result.results.map(({ id }) => ({
+                type: "Post" as const,
+                id,
+              })),
               { type: "Post", id: "LIST" }, // bütün bir listeye sahip olmak istiyorsak id LIST tanımlamak gerek
             ]
           : [{ type: "Post", id: "LIST" }],
@@ -85,6 +89,24 @@ export const movieApi = createApi({
                 id,
               })),
               { type: "Post", id: "LIST" },
+            ]
+          : [{ type: "Post", id: "LIST" }],
+    }),
+
+    getTvService: builder.query<
+      IListTvResponse<ITv>,
+      { category: string; id: number; page: number }
+    >({
+      query: (arg) =>
+        `${clientURL.categoriesMovie}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&with_genres=${arg.id}&page=${arg.page}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.results.map(({ id }) => ({
+                type: "Post" as const,
+                id,
+              })),
+              { type: "Post", id: "LIST" }, // bütün bir listeye sahip olmak istiyorsak id LIST tanımlamak gerek
             ]
           : [{ type: "Post", id: "LIST" }],
     }),
