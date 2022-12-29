@@ -8,6 +8,7 @@ import More from "../../More/More";
 import { SampleNextArrow, SamplePrevArrow } from "../../../Utils/Functions";
 const settings: ISetting = {
   dots: true,
+  lazyLoad: "progressive",
   arrows: true,
   infinite: true,
   adaptiveHeight: true,

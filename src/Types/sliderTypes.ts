@@ -1,4 +1,8 @@
+import { LazyLoadTypes } from "react-slick";
+
 export interface ISetting {
+        className?:string,
+        lazyLoad?: LazyLoadTypes | undefined;
         dots: boolean,
         arrows: boolean,
         infinite: boolean,
