@@ -36,7 +36,7 @@ const SlideItem = (props: IProps) => {
           </ul>
           <p>{item.overview}</p>
           <div className={styles.container_info_button}>
-            <button>Diğer Filmler</button>
+            <button>Bütün Filmler</button>
             <button>Fragmanı İzle</button>
             <button>Detayları Gör</button>
           </div>
