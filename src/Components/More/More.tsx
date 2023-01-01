@@ -10,7 +10,7 @@ const More = () => {
         to="content"
         spy={true}
         smooth={true}
-        offset={-95}
+        offset={-60}
         duration={500}
       >
         <span>MORE</span>

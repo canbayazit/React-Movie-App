@@ -95,10 +95,10 @@ export const movieApi = createApi({
 
     getTvService: builder.query<
       IListTvResponse<ITv>,
-      { category: string; id: number; page: number }
+      { category: string;  page: number; id?: number;}
     >({
       query: (arg) =>
-        `${clientURL.categoriesMovie}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&with_genres=${arg.id}&page=${arg.page}`,
+        `${clientURL.categoriesTv}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&page=${arg.page}&with_genres=${arg.id}`,
       providesTags: (result) =>
         result
           ? [
@@ -120,4 +120,5 @@ export const {
   useGetPersonMoviesServiceQuery,
   useGetUpcomingMoviesServiceQuery,
   useGetGenresServiceQuery,
+  useGetTvServiceQuery,
 } = movieApi;
