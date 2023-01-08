@@ -5,9 +5,10 @@ export const baseURL = "https://api.themoviedb.org/3";
 export const clientURL = {
   categoriesMovie: `/discover/movie`,
   categoriesTv: `/discover/tv`,
-  detail: `/movie/`,
+  movie: `/movie/`,
   person: `/person/`,
   person_movie: `/movie_credits`,
   upcoming: `/movie/upcoming`,
-  genre:'/genre/movie/list'
+  genre:'/genre/movie/list',
+  youtube:'https://www.youtube.com/embed/'
 };

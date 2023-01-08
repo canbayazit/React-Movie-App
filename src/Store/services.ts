@@ -6,6 +6,7 @@ import { IPerson } from "../Types/person";
 import { IPersonMovies } from "../Types/personMovies";
 import { IListTvResponse, ITv } from "../Types/tv";
 import { IUpcomingMovies } from "../Types/upcomingMovies";
+import { IVideos } from "../Types/video";
 import { baseURL, clientURL } from "./constant";
 
 export const movieApi = createApi({
@@ -45,17 +46,17 @@ export const movieApi = createApi({
     }),
     getMovieDetailService: builder.query<IMovieDetail, number>({
       query: (id) =>
-        `${clientURL.detail} ${id}?api_key=${process.env.REACT_APP_API_KEY}`,
+        `${clientURL.movie}${id}?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
     getPersonService: builder.query<IPerson, number>({
       query: (id) =>
-        `${clientURL.person} ${id}?api_key=${process.env.REACT_APP_API_KEY}`,
+        `${clientURL.person}${id}?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
     getPersonMoviesService: builder.query<IPersonMovies, number>({
       query: (id) =>
-        `${clientURL.person} ${id} ${clientURL.person_movie}?api_key=${process.env.REACT_APP_API_KEY}`,
+        `${clientURL.person}${id}${clientURL.person_movie}?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result) =>
         result
           ? [
@@ -110,6 +111,20 @@ export const movieApi = createApi({
             ]
           : [{ type: "Post", id: "LIST" }],
     }),
+    getMovieVideoService: builder.query<IVideos,number>({
+      query: (id) =>
+        `${clientURL.movie}${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.results.map(({ id }) => ({
+                type: "Post" as const,
+                id,
+              })),
+              { type: "Post", id: "LIST" }, 
+            ]
+          : [{ type: "Post", id: "LIST" }],
+    }),
   }),
 });
 
@@ -121,4 +136,5 @@ export const {
   useGetUpcomingMoviesServiceQuery,
   useGetGenresServiceQuery,
   useGetTvServiceQuery,
+  useGetMovieVideoServiceQuery,
 } = movieApi;

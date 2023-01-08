@@ -14,7 +14,7 @@ export interface ISetting {
         autoplay: boolean,
         autoplaySpeed:number,
         cssEase: string,
-        pauseOnHover: true,
+        pauseOnHover: boolean,
         nextArrow: JSX.Element,
         prevArrow: JSX.Element,
         responsive: Responsive[]

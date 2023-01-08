@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { logo } from "../../Assets/svg/svg";
+import { aaa, logo } from "../../Assets/svg/svg";
 import styles from "./header.module.scss";
 interface INavItem {
   id: number;

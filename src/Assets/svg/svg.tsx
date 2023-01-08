@@ -18,7 +18,6 @@ export const arrowButtonLeft = () => (
     viewBox="0 0 13 30"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
- 
   >
     <path d="M12 29L1.5 16L12 1.5" stroke="#7fffd4" strokeWidth="3" />
   </svg>
@@ -81,15 +80,33 @@ export const logo = () => (
     <g></g>
   </svg>
 );
-export const arrowDown = (color:string) => (
+export const arrowDown = (color: string) => (
   <svg
     width="8"
     height="15"
     viewBox="0 0 13 30"
-    style={{ transform: `rotate(-90deg)`}}
+    style={{ transform: `rotate(-90deg)` }}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path d="M12 29L1.5 16L12 1.5" stroke={color} strokeWidth="4" />
+  </svg>
+);
+
+export const aaa = ()=> (
+  <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke">
+      <path
+        d="M3.5 20.793L5.793 18.5H18a1.5 1.5 0 0 0 1.5-1.5V6A1.5 1.5 0 0 0 18 4.5H2A1.5 1.5 0 0 0 .5 6v11A1.5 1.5 0 0 0 2 18.5h1.5v2.293z"
+        stroke="currentColor"
+        fill-opacity=".1"
+        fill-rule="nonzero"
+      ></path>
+      <path
+        d="M4 13.5h12m-10 2h8"
+        stroke="currentColor"
+        stroke-linecap="round"
+      ></path>
+    </g>
   </svg>
 );

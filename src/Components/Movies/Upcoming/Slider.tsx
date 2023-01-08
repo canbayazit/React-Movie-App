@@ -1,5 +1,5 @@
 import Slider from "react-slick";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./upcoming.module.scss";
 import { ISetting } from "../../../Types/sliderTypes";
 import { useGetUpcomingMoviesServiceQuery } from "../../../Store/services";
@@ -70,14 +70,17 @@ const SliderMovie = () => {
 
   // console.log(getUpcomingMovieList);
   
- 
+//   useEffect(() => {
+
+//     console.log("slider useffect çalıştı")
+// })
   return (
     <div className={styles.container}>     
       <div className={styles.container_slider}>
         <Slider {...settings} className={styles.container_slider_movie}>
-          {getUpcomingMovieList.data?.results.map((movie, index) => (
+          {(getUpcomingMovieList.data?.results.map((movie, index) => (
             <SlideItem item={movie} index={index} key={movie.id}/>
-          ))}
+          )))}
         </Slider>
       </div>
       <More />      
