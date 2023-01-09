@@ -72,11 +72,11 @@ const MovieCard = (props: IProps) => {
   //     //   dispatch(setSkip(true));
   //     // }
   // };
-  console.log("movie card", i);
+  console.log("movie card");
   return (
     <>
       {GenreOrMovie ? (
-        <Trailer movieId={movie.id} i={i} />
+        <Trailer movie={movie!} i={i} />
       ) : (
         <div
           className={styles.container}
@@ -88,9 +88,9 @@ const MovieCard = (props: IProps) => {
           <div className={styles.container_image_video}>
             <div className={styles.container_image_video_image}>
               <img
-                // src={`${imageSize}${
-                //   movie.poster_path ? movie.poster_path : movie.backdrop_path
-                // }`}
+                src={`${imageSize}${
+                  movie.poster_path ? movie.poster_path : movie.backdrop_path
+                }`}
                 alt=""
               />
             </div>

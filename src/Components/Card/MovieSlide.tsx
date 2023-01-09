@@ -26,7 +26,7 @@ const settings: ISetting = {
   adaptiveHeight: true,
   speed: 600,
   slidesToShow: 5,
-  slidesToScroll: 3,
+  slidesToScroll: 1,
   initialSlide: 2,
   autoplay: false,
   autoplaySpeed: 6000,
