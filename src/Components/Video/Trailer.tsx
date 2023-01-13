@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { shallowEqual } from "react-redux";
-import { useAppSelector } from "../../Hooks/Hook";
+import { useAppDispatch } from "../../Hooks/Hook";
 import { clientURL, imageSize } from "../../Store/constant";
+import { setGenreId, setMovieId } from "../../Store/movieSlice";
 import {
-  useGetMovieVideoServiceQuery, useGetTvVideoServiceQuery,
-
+  useGetMovieVideoServiceQuery,
+  useGetTvVideoServiceQuery,
 } from "../../Store/services";
+import { IGenres } from "../../Types/genres";
 import { IMovie } from "../../Types/movie";
-import { ObjectKeys } from "../../Types/objectKeys";
 import { ITv } from "../../Types/tv";
 import { IVideo, IVideos } from "../../Types/video";
 import styles from "./trailer.module.scss";
@@ -15,6 +15,9 @@ interface IProps {
   movie: IMovie | ITv;
   i: number;
   buttonId: number;
+  genreId:number;
+  dataMovie:IMovie[] | ITv[];
+  dataGenre: IGenres;
 }
 type typeData = IMovie | ITv;
 
@@ -30,7 +33,8 @@ interface IState {
 }
 
 const Trailer = (props: IProps) => {
-  const { movie, i, buttonId } = props;
+  const { movie, i, buttonId,genreId,dataMovie,dataGenre } = props;
+  const dispatch = useAppDispatch();
   const [data, setData] = useState<IState>({});
   const getMovieVideo = useGetMovieVideoServiceQuery(movie.id!, {
     skip: !movie.id,
@@ -73,13 +77,12 @@ const Trailer = (props: IProps) => {
       setData((prevState) => ({ ...prevState, tvData: data }));
     }
     return;
-  };
+  };  
 
   useEffect(() => {
     typeGuard(movie);
   }, []);
-
-  console.log("çağırılma sayısı", movie.id);
+  // console.log("çağırılma sayısı", movie.id);
 
   useEffect(() => {
     const setModal = (src: string) => {
@@ -90,14 +93,7 @@ const Trailer = (props: IProps) => {
       }
     };
     if (!dataButton.find((item) => item.buttonId === buttonId)?.fetching) {
-      // console.log(
-      //   dataButton
-      //     .find((item) => item.buttonId === buttonId)
-      //     ?.data?.find((item) => item.type === "Trailer")?.key,
-      //   movie.id,
-      //   "asdsdasfasfasfffffffasssssssssssssssssss"
-      // );
-      const src =
+       const src =
         clientURL.youtube +
         dataButton
           .find((item) => item.buttonId === buttonId)
@@ -106,11 +102,21 @@ const Trailer = (props: IProps) => {
       setModal(src);
     }
   }, [buttonId, getMovieVideo.isFetching, getTvVideo.isFetching, movie.id]);
-  let a = ObjectKeys(data, buttonId);
 
+  const handleOnMouseLeave = (genreId: number, movie: IMovie | ITv): void => {
+    if (dataGenre.genres.findIndex((i) => i.id === genreId) > -1) {
+      if (dataMovie.findIndex((i) => i.id === movie.id) > -1) {
+        dispatch(setMovieId(0));
+        dispatch(setGenreId(0));
+     
+      }
+    }
+  };
+  // let a = ObjectKeys(data, buttonId);
 
-  console.log(data.tvData, "tv dATAAAAAAAAAAA");
-  console.log(data.movieData, "movie DATAAAAAAAA");
+  // console.log(a, "aaaaaaaaa");
+  // console.log(data.tvData, "tv dATAAAAAAAAAAA");
+  // console.log(data.movieData, "movie DATAAAAAAAA");
 
   return (
     <>
@@ -118,49 +124,51 @@ const Trailer = (props: IProps) => {
         "loading"
       ) : (
         <div className={styles.container}>
-          <div className={styles.container_inner}>
-            <div className={styles.container_inner_modal} id={`modal_${movie.id}`}>
-              {dataButton
-                .find((item) => item.buttonId === buttonId)
-                ?.data?.find((item) => item.type === "Trailer")?.key ? (
-                <iframe
-                  loading="lazy"
-                  title={
-                    clientURL.youtube +
-                    dataButton
-                      .find((item) => item.buttonId === buttonId)
-                      ?.data?.find((item) => item.type === "Trailer")?.name
-                  }
-                ></iframe>
-              ) : (
-                <img
-                  width="295"
-                  height="220"
-                  src={`${imageSize}${
-                    movie.poster_path ? movie.poster_path : movie.backdrop_path
-                  }`}
-                  alt=""
-                />
-              )}
+          <div
+            className={styles.container_modal} 
+            id={`modal_${movie.id}`} 
+            onMouseLeave={() => handleOnMouseLeave(genreId, movie)}        
+          >
+            {dataButton
+              .find((item) => item.buttonId === buttonId)
+              ?.data?.find((item) => item.type === "Trailer")?.key ? (
+              <iframe
+                loading="lazy"
+                title={
+                  clientURL.youtube +
+                  dataButton
+                    .find((item) => item.buttonId === buttonId)
+                    ?.data?.find((item) => item.type === "Trailer")?.name
+                }
+              ></iframe>
+            ) : (
+              <img
+                width="295"
+                height="220"
+                src={`${imageSize}${
+                  movie.poster_path ? movie.poster_path : movie.backdrop_path
+                }`}
+                alt=""
+              />
+            )}
+          </div>
+          <div className={styles.container_info}>
+            <div className={styles.container_info_icons}>
+              <div className={styles.container_info_icons_imdb}></div>
+              <div className={styles.container_info_icons_whistlist}></div>
             </div>
-            <div className={styles.container_inner_info}>
-              <div className={styles.container_info_icons}>
-                <div className={styles.container_info_icons_imdb}></div>
-                <div className={styles.container_info_icons_whistlist}></div>
-              </div>
-              <div className={styles.container_info_id}></div>
-              <div className={styles.container_info_overview}>
-                <h3>
-                  {data.movieData
-                    ? data.movieData.original_title
-                    : data.tvData?.name}
-                </h3>
-                <p>
-                  {data.movieData
-                    ? data.movieData.overview
-                    : data.tvData?.overview}
-                </p>
-              </div>
+            <div className={styles.container_info_id}></div>
+            <div className={styles.container_info_overview}>
+              <h3>
+                {data.movieData
+                  ? data.movieData.original_title
+                  : data.tvData?.name}
+              </h3>
+              <p>
+                {data.movieData
+                  ? data.movieData.overview
+                  : data.tvData?.overview}
+              </p>
             </div>
           </div>
         </div>
