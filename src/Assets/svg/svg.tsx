@@ -1,5 +1,29 @@
 export const arrowButtonRight = () => (
   <svg
+    width="20"
+    height="40"
+    viewBox="0 0 13 30"
+    fill="none"
+    style={{ transform: `rotate(180deg)` }}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 29L1.5 16L12 1.5" stroke="#fff" strokeWidth="3" />
+  </svg>
+);
+
+export const arrowButtonLeft = () => (
+  <svg
+    width="20"
+    height="40"
+    viewBox="0 0 13 30"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 29L1.5 16L12 1.5" stroke="#fff" strokeWidth="3" />
+  </svg>
+);
+export const arrowButtonRightUpcoming = () => (
+  <svg
     width="30"
     height="60"
     viewBox="0 0 13 30"
@@ -11,7 +35,7 @@ export const arrowButtonRight = () => (
   </svg>
 );
 
-export const arrowButtonLeft = () => (
+export const arrowButtonLeftUpcoming = () => (
   <svg
     width="30"
     height="60"
@@ -22,7 +46,6 @@ export const arrowButtonLeft = () => (
     <path d="M12 29L1.5 16L12 1.5" stroke="#7fffd4" strokeWidth="3" />
   </svg>
 );
-
 export const logo = () => (
   <svg
     fill="#fff"
@@ -93,20 +116,39 @@ export const arrowDown = (color: string) => (
   </svg>
 );
 
-export const aaa = ()=> (
-  <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg">
-    <g fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke">
-      <path
-        d="M3.5 20.793L5.793 18.5H18a1.5 1.5 0 0 0 1.5-1.5V6A1.5 1.5 0 0 0 18 4.5H2A1.5 1.5 0 0 0 .5 6v11A1.5 1.5 0 0 0 2 18.5h1.5v2.293z"
-        stroke="currentColor"
-        fill-opacity=".1"
-        fill-rule="nonzero"
-      ></path>
-      <path
-        d="M4 13.5h12m-10 2h8"
-        stroke="currentColor"
-        stroke-linecap="round"
-      ></path>
-    </g>
+export const addWhistList = () => (
+  <svg
+    enable-background="new 0 0 50 50"
+    width="30"
+    height="30"
+    id="Layer_1"
+    version="1.1"
+    viewBox="0 0 50 50"
+    xmlSpace="preserve"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+  >
+    <rect fill="none" width="30"
+    height="30"/>
+    <line
+      fill="none"
+      stroke="#fff"
+      strokeMiterlimit="10"
+      strokeWidth="3"
+      x1="9"
+      x2="41"
+      y1="25"
+      y2="25"
+    />
+    <line
+      fill="none"
+      stroke="#fff"
+      strokeMiterlimit="10"
+      strokeWidth="3"
+      x1="25"
+      x2="25"
+      y1="9"
+      y2="41"
+    />
   </svg>
 );

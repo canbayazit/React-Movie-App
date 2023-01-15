@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
 import { imageSize } from "../../../Store/constant";
-import { setGenreId, setMovieId, setSkip } from "../../../Store/movieSlice";
+import { setGenreId, setMovieId } from "../../../Store/movieSlice";
 import { IGenres } from "../../../Types/genres";
 import { IMovie } from "../../../Types/movie";
 import { Genre } from "../../../Types/movieDetail";
@@ -16,85 +16,62 @@ interface IProps {
   i: number;
   dataMovie: IMovie[] | ITv[];
   dataGenre: IGenres;
-  // status:boolean
+  buttonId: number;
 }
+
 const MovieCard = (props: IProps) => {
-  const { genre, i, movie, dataMovie, dataGenre } = props;
-  const GenreOrMovie = useAppSelector((store) => {
+  const { genre, i, movie, dataMovie, dataGenre, buttonId } = props;
+  const dispatch = useAppDispatch();
+
+  //component 2 kere çalışır useAppSelector'dan dolayı
+  //redux sayesinde hem önceki değeri hem yeni değeri karşılaştırıp fragmanı günceller.
+  const statusId = useAppSelector((store) => {
     if (store.movies.genreId === genre.id) {
       if (store.movies.movieId === movie.id) {
-        return { genreId: store.movies.genreId, movieId: store.movies.movieId };
+        return store.movies.movieId;
       }
     }
   }, shallowEqual);
-  // console.log(GenreOrMovie,"GenreOrMovie")
-  // const movieId  = useAppSelector((store) =>{
-  //   if (genreId===genre.id) {
-  //     if (store.movies.movieId===) {
-
-  //     }
-  //     return
-  //   }
-  // } ,shallowEqual);
-  // const videoMovie = useGetMovieVideoServiceQuery(movie.id);
-  // const {movieId} = useAppSelector((store) => store.movies);
-  const dispatch = useAppDispatch();
-  // async function playVideo(e: React.MouseEvent<HTMLVideoElement>) {
-  //   try {
-  //     await e.currentTarget.play();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-  const handleOnMouseOver = (
-    genre: Genre,
-    dataGenre: IGenres,
-    movie: IMovie | ITv,
-    dataMovie: IMovie[] | ITv[]
-  ): void => {
-    // const modal = document.querySelector(`#modal_${id}`);
-    // modal?.querySelector('iframe')?.setAttribute('src',"https://www.youtube.com/embed/d9MyW72ELq0?autoplay=1");
-    // dispatch(setSkip(false));
+  const handleOnMouseOver = (genre: Genre, movie: IMovie | ITv): void => {
     if (dataGenre.genres.findIndex((i) => i.id === genre.id) > -1) {
       if (dataMovie.findIndex((i) => i.id === movie.id) > -1) {
         dispatch(setMovieId(movie.id));
         dispatch(setGenreId(genre.id));
+     
       }
     }
-
-    // dispatch(setSkip(true));
-    // console.log(id,genreId)
   };
-  //   const handleOnMouseOut = ( id:number): void => {
-  //     const modal = document.querySelector(`#modal_${id}`);
-  //     modal?.querySelector('iframe')?.setAttribute('src', '');
-  //     // if(id===movie.id){
-  //     //   dispatch(setSkip(true));
-  //     // }
-  // };
-  console.log("movie card");
+
+  // console.log(statusId, "GenreOrMovie", movie.id);
+  // console.log("movie card", movie.id);
+  // console.log("movie card",dataMovie.map(item=>item.));
+
   return (
     <>
-      {GenreOrMovie ? (
-        <Trailer movie={movie!} i={i} />
+      {!!statusId ? (
+        <div className={styles.container_video}>
+          <Trailer
+            movie={movie!}
+            i={i}
+            buttonId={buttonId}
+            genreId={genre.id}
+            dataMovie={dataMovie}
+            dataGenre={dataGenre}
+          />
+        </div>
       ) : (
         <div
-          className={styles.container}
+          id={`rect_${movie.id}`}
+          className={styles.container_image}
           // onMouseOver={() => handleOnMouseOver( movie.id,genreId)}
-          onMouseOver={() =>
-            handleOnMouseOver(genre, dataGenre, movie, dataMovie)
-          }
+          onMouseEnter={() => handleOnMouseOver(genre, movie)}
         >
-          <div className={styles.container_image_video}>
-            <div className={styles.container_image_video_image}>
-              <img
-                src={`${imageSize}${
-                  movie.poster_path ? movie.poster_path : movie.backdrop_path
-                }`}
-                alt=""
-              />
-            </div>
-          </div>
+          <img
+            src={`${imageSize}${
+              movie.poster_path ? movie.poster_path : movie.backdrop_path
+            }`}
+            alt=""
+          />
         </div>
       )}
     </>

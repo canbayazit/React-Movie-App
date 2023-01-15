@@ -1,75 +1,33 @@
-.container{
-    // height: 200px;
-    // width:329px;
-    height: 100%;
-    width:100%;
-    position: relative;
-    display: flex;
-    &_image_video{
-        height: 100%;
-            width:100%;
-        
-        &_image{
-            height: 100%;
-            width:100%;
-            
-            img{
-                position: absolute;
-                top: 0;
-                left: 0;
-                object-fit: fill;
-                height: 100%;
-                width:100%;
-                border-radius: 5px;
-                // padding-right: 45px;
-                margin:0 4px;
+.container_image {
+  // height: 200px;
+  // width:329px;
+  //   height: 220px;
+  height: auto;
+  width: 100%;
+  display: flex;
+  img {
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    object-fit: fill;
+    height: 185px;
+    width: 100%;
+    border-radius: 5px;
+    // padding-right: 45px;
+    margin: 10px 4px;
+    border: 1px solid #000;
+  
+  }
+}
+.container_video {
+  // top: -50px;
+  // left:0;
+  height: auto;
+  //   height: 220px;
+  width: 100%;
+  transform: scale(1.05);
+  // margin-top: -80px;
+  transition: transform 0.5s ease;
 
-            }
-            iframe{
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        object-fit: fill;
-                        height: 100%;
-                        width:100%;
-                        border-radius: 5px;
-                        margin:0 4px;
-                    }
-        }
-        // &_video{
-        //     height: 100%;
-        //     width:100%;
-        //     iframe{
-        //         position: absolute;
-        //         top: 0;
-        //         left: 0;
-        //         object-fit: fill;
-        //         height: 100%;
-        //         width:100%;
-        //         border-radius: 5px;
-        //         padding-right: 45px;
-        //     }
-        // }
-    }
-    // &_modal{
-    //     display: none;
-    //     position: absolute;
-    //     top: 0;
-    //     left: 0;
-    //     height: 300px;
-    //     width: 100%;
-    //     height: 300px;
-    //     z-index: 998;
-    //     display: none; 
-    //     object-fit:contain;       
-      
-    // }
-    // &:hover{
-    //     .container_image{
-    //         display: none;            
-    //     }
-    //     .container_modal{
-    //         display: flex;
-    //     }
-    //   }
+  // transform: scale(1.1);
 }

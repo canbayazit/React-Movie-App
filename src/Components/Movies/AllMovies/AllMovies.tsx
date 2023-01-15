@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
-import { setGenre } from "../../../Store/movieSlice";
 import { useGetGenresServiceQuery } from "../../../Store/services";
-import { IGenres } from "../../../Types/genres";
 import MovieSlide from "../../Card/MovieSlide";
 import styles from "./allMovies.module.scss";
 
@@ -18,38 +15,29 @@ const buttonList: IButtonItem[] = [
 
 const AllMovies = () => {
   const [id, setId] = useState<number>(1);
-//   const [status, setStatus] = useState<boolean>(false);
-//   const [datas, setData] = useState<IGenres>();
+  const [height, setHeigh] = useState<number>();
   // state bu componentte kullanılmasa bile selector ile redux store bağlandıysak herhangi bir state
   // değiştiğinde component render olur
-  // const { ... } = useAppSelector((store) => store.movies);
-  //   const videoMovie =useGetMovieVideoServiceQuery(movieId,{skip});
-
-//   const { movieId, genreId } = useAppSelector((store) => store.movies);
-
-  //   const dispatch = useAppDispatch();
 
   // componenti 2 kere render ediyor belki useMemo kullanılabilir.
-  const { data, isLoading} = useGetGenresServiceQuery();
+  const { data, isLoading } = useGetGenresServiceQuery();
   const handleClick = (id: number) => {
     console.log("clicked", id);
     setId(id);
   };
-  console.log(data,"data")
-// if (!isLoading) {
-//     if (!status) {
-//         setData(data)
-//        setStatus(true); 
-//     }
-// }
-//   useEffect(() => {
-//     // console.log(isFetching);
 
-//     if (!isLoading) {
-//         setStatus(true)
-//     }
-//   },[isLoading]);
-  console.log(isLoading,"isLoading")
+  console.log(isLoading, "isLoading");
+  console.log("allmovies");
+useEffect(() => {
+  if (!isLoading) {
+    let elLast = document.getElementById(`rect_${data!.genres.length-2}`);
+    let rectLast =window.pageYOffset+elLast?.getBoundingClientRect().top!
+
+    const height = rectLast!;
+    setHeigh(height);
+  }
+
+}, [data, isLoading])
 
   return (
     <>
@@ -69,27 +57,25 @@ const AllMovies = () => {
             ))}
             <div className={styles.indicator}></div>
           </div>
-          <div className={styles.container_data}>
+          <div className={styles.container_data}
+          style={{height: height}}
+          >
             {data?.genres.length === 0 ? (
               <div>Veri Yok</div>
             ) : (
-              data?.genres.map((genre) => {
-                const dataGenre =data
-                return(<div key={genre.id}>
-                    {/* {genre.id === genreId ? (
-                    <MovieSlide genre={genre} id={id} movieId={movieId} selectedGenreId={genreId}  genreId={genre.id} />
-                  ) :  */}
-                    <MovieSlide
-                      genre={genre}
-                      id={id}
-                      dataGenre={dataGenre}
-                      // movieId={movieId}
-                      // selectedGenreId={genreId}
-                      // genreId={genre.id}
-                    />
-                    {/* } */}
-                  </div>)
-             })
+              data?.genres.map((genre, i) => {
+                const dataGenre = data;            
+                return (
+                  <div
+                    key={genre.id}
+                    id={`rect_${i}`}
+                    className={styles.container_data_slider}
+                    style={{"--index": i} as React.CSSProperties}
+                  >
+                    <MovieSlide genre={genre} id={id} dataGenre={dataGenre} />
+                  </div>
+                );
+              })
             )}
           </div>
         </div>
