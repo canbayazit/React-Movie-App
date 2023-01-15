@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Genre, IGenres } from "../Types/genres";
+import { Genre } from "../Types/genres";
 import { IMovie } from "../Types/movie";
+import { ObjectKey, ObjectKeys } from "../Types/objectKeys";
+import { IRect } from "../Types/rect";
 import { State } from "../Types/state";
 import { ITv } from "../Types/tv";
 
@@ -14,6 +16,7 @@ const initialState: State = {
   iframeTitle: "",
   loading: false,
   genreId: 0,
+  iconMovieId: [],
 };
 
 const movieSlice = createSlice({
@@ -47,6 +50,14 @@ const movieSlice = createSlice({
     setMovie: (state, action: PayloadAction<IMovie[]>) => {
       state.movieData = action.payload;
     },
+    setChangeIcon: (state, action: PayloadAction<number>) => {
+      if (state.iconMovieId.findIndex((i) => i === action.payload) > -1) {
+        state.iconMovieId = state.iconMovieId.filter(
+          (i) => i !== action.payload
+        );
+      }
+      state.iconMovieId.push(action.payload);
+    },
   },
 });
 
@@ -59,7 +70,8 @@ export const {
   setGenreId,
   setGenre,
   setTv,
-  setMovie
+  setMovie,
+  setChangeIcon,
 } = movieSlice.actions;
 
 export default movieSlice.reducer;

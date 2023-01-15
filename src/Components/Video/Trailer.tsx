@@ -127,7 +127,7 @@ const Trailer = (props: IProps) => {
   const handleClick = ()=>{
     if (dataGenre.genres.findIndex((i) => i.id === genreId) > -1) {
       if (dataMovie.findIndex((i) => i.id === movie.id) > -1) {
-        dispatch(setChangeIcon(iconMovieId===movie.id ? 0 : movie.id));
+        dispatch(setChangeIcon(movie.id));
 
       }
     }
@@ -221,7 +221,7 @@ const Trailer = (props: IProps) => {
               </div>
               <div className={styles.container_info_icons_whistlist}>
                 <span>{addWhistList()}</span>
-                <span onClick={()=>handleClick()}>{iconMovieId===movie.id  ? deleteFavorite() :addFavorite()}</span>
+                <span onClick={()=>handleClick()}>{iconMovieId?.find(i=>i===movie.id)  ? deleteFavorite() :addFavorite()}</span>
               </div>
             </div>
             <Link to="/" className={styles.container_info_more}>
