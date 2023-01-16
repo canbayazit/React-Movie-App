@@ -16,7 +16,8 @@ const initialState: State = {
   iframeTitle: "",
   loading: false,
   genreId: 0,
-  iconMovieId: [],
+  iconFavoriteMovieId: [],
+  iconWhistListMovieId: [],
 };
 
 const movieSlice = createSlice({
@@ -50,13 +51,25 @@ const movieSlice = createSlice({
     setMovie: (state, action: PayloadAction<IMovie[]>) => {
       state.movieData = action.payload;
     },
-    setChangeIcon: (state, action: PayloadAction<number>) => {
-      if (state.iconMovieId.findIndex((i) => i === action.payload) > -1) {
-        state.iconMovieId = state.iconMovieId.filter(
+    setFavoriteChangeIcon: (state, action: PayloadAction<number>) => {
+      if (state.iconFavoriteMovieId.findIndex((i) => i === action.payload) > -1) {
+        state.iconFavoriteMovieId = state.iconFavoriteMovieId.filter(
           (i) => i !== action.payload
         );
+      }else{
+        state.iconFavoriteMovieId.push(action.payload);
+
       }
-      state.iconMovieId.push(action.payload);
+    },
+    setWhistListChangeIcon: (state, action: PayloadAction<number>) => {
+      if (state.iconWhistListMovieId.findIndex((i) => i === action.payload) > -1) {
+        state.iconWhistListMovieId = state.iconWhistListMovieId.filter(
+          (i) => i !== action.payload
+        );
+      }else{
+        state.iconWhistListMovieId.push(action.payload);
+
+      }
     },
   },
 });
@@ -71,7 +84,8 @@ export const {
   setGenre,
   setTv,
   setMovie,
-  setChangeIcon,
+  setFavoriteChangeIcon,
+  setWhistListChangeIcon
 } = movieSlice.actions;
 
 export default movieSlice.reducer;

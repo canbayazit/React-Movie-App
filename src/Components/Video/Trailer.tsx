@@ -3,10 +3,16 @@ import { shallowEqual } from "react-redux";
 import { Link } from "react-router-dom";
 import { addFavorite } from "../../Assets/svg/icons/addFavorite";
 import { deleteFavorite } from "../../Assets/svg/icons/deleteFavorite";
+import { deleteWhistList } from "../../Assets/svg/icons/deleteWhistList";
 import { addWhistList } from "../../Assets/svg/svg";
 import { useAppDispatch, useAppSelector } from "../../Hooks/Hook";
 import { clientURL, imageSize } from "../../Store/constant";
-import { setChangeIcon, setGenreId, setMovieId } from "../../Store/movieSlice";
+import {
+  setFavoriteChangeIcon,
+  setGenreId,
+  setMovieId,
+  setWhistListChangeIcon,
+} from "../../Store/movieSlice";
 import {
   useGetMovieVideoServiceQuery,
   useGetTvVideoServiceQuery,
@@ -42,10 +48,17 @@ const Trailer = (props: IProps) => {
   const [data, setData] = useState<IState>({});
   // const [change, setChangeIcon] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const iconMovieId = useAppSelector((store) => {
+  const iconFavoriteMovieId = useAppSelector((store) => {
     if (store.movies.genreId === genreId) {
       if (store.movies.movieId === movie.id) {
-        return store.movies.iconMovieId;
+        return store.movies.iconFavoriteMovieId;
+      }
+    }
+  }, shallowEqual);
+  const iconWhistListMovieId = useAppSelector((store) => {
+    if (store.movies.genreId === genreId) {
+      if (store.movies.movieId === movie.id) {
+        return store.movies.iconWhistListMovieId;
       }
     }
   }, shallowEqual);
@@ -119,19 +132,20 @@ const Trailer = (props: IProps) => {
   const handleOnMouseLeave = (genreId: number, movie: IMovie | ITv): void => {
     if (dataGenre.genres.findIndex((i) => i.id === genreId) > -1) {
       if (dataMovie.findIndex((i) => i.id === movie.id) > -1) {
-        dispatch(setMovieId(0));
-        dispatch(setGenreId(0));
+        // dispatch(setMovieId(0));
+        // dispatch(setGenreId(0));
       }
     }
   };
-  const handleClick = ()=>{
+  const handleClick = (key: string) => {
     if (dataGenre.genres.findIndex((i) => i.id === genreId) > -1) {
       if (dataMovie.findIndex((i) => i.id === movie.id) > -1) {
-        dispatch(setChangeIcon(movie.id));
-
+        key === "favorite"
+          ? dispatch(setFavoriteChangeIcon(movie.id))
+          : dispatch(setWhistListChangeIcon(movie.id));
       }
     }
-  }
+  };
   // let a = ObjectKeys(data, buttonId);
 
   // console.log(a, "aaaaaaaaa");
@@ -219,9 +233,23 @@ const Trailer = (props: IProps) => {
                 </span>
                 <canvas id={`canvas_${movie.id}`}></canvas>
               </div>
-              <div className={styles.container_info_icons_whistlist}>
-                <span>{addWhistList()}</span>
-                <span onClick={()=>handleClick()}>{iconMovieId?.find(i=>i===movie.id)  ? deleteFavorite() :addFavorite()}</span>
+              <div className={styles.container_info_icons_buttons}>
+                <div className={styles.container_info_icons_buttons_whistlist}>
+                  <label>Your email address</label>
+                  <span onClick={() => handleClick("whistList")}>
+                    {iconWhistListMovieId?.find((i) => i === movie.id)
+                      ? deleteWhistList()
+                      : addWhistList()}
+                  </span>
+                </div>
+                <div className={styles.container_info_icons_buttons_favorite}>
+                  <label>Your email address</label>
+                  <span onClick={() => handleClick("favorite")}>
+                    {iconFavoriteMovieId?.find((i) => i === movie.id)
+                      ? deleteFavorite()
+                      : addFavorite()}
+                  </span>
+                </div>
               </div>
             </div>
             <Link to="/" className={styles.container_info_more}>
