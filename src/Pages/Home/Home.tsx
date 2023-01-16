@@ -1,11 +1,11 @@
-import AllMovies from "../../Components/Movies/AllMovies/AllMovies";
-import SliderMovie from "../../Components/Movies/Upcoming/Slider";
+import AllMovies from "../../Components/Sliders/GenresSlider/GenreSlider";
+import {UpcomingSlider} from "../../Components/Sliders";
 import styles from "./home.module.scss";
 
 const Home = () => {
   return (
     <div className={styles.container}>
-      <SliderMovie />
+      <UpcomingSlider />
       <AllMovies />
     </div>
   );

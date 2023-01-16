@@ -7,7 +7,7 @@ import { IGenres } from "../../../Types/genres";
 import { IMovie } from "../../../Types/movie";
 import { Genre } from "../../../Types/movieDetail";
 import { ITv } from "../../../Types/tv";
-import Trailer from "../../Video/Trailer";
+import Trailer from "../CardTrailer/Trailer";
 import styles from "./movie.module.scss";
 
 interface IProps {

@@ -5,7 +5,7 @@ import { ISetting } from "../../../Types/sliderTypes";
 import { useGetUpcomingMoviesServiceQuery } from "../../../Store/services";
 import SlideItem from "./SlideItem/SlideItem";
 import More from "../../More/More";
-import { SampleNextArrow, SamplePrevArrow } from "../../../Utils/Functions";
+import { SampleNextArrowUpcoming, SamplePrevArrowUpcoming } from "../../../Utils/Functions";
 const settings: ISetting = {
   dots: true,
   lazyLoad: "progressive",
@@ -20,8 +20,8 @@ const settings: ISetting = {
   autoplaySpeed: 6000,
   cssEase: "linear",
   pauseOnHover: true,
-  nextArrow: <SampleNextArrow />,
-  prevArrow: <SamplePrevArrow />,
+  nextArrow: <SampleNextArrowUpcoming />,
+  prevArrow: <SamplePrevArrowUpcoming />,
   responsive: [
     {
       breakpoint: 1024,
@@ -64,7 +64,7 @@ const settings: ISetting = {
     },
   ],
 };
-const SliderMovie = () => {
+const UpcomingSlider = () => {
   // const [page, setpage] = useState<number>(1);
   const getUpcomingMovieList = useGetUpcomingMoviesServiceQuery(1);
 
@@ -88,4 +88,4 @@ const SliderMovie = () => {
   );
 };
 
-export default SliderMovie;
+export default UpcomingSlider;

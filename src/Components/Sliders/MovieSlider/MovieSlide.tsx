@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { shallowEqual } from "react-redux";
 import Slider from "react-slick";
-import { useAppDispatch, useAppSelector } from "../../Hooks/Hook";
-import { setGenreId, setMovieId } from "../../Store/movieSlice";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
+import { setGenreId, setMovieId } from "../../../Store/movieSlice";
 import {
   useGetMoviesServiceQuery,
   useGetMovieVideoServiceQuery,
   useGetTvServiceQuery,
-} from "../../Store/services";
-import { Genre, IGenres } from "../../Types/genres";
-import { IMovie } from "../../Types/movie";
-import { ISetting } from "../../Types/sliderTypes";
-import { ITv } from "../../Types/tv";
-import { SampleNextArrow, SamplePrevArrow } from "../../Utils/Functions";
-import Trailer from "../Video/Trailer";
-import MovieCard from "./MovieCard/MovieCard";
+} from "../../../Store/services";
+import { Genre, IGenres } from "../../../Types/genres";
+import { IMovie } from "../../../Types/movie";
+import { ISetting } from "../../../Types/sliderTypes";
+import { ITv } from "../../../Types/tv";
+import { SampleNextArrow, SamplePrevArrow } from "../../../Utils/Functions";
+import Trailer from "../../Card/CardTrailer/Trailer";
+import MovieCard from "../../Card/MovieCard/MovieCard";
 import styles from "./movieSlide.module.scss";
 
 const settings: ISetting = {
@@ -94,7 +94,7 @@ interface IProps {
 //slide ilk 5 + 20 datadan geliyor
 //+ 20 rtk queryden ( query çekince component bir daha render oluyor )
 // moviecard bu yüzden 45 kere çağırılmış oluyor
-const MovieSlide = (props: IProps) => {
+const MovieSlider = (props: IProps) => {
   const { genre, id, dataGenre } = props;
 
   //sadece ilgili slide renderlanır öbür türlü bütün slidelar renderlanıyor.
@@ -177,4 +177,4 @@ const MovieSlide = (props: IProps) => {
   );
 };
 
-export default MovieSlide;
+export default MovieSlider;

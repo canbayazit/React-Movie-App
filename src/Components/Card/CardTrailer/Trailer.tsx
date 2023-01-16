@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual } from "react-redux";
 import { Link } from "react-router-dom";
-import { addFavorite } from "../../Assets/svg/icons/addFavorite";
-import { deleteFavorite } from "../../Assets/svg/icons/deleteFavorite";
-import { deleteWhistList } from "../../Assets/svg/icons/deleteWhistList";
-import { addWhistList } from "../../Assets/svg/svg";
-import { useAppDispatch, useAppSelector } from "../../Hooks/Hook";
-import { clientURL, imageSize } from "../../Store/constant";
+import { addFavorite } from "../../../Assets/svg/icons/addFavorite";
+import { deleteFavorite } from "../../../Assets/svg/icons/deleteFavorite";
+import { deleteWhistList } from "../../../Assets/svg/icons/deleteWhistList";
+import { addWhistList } from "../../../Assets/svg/svg";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
+import { clientURL, imageSize } from "../../../Store/constant";
 import {
   setFavoriteChangeIcon,
   setGenreId,
   setMovieId,
   setWhistListChangeIcon,
-} from "../../Store/movieSlice";
+} from "../../../Store/movieSlice";
 import {
   useGetMovieVideoServiceQuery,
   useGetTvVideoServiceQuery,
-} from "../../Store/services";
-import { IGenres } from "../../Types/genres";
-import { IMovie } from "../../Types/movie";
-import { ITv } from "../../Types/tv";
-import { IVideo, IVideos } from "../../Types/video";
+} from "../../../Store/services";
+import { IGenres } from "../../../Types/genres";
+import { IMovie } from "../../../Types/movie";
+import { ITv } from "../../../Types/tv";
+import { IVideo, IVideos } from "../../../Types/video";
 import styles from "./trailer.module.scss";
 interface IProps {
   movie: IMovie | ITv;

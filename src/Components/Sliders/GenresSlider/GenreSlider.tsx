@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGetGenresServiceQuery } from "../../../Store/services";
-import MovieSlide from "../../Card/MovieSlide";
-import styles from "./allMovies.module.scss";
+import {MovieSlider} from "../../Sliders";
+import styles from "./genreSlider.module.scss";
 
 interface IButtonItem {
   id: number;
@@ -13,7 +13,7 @@ const buttonList: IButtonItem[] = [
   { id: 2, name: "Diziler" },
 ];
 
-const AllMovies = () => {
+const GenreSlider = () => {
   const [id, setId] = useState<number>(1);
   const [height, setHeigh] = useState<number>();
   // state bu componentte kullanılmasa bile selector ile redux store bağlandıysak herhangi bir state
@@ -72,7 +72,7 @@ useEffect(() => {
                     className={styles.container_data_slider}
                     style={{"--index": i} as React.CSSProperties}
                   >
-                    <MovieSlide genre={genre} id={id} dataGenre={dataGenre} />
+                    <MovieSlider genre={genre} id={id} dataGenre={dataGenre} />
                   </div>
                 );
               })
@@ -84,4 +84,4 @@ useEffect(() => {
   );
 };
 
-export default AllMovies;
+export default GenreSlider;
