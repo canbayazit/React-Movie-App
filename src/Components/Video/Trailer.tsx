@@ -235,7 +235,7 @@ const Trailer = (props: IProps) => {
               </div>
               <div className={styles.container_info_icons_buttons}>
                 <div className={styles.container_info_icons_buttons_whistlist}>
-                  <label>Your email address</label>
+                  <label>{iconWhistListMovieId?.find((i) => i === movie.id) ? "İzleme Listesinden Kaldır" : "İzleme Listesine Ekle"}</label>
                   <span onClick={() => handleClick("whistList")}>
                     {iconWhistListMovieId?.find((i) => i === movie.id)
                       ? deleteWhistList()
@@ -243,7 +243,7 @@ const Trailer = (props: IProps) => {
                   </span>
                 </div>
                 <div className={styles.container_info_icons_buttons_favorite}>
-                  <label>Your email address</label>
+                  <label>{iconFavoriteMovieId?.find((i) => i === movie.id) ? "Favoriler Listesinden Kaldır" : "Favoriler Listesine Ekle"}</label>
                   <span onClick={() => handleClick("favorite")}>
                     {iconFavoriteMovieId?.find((i) => i === movie.id)
                       ? deleteFavorite()
