@@ -35,13 +35,20 @@ const GenreSlider = () => {
   console.log("allmovies");
   useEffect(() => {
     if (!isLoading) {
-      let elLast = document.getElementById(`rect_${data!.genres.length - 2}`);
+      let elLast = document.getElementById(`rect_${
+        
+        data!.genres.filter(
+          (item) =>
+            item.id !==genreFilterId.filter((item) => item.buttonId === id)
+              .find((i) => i.genreId === item.id)?.genreId
+        ).length
+        - 2}`);
       let rectLast = window.pageYOffset + elLast?.getBoundingClientRect().top!;
 
       const height = rectLast!;
       setHeigh(height);
     }
-  }, [data, isLoading]);
+  }, [data, genreFilterId, id, isLoading]);
 
   return (
     <>
