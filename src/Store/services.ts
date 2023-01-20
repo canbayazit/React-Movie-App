@@ -125,6 +125,20 @@ export const movieApi = createApi({
             ]
           : [{ type: "Post", id: "LIST" }],
     }),
+    getTvVideoService: builder.query<IVideos,number>({
+      query: (id) =>
+        `${clientURL.tv}${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.results.map(({ id }) => ({
+                type: "Post" as const,
+                id,
+              })),
+              { type: "Post", id: "LIST" }, 
+            ]
+          : [{ type: "Post", id: "LIST" }],
+    }),
   }),
 });
 
@@ -137,4 +151,5 @@ export const {
   useGetGenresServiceQuery,
   useGetTvServiceQuery,
   useGetMovieVideoServiceQuery,
+  useGetTvVideoServiceQuery
 } = movieApi;
