@@ -7,28 +7,36 @@
   justify-content: space-between;
   align-items: center;
   height: 65px;
-  position: sticky;
+  position: fixed;
   width: 100%;
   top: 0;
   z-index: 999;
-  background-color: $header-bg-color;
-  border-bottom: 1px solid $bg-color;
+  background-color: transparent;
   padding: 0 5rem;
-  box-shadow: 0 0px 20px #000;
-  &_logo {    
-    a{
-        text-decoration: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  transition-duration: 0.3s;
+  &.active {
+    background-color: $header-bg-color;
+    box-shadow: 0 0px 20px #000;
+    border-bottom: 1px solid $bg-color;
+  }
+  &_logo {
+    a {
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 105%;
+      span {
+        margin-right: 10px;
+      }
+      h1 {
         color: $theme-color;
-        cursor: pointer;
-        font-size: 105%;
         span {
-          margin-right: 10px;
+          color: white;
         }
+      }
     }
-    
   }
   &_login {
     display: flex;
@@ -47,8 +55,8 @@
       padding: 10px;
       letter-spacing: 0.05rem;
       z-index: 999;
-      &[class="active"]{
-        color:$theme-color;
+      &[class="active"] {
+        color: $theme-color;
         text-shadow: 0 0 20px $theme-color;
       }
       &:nth-child(1)[class="active"] ~ .indicator {
@@ -60,7 +68,7 @@
         width: 110px;
       }
       &:nth-child(3)[class="active"] ~ .indicator {
-        transform: translateX(calc(110px*2));
+        transform: translateX(calc(110px * 2));
         width: 110px;
       }
     }
@@ -76,22 +84,22 @@
       border-radius: 0 0 1px 1px;
       transition-property: transform;
       transition-duration: 0.5s;
-      filter: drop-shadow(0 0 5px $theme-color);     
+      filter: drop-shadow(0 0 5px $theme-color);
     }
     button {
       padding: 10px 14px;
       color: #fff;
-      background-color: #131921;
-      border: 1px solid #fff;
+      background-color: transparent;
+      // background-color: #131921;
+      border: 1.5px solid #fff;
       cursor: pointer;
       font: 600 16px "Nunito Sans";
       border-radius: 5px;
       margin-left: 1rem;
-      &:hover{
+      &:hover {
         border-color: $theme-color;
         color: $theme-color;
-        text-shadow: 0 0 5px $theme-color;
-        filter: drop-shadow(0 0 5px $theme-color);  
+        text-shadow: 0 0 1px $theme-color;
       }
     }
   }

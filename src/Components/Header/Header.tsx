@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { aaa, logo } from "../../Assets/svg/svg";
+import { logo } from "../../Assets/svg/svg";
 import styles from "./header.module.scss";
 interface INavItem {
   id: number;
@@ -12,13 +13,20 @@ const headerList: INavItem[] = [
   { id: 3, name: "Favorilerim", to: "/favorites" },
 ];
 const Header = () => {
+  const [isScrolling, setScrolling] = useState(false);
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      window.scrollY >= 80 ? setScrolling(true) : setScrolling(false);
+    });
+  }, [])
+  
   return (
-    <div className={styles.container}>
+    <header className={isScrolling ? `${styles.container} ${styles.active}` :styles.container}>
       <div className={styles.container_logo}>
         <NavLink to={"/"}>
           <span>{logo()}</span>
           <h1>
-            Film<span style={{ color: "#fff" }}>Makinası</span>
+            Film<span>Makinası</span>
           </h1>
         </NavLink>
       </div>
@@ -40,7 +48,7 @@ const Header = () => {
 
         <button>Giriş</button>
       </div>
-    </div>
+    </header>
   );
 };
 
