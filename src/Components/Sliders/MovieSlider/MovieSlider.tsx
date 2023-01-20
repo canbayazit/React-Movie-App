@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { shallowEqual } from "react-redux";
 import Slider from "react-slick";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
-import { setGenreId, setMovieId } from "../../../Store/movieSlice";
+import { setGenreFilterId, setGenreId, setMovieId } from "../../../Store/movieSlice";
 import {
   useGetMoviesServiceQuery,
   useGetMovieVideoServiceQuery,
@@ -96,7 +96,7 @@ interface IProps {
 // moviecard bu yüzden 45 kere çağırılmış oluyor
 const MovieSlider = (props: IProps) => {
   const { genre, id, dataGenre } = props;
-
+  const dispatch= useAppDispatch();
   //sadece ilgili slide renderlanır öbür türlü bütün slidelar renderlanıyor.
   // componenti 2 kere render ediyor belki useMemo kullanılabilir.
   // const rect = useAppSelector((store) => {
@@ -108,7 +108,7 @@ const MovieSlider = (props: IProps) => {
     category: "popularity",
     page: 1,
     id: genre.id,
-  });
+  },);
   // console.log(getMovie)
   const getTv = useGetTvServiceQuery({
     category: "popularity",
@@ -116,7 +116,9 @@ const MovieSlider = (props: IProps) => {
     id: genre.id,
   });
 
-  const dataButton: IData[] = [
+
+useEffect(() => {
+  const dataButtonEffect: IData[] = [
     {
       buttonId: 1,
       data: getMovie.data?.results!,
@@ -128,8 +130,29 @@ const MovieSlider = (props: IProps) => {
       loading: getTv.isLoading!,
     },
   ];
+  if(dataButtonEffect
+    .find((item) => item.buttonId === id)
+    ?.data?.length===0){
+    dispatch(setGenreFilterId({genreId:genre.id,buttonId:id}))
+  }
+}, [id])
+  
+  
+const dataButton: IData[] = [
+    {
+      buttonId: 1,
+      data: getMovie.data?.results!,
+      loading: getMovie.isLoading!,
+    },
+    {
+      buttonId: 2,
+      data: getTv.data?.results!,
+      loading: getTv.isLoading!,
+    },
+  ];
+  
 
-  console.log("useEffect çalıştı", genre.id);
+  // console.log("useEffect çalıştı", genre.id);
 
   return (
     <>

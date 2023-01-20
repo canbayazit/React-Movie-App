@@ -1,3 +1,4 @@
+import { IGenreFilter } from "./actions";
 import { Genre, IGenres } from "./genres";
 import { IMovie } from "./movie";
 import { ITv } from "./tv";
@@ -7,6 +8,7 @@ export interface State {
   movieData: IMovie[];
   tvData: ITv[];
   movieId: number;
+  upcomingMovieId:number;
   trailer: string;
   skip: boolean;
   iframeTitle: string;
@@ -14,4 +16,5 @@ export interface State {
   genreId: number;
   iconFavoriteMovieId: number[];
   iconWhistListMovieId: number[];
+  genreFilterId:IGenreFilter[]
 }

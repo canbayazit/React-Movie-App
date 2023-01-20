@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IGenreFilter } from "../Types/actions";
 import { Genre } from "../Types/genres";
 import { IMovie } from "../Types/movie";
 import { ObjectKey, ObjectKeys } from "../Types/objectKeys";
@@ -11,6 +12,7 @@ const initialState: State = {
   movieData: [],
   tvData: [],
   movieId: 0,
+  upcomingMovieId: 0,
   trailer: "",
   skip: true,
   iframeTitle: "",
@@ -18,6 +20,7 @@ const initialState: State = {
   genreId: 0,
   iconFavoriteMovieId: [],
   iconWhistListMovieId: [],
+  genreFilterId:[]
 };
 
 const movieSlice = createSlice({
@@ -51,6 +54,9 @@ const movieSlice = createSlice({
     setMovie: (state, action: PayloadAction<IMovie[]>) => {
       state.movieData = action.payload;
     },
+    setUpcomingMovieId: (state, action: PayloadAction<number>) => {
+      state.upcomingMovieId = action.payload;
+    },
     setFavoriteChangeIcon: (state, action: PayloadAction<number>) => {
       if (state.iconFavoriteMovieId.findIndex((i) => i === action.payload) > -1) {
         state.iconFavoriteMovieId = state.iconFavoriteMovieId.filter(
@@ -71,6 +77,14 @@ const movieSlice = createSlice({
 
       }
     },
+    setGenreFilterId: (state, action: PayloadAction<IGenreFilter>) => {
+      const filterData=state.genreFilterId.filter(item=>item.buttonId===action.payload.buttonId)
+      if (filterData.findIndex((i) => i.genreId === action.payload.genreId) === -1) {
+            state.genreFilterId.push(action.payload)        
+      }else{
+        return
+      }
+    },
   },
 });
 
@@ -85,7 +99,9 @@ export const {
   setTv,
   setMovie,
   setFavoriteChangeIcon,
-  setWhistListChangeIcon
+  setWhistListChangeIcon,
+  setUpcomingMovieId,
+  setGenreFilterId
 } = movieSlice.actions;
 
 export default movieSlice.reducer;
