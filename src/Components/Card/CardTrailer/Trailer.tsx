@@ -46,7 +46,6 @@ interface IState {
 const Trailer = (props: IProps) => {
   const { movie, i, buttonId, genreId, dataMovie, dataGenre } = props;
   const [data, setData] = useState<IState>({});
-  // const [change, setChangeIcon] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const iconFavoriteMovieId = useAppSelector((store) => {
     if (store.movies.genreId === genreId) {
@@ -132,8 +131,8 @@ const Trailer = (props: IProps) => {
   const handleOnMouseLeave = (genreId: number, movie: IMovie | ITv): void => {
     if (dataGenre.genres.findIndex((i) => i.id === genreId) > -1) {
       if (dataMovie.findIndex((i) => i.id === movie.id) > -1) {
-        // dispatch(setMovieId(0));
-        // dispatch(setGenreId(0));
+        dispatch(setMovieId(0));
+        dispatch(setGenreId(0));
       }
     }
   };
@@ -146,11 +145,7 @@ const Trailer = (props: IProps) => {
       }
     }
   };
-  // let a = ObjectKeys(data, buttonId);
 
-  // console.log(a, "aaaaaaaaa");
-  // console.log(data.tvData, "tv dATAAAAAAAAAAA");
-  // console.log(data.movieData, "movie DATAAAAAAAA");
   useEffect(() => {
     if (!dataButton.find((item) => item.buttonId === buttonId)?.loading) {
       let c = document.getElementById(

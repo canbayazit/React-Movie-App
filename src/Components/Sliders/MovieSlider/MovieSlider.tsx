@@ -97,19 +97,11 @@ interface IProps {
 const MovieSlider = (props: IProps) => {
   const { genre, id, dataGenre } = props;
   const dispatch= useAppDispatch();
-  //sadece ilgili slide renderlanır öbür türlü bütün slidelar renderlanıyor.
-  // componenti 2 kere render ediyor belki useMemo kullanılabilir.
-  // const rect = useAppSelector((store) => {
-  //   if (store.movies.genreId === genre.id) {
-  //       return store.movies;
-  //   }
-  // }, shallowEqual);
   const getMovie = useGetMoviesServiceQuery({
     category: "popularity",
     page: 1,
     id: genre.id,
   },);
-  // console.log(getMovie)
   const getTv = useGetTvServiceQuery({
     category: "popularity",
     page: 1,
@@ -150,9 +142,6 @@ const dataButton: IData[] = [
       loading: getTv.isLoading!,
     },
   ];
-  
-
-  // console.log("useEffect çalıştı", genre.id);
 
   return (
     <>
@@ -174,7 +163,6 @@ const dataButton: IData[] = [
                     return (
                       <div
                         className={styles.movie_card}
-                        // style={{width:330}}
                         key={`${movie.id}_${i}_${genre.id}`}
                         id={`${movie.id}_${i}_${genre.id}`}
                       >

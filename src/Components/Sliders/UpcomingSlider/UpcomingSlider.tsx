@@ -5,9 +5,12 @@ import { ISetting } from "../../../Types/sliderTypes";
 import { useGetUpcomingMoviesServiceQuery } from "../../../Store/services";
 import SlideItem from "./SlideItem/SlideItem";
 import More from "../../More/More";
-import { SampleNextArrowUpcoming, SamplePrevArrowUpcoming } from "../../../Utils/Functions";
+import {
+  SampleNextArrowUpcoming,
+  SamplePrevArrowUpcoming,
+} from "../../../Utils/Functions";
 const settings: ISetting = {
-  dots: true,
+  dots: false,
   lazyLoad: "progressive",
   arrows: true,
   infinite: true,
@@ -66,25 +69,25 @@ const settings: ISetting = {
 };
 const UpcomingSlider = () => {
   // const [page, setpage] = useState<number>(1);
-  const getUpcomingMovieList = useGetUpcomingMoviesServiceQuery(1);
+  const { data, isLoading } = useGetUpcomingMoviesServiceQuery(1);
 
-  // console.log(getUpcomingMovieList);
-  
-//   useEffect(() => {
-
-//     console.log("slider useffect çalıştı")
-// })
   return (
-    <div className={styles.container}>     
-      <div className={styles.container_slider}>
-        <Slider {...settings} className={styles.container_slider_movie}>
-          {(getUpcomingMovieList.data?.results.map((movie, index) => (
-            <SlideItem item={movie} index={index} key={movie.id}/>
-          )))}
-        </Slider>
-      </div>
-      <More />      
-    </div>
+    <>
+      {isLoading ? (
+        "loading"
+      ) : (
+        <div className={styles.container}>
+          <div className={styles.container_slider}>
+            <Slider {...settings} className={styles.container_slider_movie}>
+              {data?.results.map((movie, index) => (
+                <SlideItem movie={movie} index={index} key={movie.id} />
+              ))}
+            </Slider>
+          </div>
+          <More />
+        </div>
+      )}
+    </>
   );
 };
 

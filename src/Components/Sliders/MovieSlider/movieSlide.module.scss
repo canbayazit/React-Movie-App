@@ -1,4 +1,4 @@
-@use "../../Scss/variables" as *;
+@use "../../../Scss/variables" as *;
 .container {
   position: relative;
   margin: 2rem 0 2rem 3rem;
@@ -40,8 +40,8 @@
     height: auto;
     width: 100%;
     .movie_card {
-      height: 395px;
-      // height: auto;
+      // height: 395px;
+      height: auto;
       z-index: 998;
       width: 100%;
     }

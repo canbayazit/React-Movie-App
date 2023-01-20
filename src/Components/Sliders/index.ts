@@ -1,5 +1,5 @@
-import MovieSlider from "./MovieSlider/MovieSlide";
 import GenreSlider from "./GenresSlider/GenreSlider"
-import UpcomingSlider from "./UpcomingSlider/upcomingSlider";
+import MovieSlider from "./MovieSlider/MovieSlider";
+import UpcomingSlider from "./UpcomingSlider/UpcomingSlider";
 
 export {UpcomingSlider,MovieSlider,GenreSlider};
