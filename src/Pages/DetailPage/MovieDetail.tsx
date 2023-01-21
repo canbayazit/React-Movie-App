@@ -1,8 +1,13 @@
 import React from 'react'
-// import styles from './home.module.scss';
+import Detail from '../../Components/Movie/Detail/Detail';
+import MovieList from '../../Components/Movie/List/MovieList';
+import styles from './movieDetail.module.scss';
 const MovieDetail = () => {
   return (
-    <div>MovieDetail</div>
+    <div className={styles.container}>
+      <Detail/>
+      <MovieList/>
+    </div>
   )
 }
 
