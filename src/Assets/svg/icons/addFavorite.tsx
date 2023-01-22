@@ -1,8 +1,8 @@
 export const addFavorite = () => (
   <svg
     fill="#fff"
-    width="30"
-    height="30"
+    width="27"
+    height="27"
     viewBox="0 0 32 32"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
