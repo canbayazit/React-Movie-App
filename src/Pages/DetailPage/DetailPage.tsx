@@ -1,8 +1,8 @@
 import React from 'react'
 import Detail from '../../Components/Movie/Detail/Detail';
 import MovieList from '../../Components/Movie/List/MovieList';
-import styles from './movieDetail.module.scss';
-const MovieDetail = () => {
+import styles from './detailPage.module.scss';
+const DetailPage = () => {
   return (
     <div className={styles.container}>
       <Detail/>
@@ -11,4 +11,4 @@ const MovieDetail = () => {
   )
 }
 
-export default MovieDetail
+export default DetailPage
