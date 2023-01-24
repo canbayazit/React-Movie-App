@@ -87,12 +87,7 @@ const Detail = () => {
         <div className={styles.container_detail_overview}>
           <p>{data?.overview}</p>
         </div>
-      </div>
-      <nav className={styles.container_nav}>
-        <div>SUGGESTED</div>
-        <div>DETAILS</div>
-      </nav>
-      <div className={styles.container_slider}></div>
+      </div>      
     </div>
   );
 };
