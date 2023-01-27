@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual } from "react-redux";
 import { useParams } from "react-router";
 import { addFavorite } from "../../../Assets/svg/icons/addFavorite";
@@ -12,6 +12,7 @@ import { useGetMovieDetailServiceQuery } from "../../../Store/services";
 import styles from "./detail.module.scss";
 
 const Detail = () => {
+  const [scrollPosition, setScrollPosition] = useState(0);
   const { category, id } = useParams();
   const iconFavoriteMovieId = useAppSelector(
     (store) => store.movies.iconFavoriteMovieId,
@@ -27,11 +28,21 @@ const Detail = () => {
     const minutes = min % 60;
     return `${hours}h ${minutes}m`;
   };
-  console.log("category,id", category, id);
-  console.log("category,id", data);
+  
+  useEffect(() => {
+    if (typeof window !== "undefined") {      
+      const handleScroll = () => {
+        const position = window.scrollY;
+        setScrollPosition(position*0.0015);
+      }
+      window.addEventListener("scroll", handleScroll);   
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
+  }, [])
+
   return (
     <div className={styles.container}>
-      <div className={styles.container_background}>
+      <div className={styles.container_background}  style={{opacity:1-scrollPosition}}>
         <img src={`${imageOriginal}${data?.backdrop_path}`} alt="" />
         <div className={styles.container_background_color}></div>
       </div>
