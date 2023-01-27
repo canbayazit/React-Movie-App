@@ -3,8 +3,8 @@ import { shallowEqual } from "react-redux";
 import { Link } from "react-router-dom";
 import { addFavorite } from "../../../Assets/svg/icons/addFavorite";
 import { deleteFavorite } from "../../../Assets/svg/icons/deleteFavorite";
-import { deleteWhistList } from "../../../Assets/svg/icons/deleteWhistList";
-import { addWhistList } from "../../../Assets/svg/svg";
+import { tick } from "../../../Assets/svg/icons/tick";
+import { addWhistList } from "../../../Assets/svg/icons/whistList";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
 import { clientURL, imageSize } from "../../../Store/constant";
 import {
@@ -24,16 +24,15 @@ import { IVideo, IVideos } from "../../../Types/video";
 import styles from "./trailer.module.scss";
 interface IProps {
   movie: IMovie | ITv;
-  i: number;
-  buttonId: number;
-  genreId: number;
-  dataMovie: IMovie[] | ITv[];
-  dataGenre: IGenres;
+  category: string;
+  genreId?: number;
+  dataMovie?: IMovie[] | ITv[];
+  dataGenre?: IGenres;
 }
 type typeData = IMovie | ITv;
 
 interface IData {
-  buttonId: number;
+  category: string;
   data: IVideo[];
   loading: boolean;
   fetching: boolean;
@@ -44,7 +43,7 @@ interface IState {
 }
 
 const Trailer = (props: IProps) => {
-  const { movie, i, buttonId, genreId, dataMovie, dataGenre } = props;
+  const { movie, category, genreId, dataMovie, dataGenre } = props;
   const [data, setData] = useState<IState>({});
   const dispatch = useAppDispatch();
   const iconFavoriteMovieId = useAppSelector((store) => {
@@ -69,13 +68,13 @@ const Trailer = (props: IProps) => {
   });
   const dataButton: IData[] = [
     {
-      buttonId: 1,
+      category: "movie",
       data: getMovieVideo.data?.results!,
       loading: getMovieVideo.isLoading!,
       fetching: getMovieVideo.isFetching,
     },
     {
-      buttonId: 2,
+      category: "tv",
       data: getTvVideo.data?.results!,
       loading: getTvVideo.isLoading!,
       fetching: getTvVideo.isFetching,
@@ -95,10 +94,8 @@ const Trailer = (props: IProps) => {
   }
   const typeGuard = (data: typeData) => {
     if (isMovie(data)) {
-      console.log("movieTv data girdi");
       setData((prevState) => ({ ...prevState, movieData: data }));
     } else if (isTv(data)) {
-      console.log("istv data girdi");
       setData((prevState) => ({ ...prevState, tvData: data }));
     }
     return;
@@ -117,28 +114,24 @@ const Trailer = (props: IProps) => {
         modal?.querySelector("iframe")?.setAttribute("src", src);
       }
     };
-    if (!dataButton.find((item) => item.buttonId === buttonId)?.fetching) {
+    if (!dataButton.find((item) => item.category === category)?.fetching) {
       const src =
         clientURL.youtube +
         dataButton
-          .find((item) => item.buttonId === buttonId)
+          .find((item) => item.category === category)
           ?.data?.find((item) => item.type === "Trailer")?.key +
         "?autoplay=1&modestbranding=1&autohide=1&showinfo=0&controls=0";
       setModal(src);
     }
-  }, [buttonId, getMovieVideo.isFetching, getTvVideo.isFetching, movie.id]);
+  }, [category, getMovieVideo.isFetching, getTvVideo.isFetching, movie.id]);
 
-  const handleOnMouseLeave = (genreId: number, movie: IMovie | ITv): void => {
-    if (dataGenre.genres.findIndex((i) => i.id === genreId) > -1) {
-      if (dataMovie.findIndex((i) => i.id === movie.id) > -1) {
-        dispatch(setMovieId(0));
-        dispatch(setGenreId(0));
-      }
-    }
+  const handleOnMouseLeave = () => {
+    dispatch(setMovieId(0));
+    dispatch(setGenreId(0));
   };
   const handleClick = (key: string) => {
-    if (dataGenre.genres.findIndex((i) => i.id === genreId) > -1) {
-      if (dataMovie.findIndex((i) => i.id === movie.id) > -1) {
+    if (dataGenre!.genres.findIndex((i) => i.id === genreId) > -1) {
+      if (dataMovie!.findIndex((i) => i.id === movie.id) > -1) {
         key === "favorite"
           ? dispatch(setFavoriteChangeIcon(movie.id))
           : dispatch(setWhistListChangeIcon(movie.id));
@@ -147,7 +140,7 @@ const Trailer = (props: IProps) => {
   };
 
   useEffect(() => {
-    if (!dataButton.find((item) => item.buttonId === buttonId)?.loading) {
+    if (!dataButton.find((item) => item.category === category)?.loading) {
       let c = document.getElementById(
         `canvas_${movie.id}`
       ) as HTMLCanvasElement;
@@ -179,7 +172,7 @@ const Trailer = (props: IProps) => {
           : "red";
     }
   }, [
-    buttonId,
+    category,
     data.movieData,
     data.tvData?.vote_average,
     dataButton,
@@ -188,88 +181,92 @@ const Trailer = (props: IProps) => {
 
   return (
     <>
-      {dataButton.find((item) => item.buttonId === buttonId)?.loading ? (
-        "loading"
-      ) : (
-        <div
-          className={styles.container}
-          onMouseLeave={() => handleOnMouseLeave(genreId, movie)}
-        >
-          <div className={styles.container_modal} id={`modal_${movie.id}`}>
-            {dataButton
-              .find((item) => item.buttonId === buttonId)
-              ?.data?.find((item) => item.type === "Trailer")?.key ? (
-              <iframe
-                title={
-                  clientURL.youtube +
-                  dataButton
-                    .find((item) => item.buttonId === buttonId)
-                    ?.data?.find((item) => item.type === "Trailer")?.name
-                }
-              ></iframe>
-            ) : (
-              <img
-                width="295"
-                height="220"
-                src={`${imageSize}${
-                  movie.poster_path ? movie.poster_path : movie.backdrop_path
-                }`}
-                alt=""
-              />
-            )}
-          </div>
-          <div className={styles.container_info}>
-            <div className={styles.container_info_icons}>
-              <div className={styles.container_info_icons_imdb}>
-                <span>
-                  {data.movieData
-                    ? data.movieData.vote_average!
-                    : data.tvData?.vote_average!}
-                </span>
-                <canvas id={`canvas_${movie.id}`}></canvas>
-              </div>
-              <div className={styles.container_info_icons_buttons}>
-                <div className={styles.container_info_icons_buttons_whistlist}>
-                  <label>{iconWhistListMovieId?.find((i) => i === movie.id) ? "İzleme Listesinden Kaldır" : "İzleme Listesine Ekle"}</label>
-                  <span onClick={() => handleClick("whistList")}>
-                    {iconWhistListMovieId?.find((i) => i === movie.id)
-                      ? deleteWhistList()
-                      : addWhistList()}
-                  </span>
-                </div>
-                <div className={styles.container_info_icons_buttons_favorite}>
-                  <label>{iconFavoriteMovieId?.find((i) => i === movie.id) ? "Favoriler Listesinden Kaldır" : "Favoriler Listesine Ekle"}</label>
-                  <span onClick={() => handleClick("favorite")}>
-                    {iconFavoriteMovieId?.find((i) => i === movie.id)
-                      ? deleteFavorite()
-                      : addFavorite()}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <Link to="/" className={styles.container_info_more}>
-              <span>See More</span>
-            </Link>
-            <div className={styles.container_info_overview}>
-              <h3>
-                {data.movieData
-                  ? data.movieData.original_title
-                  : data.tvData?.name}
-              </h3>
-              <p>
-                {data.movieData
-                  ? data.movieData.overview
-                  : data.tvData?.overview}
-              </p>
+      <div
+        className={styles.container}
+        onMouseLeave={() => handleOnMouseLeave()}
+      >
+        <div className={styles.container_modal} id={`modal_${movie.id}`}>
+          {dataButton
+            .find((item) => item.category === category)
+            ?.data?.find((item) => item.type === "Trailer")?.key ? 
+            dataButton.find((item) => item.category === category)?.loading ? 
+              <div>LOADING</div>:(
+            <iframe
+              title={
+                clientURL.youtube +
+                dataButton
+                  .find((item) => item.category === category)
+                  ?.data?.find((item) => item.type === "Trailer")?.name
+              }
+            ></iframe>
+          ) : (
+            <img
+              width="295"
+              height="220"
+              src={`${imageSize}${
+                movie.poster_path ? movie.poster_path : movie.backdrop_path
+              }`}
+              alt=""
+            />
+          )}
+        </div>
+        <div className={styles.container_info}>
+          <div className={styles.container_info_icons}>
+            <div className={styles.container_info_icons_imdb}>
               <span>
                 {data.movieData
-                  ? data.movieData.release_date
-                  : data.tvData?.first_air_date}
+                  ? data.movieData.vote_average!.toFixed(1)
+                  : data.tvData?.vote_average!.toFixed(1)}
               </span>
+              <canvas id={`canvas_${movie.id}`}></canvas>
+            </div>
+            <div className={styles.container_info_icons_buttons}>
+              <div className={styles.container_info_icons_buttons_whistlist}>
+                <label>
+                  {iconWhistListMovieId?.find((i) => i === movie.id)
+                    ? "İzleme Listesinden Kaldır"
+                    : "İzleme Listesine Ekle"}
+                </label>
+                <span onClick={() => handleClick("whistList")}>
+                  {iconWhistListMovieId?.find((i) => i === movie.id)
+                    ? tick()
+                    : addWhistList()}
+                </span>
+              </div>
+              <div className={styles.container_info_icons_buttons_favorite}>
+                <label>
+                  {iconFavoriteMovieId?.find((i) => i === movie.id)
+                    ? "Favoriler Listesinden Kaldır"
+                    : "Favoriler Listesine Ekle"}
+                </label>
+                <span onClick={() => handleClick("favorite")}>
+                  {iconFavoriteMovieId?.find((i) => i === movie.id)
+                    ? deleteFavorite()
+                    : addFavorite()}
+                </span>
+              </div>
             </div>
           </div>
+          <Link to="/" className={styles.container_info_more}>
+            <span>See More</span>
+          </Link>
+          <div className={styles.container_info_overview}>
+            <h3>
+              {data.movieData
+                ? data.movieData.original_title
+                : data.tvData?.name}
+            </h3>
+            <p>
+              {data.movieData ? data.movieData.overview : data.tvData?.overview}
+            </p>
+            <span>
+              {data.movieData
+                ? data.movieData.release_date
+                : data.tvData?.first_air_date}
+            </span>
+          </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

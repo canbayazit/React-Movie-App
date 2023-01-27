@@ -11,50 +11,58 @@ import Trailer from "../CardTrailer/Trailer";
 import styles from "./movie.module.scss";
 
 interface IProps {
-  movie: IMovie | ITv;
-  genre: Genre;
-  i: number;
-  dataMovie: IMovie[] | ITv[];
-  dataGenre: IGenres;
-  buttonId: number;
+  movie: IMovie | ITv ;
+  genre?: Genre;
+  dataMovie?: IMovie[] | ITv[];
+  dataGenre?: IGenres;
+  category: string;
 }
 
 const MovieCard = (props: IProps) => {
-  const { genre, i, movie, dataMovie, dataGenre, buttonId } = props;
+  const { genre, movie, dataMovie, dataGenre, category } = props;
   const dispatch = useAppDispatch();
-
   //component 2 kere çalışır useAppSelector'dan dolayı
   //redux sayesinde hem önceki değeri hem yeni değeri karşılaştırıp fragmanı günceller.
-  const statusId = useAppSelector((store) => {
-    if (store.movies.genreId === genre.id) {
+  const status = useAppSelector((store) => {
+    if (store.movies.genreId === genre?.id) {
+      if (store.movies.movieId === movie.id) {
+        return store.movies.movieId;
+      }
+    }else{
       if (store.movies.movieId === movie.id) {
         return store.movies.movieId;
       }
     }
   }, shallowEqual);
-  const handleOnMouseOver = (genre: Genre, movie: IMovie | ITv): void => {
-    if (dataGenre.genres.findIndex((i) => i.id === genre.id) > -1) {
-      if (dataMovie.findIndex((i) => i.id === movie.id) > -1) {
-        dispatch(setMovieId(movie.id));
-        dispatch(setGenreId(genre.id));
-     
-      }
-    }
-  };
+  console.log(status,"status")
+  console.log(genre,"genre")
 
-  // console.log(statusId, "GenreOrMovie", movie.id);
-  // console.log("movie card", movie.id);
-  // console.log("movie card",dataMovie.map(item=>item.));
+  const handleOnMouseOver = (genre?: Genre, movie?: IMovie | ITv)=> {
+    if (genre) {
+      if (dataGenre!.genres.findIndex((i) => i.id === genre!.id) > -1) {
+        if (dataMovie!.findIndex((i) => i.id === movie!.id) > -1) {
+          dispatch(setMovieId(movie!.id));
+          dispatch(setGenreId(genre!.id));
+          console.log("2")
+        }
+      }
+    }else{
+      dispatch(setMovieId(movie!.id));
+
+    }
+      
+ 
+    
+  };
 
   return (
     <>
-      {!!statusId ? (
+      {!!status ? (
         <div className={styles.container_video}>
           <Trailer
             movie={movie!}
-            i={i}
-            buttonId={buttonId}
-            genreId={genre.id}
+            category={category}
+            genreId={genre?.id}
             dataMovie={dataMovie}
             dataGenre={dataGenre}
           />
@@ -64,7 +72,7 @@ const MovieCard = (props: IProps) => {
           id={`rect_${movie.id}`}
           className={styles.container_image}
           // onMouseOver={() => handleOnMouseOver( movie.id,genreId)}
-          onMouseEnter={() => handleOnMouseOver(genre, movie)}
+          onMouseEnter={() => handleOnMouseOver(genre,movie)}
         >
           <img
             src={`${imageSize}${

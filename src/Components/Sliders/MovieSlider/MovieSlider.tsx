@@ -80,14 +80,14 @@ const settings: ISetting = {
   ],
 };
 interface IData {
-  buttonId: number;
+  category: string;
   data: IMovie[] | ITv[];
   loading: boolean;
 }
 
 interface IProps {
   genre: Genre;
-  id: number;
+  category: string;
   dataGenre: IGenres;
 }
 
@@ -95,7 +95,7 @@ interface IProps {
 //+ 20 rtk queryden ( query çekince component bir daha render oluyor )
 // moviecard bu yüzden 45 kere çağırılmış oluyor
 const MovieSlider = (props: IProps) => {
-  const { genre, id, dataGenre } = props;
+  const { genre, category, dataGenre } = props;
   const dispatch= useAppDispatch();
   const getMovie = useGetMoviesServiceQuery({
     category: "popularity",
@@ -112,32 +112,32 @@ const MovieSlider = (props: IProps) => {
 useEffect(() => {
   const dataButtonEffect: IData[] = [
     {
-      buttonId: 1,
+      category: "movie",
       data: getMovie.data?.results!,
       loading: getMovie.isLoading!,
     },
     {
-      buttonId: 2,
+      category: "tv",
       data: getTv.data?.results!,
       loading: getTv.isLoading!,
     },
   ];
   if(dataButtonEffect
-    .find((item) => item.buttonId === id)
+    .find((item) => item.category === category)
     ?.data?.length===0){
-    dispatch(setGenreFilterId({genreId:genre.id,buttonId:id}))
+    dispatch(setGenreFilterId({genreId:genre.id,category:category}))
   }
-}, [id])
+}, [category])
   
   
 const dataButton: IData[] = [
     {
-      buttonId: 1,
+      category: "movie",
       data: getMovie.data?.results!,
       loading: getMovie.isLoading!,
     },
     {
-      buttonId: 2,
+      category: "tv",
       data: getTv.data?.results!,
       loading: getTv.isLoading!,
     },
@@ -145,8 +145,8 @@ const dataButton: IData[] = [
 
   return (
     <>
-      {!dataButton.find((item) => item.buttonId === id)?.loading ? (
-        dataButton.find((item) => item.buttonId === id)?.data.length !== 0 ? (
+      {!dataButton.find((item) => item.category === category)?.loading ? (
+        dataButton.find((item) => item.category === category)?.data.length !== 0 ? (
           <div className={styles.container}>
             <div className={styles.container_button}>
               <h1>{genre.name} Movies</h1>
@@ -155,24 +155,22 @@ const dataButton: IData[] = [
             <div className={styles.container_slider}>
               <Slider {...settings}>
                 {dataButton
-                  .find((item) => item.buttonId === id)
+                  .find((item) => item.category === category)
                   ?.data?.map((movie, i) => {
                     const dataMovie = dataButton.find(
-                      (item) => item.buttonId === id
+                      (item) => item.category === category
                     )?.data;
                     return (
                       <div
                         className={styles.movie_card}
                         key={`${movie.id}_${i}_${genre.id}`}
-                        id={`${movie.id}_${i}_${genre.id}`}
                       >
-                        <MovieCard
-                          i={i}
+                        <MovieCard                         
                           genre={genre}
                           dataGenre={dataGenre}
                           movie={movie}
                           dataMovie={dataMovie!}
-                          buttonId={id}
+                          category={category}
                         />
                       </div>
                     );
