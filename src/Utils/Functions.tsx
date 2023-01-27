@@ -1,14 +1,14 @@
-import { arrowButtonLeft, arrowButtonLeftUpcoming, arrowButtonRight, arrowButtonRightUpcoming } from "../Assets/svg/svg";
+import { arrowButtonLeft, arrowButtonLeftUpcoming, arrowButtonRight, arrowButtonRightUpcoming } from "../Assets/svg/icons/arrows";
 
 export function SamplePrevArrow(props: any) {
-    const { onClick } = props;   
+    const { onClick,detail } = props;   
     return (
       <div
         style={{
           display: "flex",
           position: "absolute",
           left: "0",
-          top: "0",
+          top: detail? "230px" :"0",
           bottom:"0",
           alignItems:"center",
           justifyContent:"center",
@@ -16,7 +16,7 @@ export function SamplePrevArrow(props: any) {
           opacity: 0.9,
           width:"50px",
           height:"185px",
-          zIndex:998,
+          zIndex:997,
           cursor:"Pointer",
           margin: "10px 5px",  
           backgroundColor:"rgba(0, 0, 0, 0.2)",
@@ -29,21 +29,21 @@ export function SamplePrevArrow(props: any) {
     );
   }
  export function SampleNextArrow(props: any) {
-    const { onClick } = props;
+    const { onClick,detail } = props;
 
     return (
       <div
         style={{
           display: "flex",
           position: "absolute",
-          right: "0",
-          top: "0",
+          right: "2px",
+          top: detail? "230px" :"0",
           bottom:"0",
           alignItems:"center",
           justifyContent:"center",
           marginRight: 0,
           opacity: 0.9,
-          zIndex:998,
+          zIndex:997,
           width:"50px",
           height:"185px",
           backgroundColor:"rgba(0, 0, 0, 0.3)",
