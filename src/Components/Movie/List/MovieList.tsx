@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
+import { imageSize } from "../../../Store/constant";
 import {
   useGetCreditServiceQuery,
   useGetSimilarMovieServiceQuery,
@@ -15,8 +16,8 @@ const settings: ISetting = {
   slidesToShow: 5,
   slidesToScroll: 4,
   arrows: true,
-  nextArrow: <SampleNextArrow detail={true}/>,
-  prevArrow: <SamplePrevArrow detail={true} />,
+  nextArrow: <SampleNextArrow/>,
+  prevArrow: <SamplePrevArrow/>,
   responsive: [
     {
       breakpoint: 1024,
@@ -62,11 +63,12 @@ const settings: ISetting = {
 interface INavItem {
   id: number;
   name: string;
+  visible: string;
 }
 const navList: INavItem[] = [
-  { id: 1, name: "SUGGESTED" },
-  { id: 2, name: "CASTS" },
-  { id: 3, name: "DETAIL" },
+  { id: 1, name: "SUGGESTED", visible: "hidden" },
+  { id: 2, name: "CASTS", visible: "hidden" },
+  { id: 3, name: "DETAIL", visible: "hidden" },
 ];
 const MovieList = () => {
   const { category, id } = useParams();
@@ -80,6 +82,25 @@ const MovieList = () => {
   const handleClick = (i: number) => {
     setIndex(i);
   };
+  const groupPerson = <K extends string | number | symbol,V>(array: V[], group:(person:V)=>K)=>{
+    let groupPerson= array.reduce((store,person)=>{
+      let key= group(person)
+      if(!store[key]){
+        store[key]=[]
+      }
+      store[key].push(person);
+      return store;
+    },{} as Record<K, V[]>)
+
+    let dataArray=[];
+    for (const key in groupPerson) {
+      if (Object.prototype.hasOwnProperty.call(groupPerson, key)) {
+        const value = groupPerson[key];
+        dataArray.push({group:key,value:value})
+      }
+    }
+    return dataArray;
+  }
   return (
     <div className={styles.container}>
       <nav className={styles.container_nav}>
@@ -106,6 +127,38 @@ const MovieList = () => {
             </div>
           ))}
         </Slider>
+      </div>
+      <div className={styles.container_cast_crew}>
+        <div className={styles.container_cast}>
+          {credit.data?.cast.map((item) => (
+            <div>
+              <div>
+                <img src={`${imageSize}${item.profile_path}`} alt="" />
+              </div>
+              <div>
+                <h4>{item.original_name}</h4>
+                <span>{item.character}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={styles.container_crew}>
+          {groupPerson(credit.data?.crew!,group=>group.department).map((item) => {
+            return (
+              <div>
+                <div></div>
+                <div>
+                  <h4>{item.group}</h4>
+                  {
+                    item.value.map((person)=>(
+                      <span>{person.name}</span>
+                    ))
+                  }
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
