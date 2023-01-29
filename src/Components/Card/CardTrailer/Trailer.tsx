@@ -51,10 +51,18 @@ const Trailer = (props: IProps) => {
       if (store.movies.movieId === movie.id) {
         return store.movies.iconFavoriteMovieId;
       }
+    }else{
+      if (store.movies.movieId === movie.id) {
+        return store.movies.iconFavoriteMovieId;
+      }
     }
   }, shallowEqual);
   const iconWhistListMovieId = useAppSelector((store) => {
     if (store.movies.genreId === genreId) {
+      if (store.movies.movieId === movie.id) {
+        return store.movies.iconWhistListMovieId;
+      }
+    }else{
       if (store.movies.movieId === movie.id) {
         return store.movies.iconWhistListMovieId;
       }
@@ -130,13 +138,21 @@ const Trailer = (props: IProps) => {
     dispatch(setGenreId(0));
   };
   const handleClick = (key: string) => {
-    if (dataGenre!.genres.findIndex((i) => i.id === genreId) > -1) {
-      if (dataMovie!.findIndex((i) => i.id === movie.id) > -1) {
-        key === "favorite"
-          ? dispatch(setFavoriteChangeIcon(movie.id))
-          : dispatch(setWhistListChangeIcon(movie.id));
+    if (!dataGenre) {
+      console.log("girdimi")
+      key === "favorite"
+            ? dispatch(setFavoriteChangeIcon(movie.id))
+            : dispatch(setWhistListChangeIcon(movie.id));
+    } else {
+      if (dataGenre!.genres.findIndex((i) => i.id === genreId) > -1) {
+        if (dataMovie!.findIndex((i) => i.id === movie.id) > -1) {
+          key === "favorite"
+            ? dispatch(setFavoriteChangeIcon(movie.id))
+            : dispatch(setWhistListChangeIcon(movie.id));
+        }
       }
     }
+    
   };
 
   useEffect(() => {
