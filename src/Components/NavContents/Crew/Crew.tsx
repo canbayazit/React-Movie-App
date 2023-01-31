@@ -42,7 +42,16 @@ const Crew = () => {
     }
     return data.slice(0, 12);
   };
-
+  const handleClick = (groupItem: string) => {
+    console.log(group, "group");
+    if (group.includes(groupItem)) {
+    const filterArray=group.filter((item): item is string=> item!==groupItem);
+      setGroup(filterArray)
+    } else {
+      setGroup(prevNames =>  [...prevNames, groupItem]);
+    }
+    
+  };
   return (
     <div className={styles.container}>
       {credit.isLoading ? (
@@ -77,7 +86,12 @@ const Crew = () => {
                     {getMoreItems(item.value, item.group).map((person, i) => (
                       <li key={`${person.id}_${i}`}>{person.name}</li>
                     ))}
-                  </ul>                  
+                  </ul>
+                  {item.value.length > 12 ? (
+                    <button onClick={() => handleClick(item.group)}>
+                      {group.includes(item.group) ? "...See less": "...See more"}
+                    </button>
+                  ) : null}
                 </div>
               )
             )}

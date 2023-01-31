@@ -1,3 +1,5 @@
+@use "../../../Scss/variables" as *;
+
 .container {
   width: 100%;
   display: flex;
@@ -34,12 +36,13 @@
     }
     &_others{
         display: flex;
-        justify-content:space-between;
+        justify-content:center;
         width: 100%;
         height: auto;
         &_group{
             width: 100%;
             margin-right: 30px;
+            text-align: center;
             h3{
                 border-bottom: 1px solid #f9f9f999;
                 padding-bottom: 8px;
@@ -56,6 +59,19 @@
               width: 100%;
             }
 
+          }
+          button{
+            border: none;
+            background-color: transparent;
+            color: $theme-color;
+            opacity: 0.8;
+            padding: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            &:hover{
+              opacity: 1;
+            }
           }
         }
     }
