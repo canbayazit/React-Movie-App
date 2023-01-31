@@ -166,7 +166,7 @@ const dataButton: IData[] = [
                         key={`${movie.id}_${i}_${genre.id}`}
                       >
                         <MovieCard                         
-                          genre={genre}
+                          genreId={genre.id}
                           dataGenre={dataGenre}
                           movie={movie}
                           dataMovie={dataMovie!}
