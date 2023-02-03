@@ -1,4 +1,3 @@
-import { useFormik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
 import styles from "./comment.module.scss";
@@ -33,17 +32,6 @@ const commentSchema = Yup.object().shape({
 });
 
 const Comment = () => {
-  let today = new Date();
-  let dd = String(today.getDate()).padStart(2, "0");
-  let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  let yyyy = today.getFullYear();
-  console.log(new Date(), "today");
-  console.log(today.getDate(), "day");
-  console.log(dd, "day");
-  console.log(mm, "month");
-  console.log(yyyy + mm + dd, "year");
-
-  // console.log(moment("20220503", "YYYYMMDD").fromNow(),"years ") // 11 years ago,"date")
   const [comment, setComment] = useState<IValues[]>([]);
   const initialValues: IValues = {
     name: "",
@@ -52,68 +40,7 @@ const Comment = () => {
     date: "",
   };
   return (
-    <div className={styles.container}>
-      {/* <Formik
-        initialValues={{
-          name: "",
-          email: "",
-          description: "",
-        }}
-        // validationSchema={commentSchema}
-        onSubmit={(values: IValues, actions) => {
-          console.log({ values, actions });
-          alert(JSON.stringify(values));
-          // actions.setSubmitting(false);
-        }}
-      >
-        {({
-          errors,
-          touched,
-          handleSubmit,
-          values,
-          handleChange,
-          dirty,
-          isSubmitting,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <input
-                // name="text1"
-                value={values.name}
-                type="text"
-                placeholder="Can"
-                onChange={handleChange}
-              />
-              <input
-                name="email"
-                value={values.email}
-                type="email"
-                placeholder="Can@mail.com"
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <textarea
-                name="textarea"
-                placeholder="Add a comment..."
-                onChange={handleChange}
-                cols={100}
-                rows={5}
-              ></textarea>
-            </div>
-            <div>
-              <div>
-                {errors.name && touched.name ? (
-                  <div>{errors.name}</div>
-                ) : null}
-              </div>
-              <div>
-                <button type="submit">Submit</button>
-              </div>
-            </div>
-          </form>
-        )}
-      </Formik> */}
+    <div className={styles.container}> 
       <Formik
         initialValues={initialValues}
         validationSchema={commentSchema}
@@ -134,9 +61,6 @@ const Comment = () => {
           let dd = String(today.getDate()).padStart(2, "0");
           let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
           let yyyy = today.getFullYear();
-          let date = `${yyyy}-${mm}-${dd}`;
-          console.log(moment("20230203", "YYYYMMDD").fromNow(), "dateeee");
-
           setComment([
             ...comment,
             {
