@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { ICredit } from "../Types/credit";
 import { IGenres } from "../Types/genres";
-import { IListMovieResponse, IMovie } from "../Types/movie";
-import { IMovieDetail } from "../Types/movieDetail";
+import { IListMovieResponse, IMovieTv} from "../Types/movie_tv";
+import { IMovieTVDetail } from "../Types/movieDetail";
 import { IPerson } from "../Types/person";
 import { IPersonMovies } from "../Types/personMovies";
-import { IListTvResponse, ITv } from "../Types/tv";
+import { ISimilar } from "../Types/similar";
 import { IUpcomingMovies } from "../Types/upcomingMovies";
 import { IVideos } from "../Types/video";
 import { baseURL, clientURL } from "./constant";
@@ -26,29 +27,8 @@ export const movieApi = createApi({
   // RTK Sorgusu, bir uç nokta için bir mutasyonun , başka bir uç noktadan bir sorgu tarafından sağlanan bazı verileri
   // geçersiz kılma niyetinde olup olmadığını belirlemek için 'etiketler' kavramını kullanır .
   endpoints: (builder) => ({
-    //<result type, query type>
-    getMoviesService: builder.query<
-      IListMovieResponse<IMovie>,
-      { category: string; page: number; id?: number; }
-    >({
-      query: (arg) =>
-        `${clientURL.categoriesMovie}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&page=${arg.page}&with_genres=${arg.id}`,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.results.map(({ id }) => ({
-                type: "Post" as const,
-                id,
-              })),
-              { type: "Post", id: "LIST" }, // bütün bir listeye sahip olmak istiyorsak id LIST tanımlamak gerek
-            ]
-          : [{ type: "Post", id: "LIST" }],
-    }),
-    getMovieDetailService: builder.query<IMovieDetail, number>({
-      query: (id) =>
-        `${clientURL.movie}${id}?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result, error, id) => [{ type: "Post", id }],
-    }),
+    //<result type, query type>    
+   
     getPersonService: builder.query<IPerson, number>({
       query: (id) =>
         `${clientURL.person}${id}?api_key=${process.env.REACT_APP_API_KEY}`,
@@ -93,63 +73,44 @@ export const movieApi = createApi({
             ]
           : [{ type: "Post", id: "LIST" }],
     }),
-
-    getTvService: builder.query<
-      IListTvResponse<ITv>,
-      { category: string;  page: number; id?: number;}
-    >({
+    getDetailService: builder.query<IMovieTVDetail,{ category: string;id: string; }>({
       query: (arg) =>
-        `${clientURL.categoriesTv}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=${arg.category}.desc&page=${arg.page}&with_genres=${arg.id}`,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.results.map(({ id }) => ({
-                type: "Post" as const,
-                id,
-              })),
-              { type: "Post", id: "LIST" }, // bütün bir listeye sahip olmak istiyorsak id LIST tanımlamak gerek
-            ]
-          : [{ type: "Post", id: "LIST" }],
+        `/${arg.category}/${arg.id}?api_key=${process.env.REACT_APP_API_KEY}`,
+        providesTags: (result, error, arg) => [{ type: "Post",arg}],
     }),
-    getMovieVideoService: builder.query<IVideos,number>({
-      query: (id) =>
-        `${clientURL.movie}${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.results.map(({ id }) => ({
-                type: "Post" as const,
-                id,
-              })),
-              { type: "Post", id: "LIST" }, 
-            ]
-          : [{ type: "Post", id: "LIST" }],
+    getMovieOrTvService: builder.query<IListMovieResponse<IMovieTv>,{ category: string; page:number; id: string; }>({
+      query: (arg) =>
+        `/discover/${arg.category}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=popularity.desc&page=${arg.page}&with_genres=${arg.id}`,
+        providesTags: (result, error, arg) => [{ type: "Post",arg}],
     }),
-    getTvVideoService: builder.query<IVideos,number>({
-      query: (id) =>
-        `${clientURL.tv}${id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.results.map(({ id }) => ({
-                type: "Post" as const,
-                id,
-              })),
-              { type: "Post", id: "LIST" }, 
-            ]
-          : [{ type: "Post", id: "LIST" }],
+    getVideoService: builder.query<IVideos,{ category: string;id: string; }>({
+      query: (arg) =>
+        `/${arg.category}/${arg.id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
+        providesTags: (result, error, arg) => [{ type: "Post",arg}],
+    }),
+    getCreditService: builder.query<ICredit,{ category: string;id: string; }>({
+      query: (arg) =>
+        `/${arg.category}/${arg.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`,
+        providesTags: (result, error, arg) => [{ type: "Post",arg}],
+    }),
+    getSimilarMovieService: builder.query<ISimilar,{ category: string;id: string; }>({
+      query: (arg) =>
+        `/${arg.category}/${arg.id}/similar?api_key=${process.env.REACT_APP_API_KEY}`,
+        providesTags: (result, error, arg) => [{ type: "Post",arg}],
     }),
   }),
 });
 
 export const {
-  useGetMoviesServiceQuery,
-  useGetMovieDetailServiceQuery,
+  useGetMovieOrTvServiceQuery,
+  useGetDetailServiceQuery,
   useGetPersonServiceQuery,
   useGetPersonMoviesServiceQuery,
   useGetUpcomingMoviesServiceQuery,
   useGetGenresServiceQuery,
-  useGetTvServiceQuery,
-  useGetMovieVideoServiceQuery,
-  useGetTvVideoServiceQuery
+  useGetVideoServiceQuery,
+  useGetCreditServiceQuery,
+  useGetSimilarMovieServiceQuery
+
+
 } = movieApi;

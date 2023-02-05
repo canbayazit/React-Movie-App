@@ -1,4 +1,8 @@
-export interface IMovie{
+export interface IMovieTv{
+    first_air_date?: string;
+    name?: string;
+    origin_country?: string[];
+    original_name?: string;
     adult: boolean;
     backdrop_path: string;
     genre_ids: number[];
@@ -21,8 +25,3 @@ export interface IListMovieResponse<T>{
     total_pages:number,
     total_results:number
 }
-
-// export interface IQuery{
-//     category:string,
-//     page:number
-// }
