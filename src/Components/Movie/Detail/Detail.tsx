@@ -6,14 +6,19 @@ import { deleteFavorite } from "../../../Assets/svg/icons/deleteFavorite";
 import { star } from "../../../Assets/svg/icons/star";
 import { tick } from "../../../Assets/svg/icons/tick";
 import { addWhistList } from "../../../Assets/svg/icons/whistList";
-import { useAppSelector } from "../../../Hooks/Hook";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
 import { imageOriginal } from "../../../Store/constant";
+import {
+  setFavoriteChangeIcon,
+  setWhistListChangeIcon,
+} from "../../../Store/movieSlice";
 import { useGetDetailServiceQuery } from "../../../Store/services";
 import styles from "./detail.module.scss";
 
 const Detail = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const { category, id } = useParams();
+  const dispatch = useAppDispatch();
   const iconFavoriteMovieId = useAppSelector(
     (store) => store.movies.iconFavoriteMovieId,
     shallowEqual
@@ -42,6 +47,14 @@ const Detail = () => {
       return () => window.removeEventListener("scroll", handleScroll);
     }
   }, []);
+
+  const handleClick = (key: string) => {
+    if (key === "favorite") {
+      dispatch(setFavoriteChangeIcon(Number(id)));
+    } else if (key === "whistList") {
+      dispatch(setWhistListChangeIcon(Number(id)));
+    }
+  };
 
   return (
     <>
@@ -84,7 +97,7 @@ const Detail = () => {
                       ? "İzleme Listesinden Kaldır"
                       : "İzleme Listesine Ekle"}
                   </label>
-                  <span>
+                  <span onClick={() => handleClick("whistList")}>
                     {iconWhistListMovieId?.find((i) => i === Number(id))
                       ? tick()
                       : addWhistList()}
@@ -92,14 +105,14 @@ const Detail = () => {
                 </div>
                 <div className={styles.container_detail_button_icons_favorite}>
                   <label>
-                    {iconWhistListMovieId?.find((i) => i === Number(id))
+                    {iconFavoriteMovieId?.find((i) => i === Number(id))
                       ? "Favoriler Listesinden Kaldır"
                       : "Favoriler Listesine Ekle"}
                   </label>
-                  <span>
+                  <span onClick={() => handleClick("favorite")}>
                     {iconFavoriteMovieId?.find((i) => i === Number(id))
-                      ? addFavorite()
-                      : deleteFavorite()}
+                      ? deleteFavorite()
+                      :  addFavorite()}
                   </span>
                 </div>
               </div>
