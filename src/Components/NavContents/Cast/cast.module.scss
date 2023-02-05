@@ -49,13 +49,13 @@
         justify-content: center;
         align-items: center;
         width: 25%;
-        height: auto;
+        height: auto;        
         img{
           height: 65px;
-          width: 65px;
+          width: 100%;
           border-radius: 50%;
           border: 3px solid #f9f9f999;
-
+          object-fit: fill;
         }
       }
       &_info{
