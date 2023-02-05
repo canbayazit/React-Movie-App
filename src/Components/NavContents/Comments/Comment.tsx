@@ -57,17 +57,14 @@ const Comment = () => {
           //   setSubmitting(false);
           // }, 500);
           console.log({ values });
-          let today = new Date();
-          let dd = String(today.getDate()).padStart(2, "0");
-          let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-          let yyyy = today.getFullYear();
+          let date = moment.utc().format();
           setComment([
             ...comment,
             {
               name: values.name,
               email: values.email,
               description: values.description,
-              date: `${yyyy}-${mm}-${dd}`,
+              date: date,
             },
           ]);
         }}
@@ -143,10 +140,7 @@ const Comment = () => {
                   <div className={styles.container_user_comment_info}>
                     <span>{item.name}</span>
                     <time dateTime={item.date}>
-                      {moment(
-                        `${item.date.split("-").join("")}`,
-                        "YYYYMMDD"
-                      ).fromNow()}
+                      {moment.utc(item.date).local().startOf('seconds').fromNow()}
                     </time>
                   </div>
                   <p>{item.description}</p>
