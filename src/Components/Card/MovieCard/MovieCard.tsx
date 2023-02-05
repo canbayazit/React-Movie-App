@@ -1,19 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
 import { imageSize } from "../../../Store/constant";
 import { setGenreId, setMovieId } from "../../../Store/movieSlice";
 import { IGenres } from "../../../Types/genres";
-import { IMovie } from "../../../Types/movie";
-import { Genre } from "../../../Types/movieDetail";
-import { ITv } from "../../../Types/tv";
+import { IMovieTv } from "../../../Types/movie_tv";
 import Trailer from "../CardTrailer/Trailer";
 import styles from "./movie.module.scss";
 
 interface IProps {
-  movie: IMovie | ITv ;
+  movie: IMovieTv;
   genreId?: number;
-  dataMovie?: IMovie[] | ITv[];
+  dataMovie?: IMovieTv[];
   dataGenre?: IGenres;
   category: string;
 }
@@ -30,10 +27,8 @@ const MovieCard = (props: IProps) => {
       }
     }
   }, shallowEqual);
-  console.log(status,"status")
-  // console.log(genre,"genre")
 
-  const handleOnMouseOver = (genreId?: number, movie?: IMovie | ITv)=> {
+  const handleOnMouseOver = (genreId?: number, movie?: IMovieTv)=> {
     if (dataGenre) {
       if (dataGenre!.genres.findIndex((i) => i.id === genreId) > -1) {
         if (dataMovie!.findIndex((i) => i.id === movie!.id) > -1) {

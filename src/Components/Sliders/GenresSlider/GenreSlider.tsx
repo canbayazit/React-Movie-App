@@ -26,7 +26,7 @@ const GenreSlider = () => {
     shallowEqual
   );
   useEffect(() => {
-    setCategory("movies");
+    setCategory("movie");
   }, []);
 
   const { data, isLoading } = useGetGenresServiceQuery();
@@ -35,7 +35,6 @@ const GenreSlider = () => {
   };
 
   console.log(isLoading, "isLoading");
-  console.log("allmovies");
   useEffect(() => {
     if (!isLoading) {
       let elLast = document.getElementById(

@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import { shallowEqual } from "react-redux";
+import { Link } from "react-router-dom";
 import { closeButton } from "../../../../Assets/svg/icons/closeButton";
-import { useAppDispatch, useAppSelector } from "../../../../Hooks/Hook";
 import {
   clientURL,
   imageOriginal,
   imageSize,
 } from "../../../../Store/constant";
 import {
-  useGetGenresServiceQuery,
-  useGetMovieVideoServiceQuery,
+  useGetGenresServiceQuery, useGetVideoServiceQuery,
 } from "../../../../Store/services";
 import { Result } from "../../../../Types/upcomingMovies";
-import Modal from "../../../Modal/modal";
 import styles from "./slideItem.module.scss";
 interface IProps {
   movie: Result;
@@ -20,13 +17,15 @@ interface IProps {
 }
 
 const SlideItem = (props: IProps) => {
-  const { movie, index } = props;
+  const { movie } = props;
   const [active, setActive] = useState<boolean>(false);
   const [movieId, setMovieId] = useState<number>(0);
   const genreService = useGetGenresServiceQuery();
-
-  const movieService = useGetMovieVideoServiceQuery(movieId!, {
-    skip: !movieId,
+  const movieService = useGetVideoServiceQuery({
+    category: "movie"!,
+    id: movie.id.toString(),
+  }, {
+    skip: !movie.id,
   });
   useEffect(() => {
     setActive(true);
@@ -67,7 +66,7 @@ const SlideItem = (props: IProps) => {
     }
   }, [movieId, movieService.data?.results, movieService.isFetching]);
 
-  const handleClick = (id: number) => {
+  const handleClickTrailer = (id: number) => {
     if (movie.id === id) {
       setMovieId(id);
     }
@@ -111,11 +110,11 @@ const SlideItem = (props: IProps) => {
             </ul>
             <p>{movie.overview}</p>
             <div className={styles.container_info_button}>
-              <button>Bütün Filmler</button>
-              <button onClick={() => handleClick(movie.id)}>
-                Fragmanı İzle
+              <button>All Movies</button>
+              <button onClick={() => handleClickTrailer(movie.id)}>
+                Watch Trailer
               </button>
-              <button>Detayları Gör</button>
+              <button><Link to={`/movie/${movie.id}`}>See Detail</Link></button>
             </div>
           </div>
           <div className={styles.container_info_image}>
