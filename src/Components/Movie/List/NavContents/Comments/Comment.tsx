@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
 import styles from "./comment.module.scss";
-import user from "../../../Assets/img/user.png";
+import user from "../../../../../Assets/img/user.png";
 import {
   Formik,
   FormikHelpers,
@@ -11,7 +11,7 @@ import {
   FieldProps,
 } from "formik";
 import moment from "moment";
-import { plane } from "../../../Assets/svg/icons/paperPlane";
+import { plane } from "../../../../../Assets/svg/icons/paperPlane";
 interface IValues {
   name: string;
   email: string;

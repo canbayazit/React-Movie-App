@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
-import { useGetSimilarMovieServiceQuery } from "../../../Store/services";
-import { ISetting } from "../../../Types/sliderTypes";
-import { SampleNextArrow, SamplePrevArrow } from "../../../Utils/Functions";
-import MovieCard from "../../Card/MovieCard/MovieCard";
+import { useGetSimilarMovieServiceQuery } from "../../../../../Store/services";
+import { ISetting } from "../../../../../Types/sliderTypes";
+import { SampleNextArrow, SamplePrevArrow } from "../../../../../Utils/Functions";
+import MovieCard from "../../../../Card/MovieCard/MovieCard";
 import styles from "./suggested.module.scss";
 const settings: ISetting = {   
     lazyLoad: "progressive",

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Cast from "../../NavContents/Cast/Cast";
-import Crew from "../../NavContents/Crew/Crew";
-import Detail from "../../NavContents/Detail/Detail";
-import Suggested from "../../NavContents/Suggested/Suggested";
+import Cast from "./NavContents/Cast/Cast";
+import Comment from "./NavContents/Comments/Comment";
+import Crew from "./NavContents/Crew/Crew";
+import Suggested from "./NavContents/Suggested/Suggested";
 import styles from "./list.module.scss";
 
 interface INavItem {
@@ -14,7 +14,7 @@ const navList: INavItem[] = [
   { id: 1, name: "SUGGESTED",component: <Suggested/>},
   { id: 2, name: "CAST",component: <Cast/> },
   { id: 3, name: "CREW" ,component: <Crew/>},
-  { id: 4, name: "DETAIL" ,component: <Detail/>},
+  { id: 4, name: "COMMENT" ,component: <Comment/>},
 ];
 const NavList = () => {
   const [index, setIndex] = useState<number>(0);
@@ -41,7 +41,7 @@ const NavList = () => {
       </nav>
       {
         navList.map((item,i)=>(
-          <div className={index === i
+          <div key={item.id} className={index === i
             ? `${styles.container_nav_content} ${styles.active}`
             : styles.container_nav_content}>
               {item.component}             
