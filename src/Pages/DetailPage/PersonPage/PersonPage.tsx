@@ -1,5 +1,5 @@
 import React from 'react'
-import Detail from '../../Components/Person/Detail/Detail';
+import Detail from '../../../Components/Person/Detail/Detail';
 import styles from './person.module.scss';
 
 const PersonPage = () => {
