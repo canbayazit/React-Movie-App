@@ -1,0 +1,11 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  &_card {
+    width: 20%;
+    position: relative;    
+  }
+}
