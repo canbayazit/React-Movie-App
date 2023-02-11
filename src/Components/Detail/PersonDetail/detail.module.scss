@@ -1,0 +1,41 @@
+.container{
+    width: 100%;
+    position: relative;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0 calc(3.5vw + 24px);
+    top: 200px;
+    &_img{
+        margin-right: 25px;
+        img{
+            width: 300px;
+            height: 350px;
+        }
+    }
+    &_detail{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        color:#f9f9f9;
+        max-width: 1030px;
+        h1{
+            font-weight: 700;
+            font-size: 2.2em;
+        }
+        &_bio{
+            margin: 25px 0;
+            h3{
+                font-size: 1.3em;
+            }
+            p{
+                margin-top: 13px;
+                line-height: 22px;
+                font-size: 1em;
+                font-family: sans-serif;
+            }
+        }
+    }
+}
