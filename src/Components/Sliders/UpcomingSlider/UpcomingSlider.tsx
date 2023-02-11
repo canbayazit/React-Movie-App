@@ -47,7 +47,7 @@ const settings: ISetting = {
         infinite: true,
         adaptiveHeight: true,
         speed: 500,
-        slidesToShow: 2,
+        slidesToShow: 1,
         slidesToScroll: 1,
         initialSlide: 0,
       },
@@ -80,7 +80,12 @@ const UpcomingSlider = () => {
           <div className={styles.container_slider}>
             <Slider {...settings} className={styles.container_slider_movie}>
               {data?.results.map((movie, index) => (
-                <SlideItem movie={movie} index={index} key={movie.id} />
+                <div
+                  key={movie.id}
+                  className={styles.container_slider_movie_item}
+                >
+                  <SlideItem movie={movie} index={index} />
+                </div>
               ))}
             </Slider>
           </div>
