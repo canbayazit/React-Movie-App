@@ -8,4 +8,11 @@
     width: 20%;
     position: relative;    
   }
+  &_remainder{
+    width: 20%;
+    position: relative;
+    &:hover{
+        transform: translateY(-200px);
+    }
+ }
 }
