@@ -2,13 +2,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ICredit } from "../Types/credit";
 import { IGenres } from "../Types/genres";
 import { IListMovieResponse, IMovieTv} from "../Types/movie_tv";
-import { IMovieTVDetail } from "../Types/movieDetail";
-import { IPerson } from "../Types/person";
+import { IMovieTVPersonDetail } from "../Types/detailPage";
 import { IPersonMovies } from "../Types/personMovies";
 import { ISimilar } from "../Types/similar";
 import { IUpcomingMovies } from "../Types/upcomingMovies";
 import { IVideos } from "../Types/video";
 import { baseURL, clientURL } from "./constant";
+import { IPersonCredit } from "../Types/personCredit";
 
 export const movieApi = createApi({
   reducerPath: "movieApi",
@@ -27,13 +27,7 @@ export const movieApi = createApi({
   // RTK Sorgusu, bir uç nokta için bir mutasyonun , başka bir uç noktadan bir sorgu tarafından sağlanan bazı verileri
   // geçersiz kılma niyetinde olup olmadığını belirlemek için 'etiketler' kavramını kullanır .
   endpoints: (builder) => ({
-    //<result type, query type>    
-   
-    getPersonService: builder.query<IPerson, number>({
-      query: (id) =>
-        `${clientURL.person}${id}?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result, error, id) => [{ type: "Post", id }],
-    }),
+    //<result type, query type>       
     getPersonMoviesService: builder.query<IPersonMovies, number>({
       query: (id) =>
         `${clientURL.person}${id}${clientURL.person_movie}?api_key=${process.env.REACT_APP_API_KEY}`,
@@ -72,8 +66,8 @@ export const movieApi = createApi({
               { type: "Post", id: "LIST" },
             ]
           : [{ type: "Post", id: "LIST" }],
-    }),
-    getDetailService: builder.query<IMovieTVDetail,{ category: string;id: string; }>({
+    }),    
+    getDetailService: builder.query<IMovieTVPersonDetail,{ category: string;id: string; }>({
       query: (arg) =>
         `/${arg.category}/${arg.id}?api_key=${process.env.REACT_APP_API_KEY}`,
         providesTags: (result, error, arg) => [{ type: "Post",arg}],
@@ -93,6 +87,11 @@ export const movieApi = createApi({
         `/${arg.category}/${arg.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`,
         providesTags: (result, error, arg) => [{ type: "Post",arg}],
     }),
+    getPersonCreditService: builder.query<IPersonCredit,{ category: string;id: string; }>({
+      query: (arg) =>
+        `/${arg.category}/${arg.id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}`,
+        providesTags: (result, error, arg) => [{ type: "Post",arg}],
+    }),
     getSimilarMovieService: builder.query<ISimilar,{ category: string;id: string; }>({
       query: (arg) =>
         `/${arg.category}/${arg.id}/similar?api_key=${process.env.REACT_APP_API_KEY}`,
@@ -104,7 +103,7 @@ export const movieApi = createApi({
 export const {
   useGetMovieOrTvServiceQuery,
   useGetDetailServiceQuery,
-  useGetPersonServiceQuery,
+  useGetPersonCreditServiceQuery,
   useGetPersonMoviesServiceQuery,
   useGetUpcomingMoviesServiceQuery,
   useGetGenresServiceQuery,
