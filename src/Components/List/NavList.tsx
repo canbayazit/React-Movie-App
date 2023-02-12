@@ -6,7 +6,7 @@ import Suggested from "./NavContents/Suggested/Suggested";
 import styles from "./list.module.scss";
 import { useParams } from "react-router";
 import Known from "./NavContents/Known/Known";
-import Detail from "./NavContents/Detail/Detail";
+import PersonDetail from "./NavContents/Detail/PersonDetail";
 
 interface INavItem {
   id: number;
@@ -28,7 +28,7 @@ const navList: INav = {
   person: [
     { id: 1, name: "MOVIES", component: <Known keys="movie" credit="movie_credits"/> },
     { id: 2, name: "TV SHOWS", component: <Known keys="tv" credit="tv_credits"/> },
-    { id: 3, name: "DETAIL", component: <Detail/> },
+    { id: 3, name: "DETAIL", component: <PersonDetail/> },
   ],
 };
 const NavList = () => {

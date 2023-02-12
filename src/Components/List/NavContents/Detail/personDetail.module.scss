@@ -1,0 +1,43 @@
+.container{
+    width: 100%;
+    height: auto;
+    color: #f9f9f9;
+    font-family: sans-serif;
+    h1{
+        width: 100%;
+        padding-bottom: 1.5rem;
+    }
+    &_content{  
+        display: flex;      
+        &_left{
+            padding-right: 12px;
+            max-width: 800px;
+            font-size: 20px;
+            line-height: 1.6;
+            
+        }
+        &_right{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding-left: 12px;
+            width: 100%;
+            &_info{
+                width: 50%;
+                
+                h4{
+                    padding-bottom: 10px;
+                    color: #f9f9f999;
+                    padding-left: 35%;
+                }
+                p{
+                    font-size: 20px;
+                    padding-left: 35%;
+                    line-height: 1.6;
+                    
+                }
+            }
+        }
+    }
+    
+}
