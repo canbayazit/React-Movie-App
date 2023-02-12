@@ -87,9 +87,9 @@ export const movieApi = createApi({
         `/${arg.category}/${arg.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`,
         providesTags: (result, error, arg) => [{ type: "Post",arg}],
     }),
-    getPersonCreditService: builder.query<IPersonCredit,{ category: string;id: string; }>({
+    getPersonCreditService: builder.query<IPersonCredit,{ category: string;id: string; credit:string }>({
       query: (arg) =>
-        `/${arg.category}/${arg.id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}`,
+        `/${arg.category}/${arg.id}/${arg.credit}?api_key=${process.env.REACT_APP_API_KEY}`,
         providesTags: (result, error, arg) => [{ type: "Post",arg}],
     }),
     getSimilarMovieService: builder.query<ISimilar,{ category: string;id: string; }>({

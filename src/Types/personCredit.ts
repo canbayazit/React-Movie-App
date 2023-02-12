@@ -1,4 +1,10 @@
 export interface IPersonCast {
+  origin_country?: string[];
+  original_name?: string;
+  first_air_date?: string;
+  name?: string;
+  episode_count?: number;
+
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
