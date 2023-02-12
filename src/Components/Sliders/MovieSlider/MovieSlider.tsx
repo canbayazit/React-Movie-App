@@ -92,7 +92,7 @@ const MovieSlider = (props: IProps) => {
                       dataGenre={dataGenre}
                       movie={movie}
                       dataMovie={getMovieTv.data?.results}
-                      category={category}
+                      categoryType={category}
                     />
                   </div>
                 ))}
