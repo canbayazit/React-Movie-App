@@ -2,19 +2,39 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual } from "react-redux";
 import { useParams } from "react-router";
 import { addFavorite } from "../../../Assets/svg/icons/addFavorite";
+import { closeButton } from "../../../Assets/svg/icons/closeButton";
 import { deleteFavorite } from "../../../Assets/svg/icons/deleteFavorite";
 import { star } from "../../../Assets/svg/icons/star";
 import { tick } from "../../../Assets/svg/icons/tick";
 import { addWhistList } from "../../../Assets/svg/icons/whistList";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
-import { imageOriginal } from "../../../Store/constant";
+import { clientURL, imageOriginal } from "../../../Store/constant";
 import {
   setFavoriteChangeIcon,
   setWhistListChangeIcon,
 } from "../../../Store/movieSlice";
-import { useGetDetailServiceQuery } from "../../../Store/services";
+import { useGetDetailServiceQuery, useGetVideoServiceQuery } from "../../../Store/services";
+import { IMovieTVPersonDetail } from "../../../Types/detailPage";
 import styles from "./detail.module.scss";
-
+interface ITagItem {
+  key: string;
+  name?: string;
+}
+interface ITag {
+  movie: ITagItem[];
+  tv: ITagItem[];
+}
+const Tag: ITag = {
+  movie: [
+    { key: "release_date", name: "" },
+    { key: "runtime", name: "" },
+  ],
+  tv: [
+    { key: "first_air_date", name: "" },
+    { key: "number_of_seasons", name: "Seasons" },
+    { key: "number_of_episodes", name: "Episodes" },
+  ],
+};
 const MovieTvDetail = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const { category, id } = useParams();
@@ -31,6 +51,7 @@ const MovieTvDetail = () => {
     category: category!,
     id: id!,
   });
+  
   const toHoursAndMinutes = (min: number) => {
     const hours = Math.floor(min / 60);
     const minutes = min % 60;
@@ -55,12 +76,15 @@ const MovieTvDetail = () => {
       dispatch(setWhistListChangeIcon(Number(id)));
     }
   };
+  
 
+ 
   return (
     <>
       {isLoading ? (
         <div>loading</div>
       ) : (
+        <>
         <div className={styles.container}>
           <div
             className={styles.container_background}
@@ -71,7 +95,7 @@ const MovieTvDetail = () => {
           </div>
           <div className={styles.container_detail}>
             <div className={styles.container_detail_header}>
-              <h1>{data?.title}</h1>
+              <h1>{data?.title ? data?.title : data?.name}</h1>
               <span>{data?.tagline}</span>
             </div>
             <div className={styles.container_detail_info}>
@@ -81,11 +105,37 @@ const MovieTvDetail = () => {
                 <span>IMDb Rating</span>
               </div>
               <div className={styles.container_detail_info_genres}>
-                <span>
-                  {data?.release_date.slice(0, 4)} &bull;{" "}
-                  {toHoursAndMinutes(data?.runtime!)}
-                </span>
-                <span>{data?.genres.map((i) => i.name).join(", ")}</span>
+                <ul>
+                  {Tag[category as keyof ITag].map((item, i) => (
+                    <li>
+                      <span>
+                        {data
+                          ? (item.key === "first_air_date" || item.key === "release_date")
+                            ? data[
+                                item.key as keyof IMovieTVPersonDetail
+                              ].slice(0, 4) +
+                              " " +
+                              item.name
+                            : item.key === "runtime"
+                            ? toHoursAndMinutes(
+                                data[item.key as keyof IMovieTVPersonDetail]
+                              ) +
+                              " " +
+                              item.name
+                            : data[item.key as keyof IMovieTVPersonDetail] +
+                              " " +
+                              item.name
+                          : null}
+                      </span>
+                      <span>
+                        {Tag[category as keyof ITag].length === i + 1
+                          ? ""
+                          : String.fromCharCode(8226)}
+                      </span>
+                    </li>
+                  ))}                  
+                </ul>
+                <div>{data?.genres.map((i) => i.name).join(", ")}</div>
               </div>
             </div>
             <div className={styles.container_detail_button}>
@@ -112,7 +162,7 @@ const MovieTvDetail = () => {
                   <span onClick={() => handleClick("favorite")}>
                     {iconFavoriteMovieId?.find((i) => i === Number(id))
                       ? deleteFavorite()
-                      :  addFavorite()}
+                      : addFavorite()}
                   </span>
                 </div>
               </div>
@@ -123,6 +173,8 @@ const MovieTvDetail = () => {
             </div>
           </div>
         </div>
+        
+      </>
       )}
     </>
   );
