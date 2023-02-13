@@ -37,6 +37,7 @@ const Tag: ITag = {
 };
 const MovieTvDetail = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [movieId, setMovieId] = useState<number>(0);
   const { category, id } = useParams();
   const dispatch = useAppDispatch();
   const iconFavoriteMovieId = useAppSelector(
@@ -51,7 +52,12 @@ const MovieTvDetail = () => {
     category: category!,
     id: id!,
   });
-  
+  const movieService = useGetVideoServiceQuery({
+    category: category!,
+    id: id!,
+  }, {
+    skip: !Number(id),
+  });
   const toHoursAndMinutes = (min: number) => {
     const hours = Math.floor(min / 60);
     const minutes = min % 60;
@@ -76,9 +82,55 @@ const MovieTvDetail = () => {
       dispatch(setWhistListChangeIcon(Number(id)));
     }
   };
-  
+  useEffect(() => {
+    if (movieId === Number(id)) {
+      document.addEventListener("keydown", (e: KeyboardEvent) => {  
+        if (e.key === "Escape") {
+          const modal = document.querySelector(
+            `#modal_${movieId}`
+          ) as HTMLDialogElement;
+          modal?.querySelector("iframe")?.setAttribute("src", "");
+          setMovieId(0);
+        }
+      });
+    }
+  }, [id, movieId]);
 
- 
+  useEffect(() => {
+    const setModal = (src: string) => {
+      if (!!movieId) {
+        const modalDialog = document.querySelector(
+          `#modal_${movieId}`
+        ) as HTMLDialogElement;
+        modalDialog.showModal();
+        const modal = document.querySelector(`#modal_${movieId}`);
+        modal?.querySelector("iframe")?.setAttribute("src", src);
+      }
+    };
+    if (!movieService.isFetching) {
+      const src =
+        clientURL.youtube +
+        movieService.data?.results.find((item) => item.type === "Trailer")
+          ?.key +
+        "?autoplay=1&modestbranding=1&autohide=1&showinfo=0&controls=0";
+
+      setModal(src);
+    }
+  }, [movieId, movieService.data?.results, movieService.isFetching]);
+
+  const handleClickTrailer = (id: number) => {    
+      setMovieId(id);  
+  };
+
+  const closeModal = () => {
+    const modal = document.querySelector(
+      `#modal_${movieId}`
+    ) as HTMLDialogElement;
+    modal.close();
+    modal?.querySelector("iframe")?.setAttribute("src", "");
+    setMovieId(0);
+  };
+
   return (
     <>
       {isLoading ? (
@@ -139,7 +191,7 @@ const MovieTvDetail = () => {
               </div>
             </div>
             <div className={styles.container_detail_button}>
-              <button>WATCH TRAILER</button>
+              <button onClick={()=>handleClickTrailer(Number(id))}>WATCH TRAILER</button>
               <div className={styles.container_detail_button_icons}>
                 <div className={styles.container_detail_button_icons_whistlist}>
                   <label>
@@ -173,7 +225,28 @@ const MovieTvDetail = () => {
             </div>
           </div>
         </div>
-        
+        <dialog className={styles.container_dialog} id={`modal_${movieId}`}>
+        <div className={styles.container_dialog_modal}>
+          {movieService.data?.results.find((item) => item.type === "Trailer")
+            ?.key ? (
+            <iframe
+              width="100%"
+              height="500px"
+              title={
+                clientURL.youtube +
+                movieService.data?.results.find(
+                  (item) => item.type === "Trailer"
+                )?.name
+              }
+            ></iframe>
+          ) : (
+            "Fragman Bulunamadı !"
+          )}
+        </div>
+        <div className={styles.container_dialog_close}>
+          <button onClick={() => closeModal()}>{closeButton()}</button>
+        </div>
+      </dialog>
       </>
       )}
     </>
