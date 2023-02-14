@@ -2,13 +2,10 @@
 
 .container {
   width: 100%;
-  height: auto;
   display: flex;
-  position: relative;
   flex-direction: column;
   padding: 0 calc(3.5vw + 24px);
-  top: 200px;
-  margin-top: 50px;
+  margin-top: 250px;
   z-index: 997;
 
   &_nav {
@@ -72,11 +69,11 @@
     top: 0;
     width: 100%;
     margin-top: 20px ;
-    margin-bottom: 300px;
+    margin-bottom: 50px;
     display: flex;
     display: none;
     &.active{
-    display: flex;
-    }   
+    display: flex;    
+    }      
   }
 }
