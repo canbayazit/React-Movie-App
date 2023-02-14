@@ -17,6 +17,7 @@ interface INavItem {
 interface INav {
   movie: INavItem[];
   person:INavItem[];
+  tv:INavItem[];
 }
 const navList: INav = {
   movie: [
@@ -30,6 +31,12 @@ const navList: INav = {
     { id: 2, name: "TV SHOWS", component: <Known keys="tv" credit="tv_credits"/> },
     { id: 3, name: "DETAIL", component: <PersonDetail/> },
   ],
+  tv:[
+    { id: 1, name: "SUGGESTED", component: <Suggested/> },
+    { id: 2, name: "CAST", component: <Cast/> },
+    { id: 3, name: "CREW", component: <Crew/> },
+    { id: 4, name: "COMMENT", component: <Comment/> },
+  ]
 };
 const NavList = () => {
   const {category}=useParams();
