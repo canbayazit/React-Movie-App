@@ -68,11 +68,11 @@ const Suggested = () => {
   });
 
   return (
-    <>
+    <div className={styles.container}>
       {similar.isLoading ? (
         <div>Loading</div>
       ) : (
-        <div className={styles.container}>
+        <div className={styles.container_slider}>
           <Slider {...settings}>
             {similar.data?.results.map((movie) => (
               <div key={movie.id} className={styles.movie_card}>
@@ -82,7 +82,7 @@ const Suggested = () => {
           </Slider>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
