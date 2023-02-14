@@ -27,12 +27,14 @@ const Known = (props: IProps) => {
           {data?.cast.map((movie) => {
             const remainder = data.cast.length % 5;
             const lastItems = data.cast.slice(-remainder);
-            const remainderClass = lastItems.includes(movie)
-              ? `${styles.container_remainder}`
-              : `${styles.container_card}`;
+            const active = lastItems.includes(movie)
+              ? true
+              : false;
             return (
-              <div key={movie.id} className={remainderClass}>
+              <div key={movie.id} className={styles.container_card}>
                 <MovieCard
+                  active={active}
+                  remainder={remainder}
                   credit={movie}
                   categoryType={keys}
                   genreId={movie.genre_ids[0]}
