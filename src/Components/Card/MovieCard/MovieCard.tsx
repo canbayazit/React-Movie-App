@@ -7,7 +7,7 @@ import { IGenres } from "../../../Types/genres";
 import { IMovieTv } from "../../../Types/movie_tv";
 import { IPersonCast } from "../../../Types/personCredit";
 import Trailer from "../CardTrailer/Trailer";
-import notFoundImage from "../../../Assets/img/notFoundImage.png"
+import notFoundImage from "../../../Assets/img/notFoundImage.png";
 import styles from "./movie.module.scss";
 
 interface IProps {
@@ -17,10 +17,21 @@ interface IProps {
   dataGenre?: IGenres;
   categoryType: string;
   credit?: IPersonCast;
+  active?: boolean;
+  remainder?: number;
 }
 
 const MovieCard = (props: IProps) => {
-  const { genreId, movie, dataMovie, dataGenre, categoryType, credit } = props;
+  const {
+    genreId,
+    movie,
+    dataMovie,
+    dataGenre,
+    categoryType,
+    credit,
+    active,
+    remainder,
+  } = props;
   const dispatch = useAppDispatch();
   const { category, id } = useParams();
 
@@ -28,7 +39,7 @@ const MovieCard = (props: IProps) => {
   //redux sayesinde hem önceki değeri hem yeni değeri karşılaştırıp fragmanı günceller.
   const status = useAppSelector((store) => {
     if (store.movies.genreId === genreId) {
-      if (store.movies.movieId === (movie?.id||credit?.id)) {
+      if (store.movies.movieId === (movie?.id || credit?.id)) {
         return store.movies.movieId;
       }
     }
@@ -50,39 +61,57 @@ const MovieCard = (props: IProps) => {
   return (
     <>
       {!!status ? (
-        <div className={category ==="person" ? styles.container_video_person : styles.container_video}>
-          <Trailer
-            id={movie?.id! || credit?.id!}
-            poster_path={movie?.poster_path! || credit?.poster_path!}
-            title={
-              (movie?.original_title
-                ? movie?.original_title
-                : movie?.original_name)! || credit?.original_title!
+        <>
+          <div
+            className={
+              category === "person"
+                ? `${styles.container_video_person} ${
+                    active ? styles.active : ""
+                  }`
+                : styles.container_video
             }
-            release_date={
-              (movie?.release_date
-                ? movie?.release_date!
-                : movie?.first_air_date)! || (credit?.release_date! ? credit?.release_date!
-                : credit?.first_air_date!)
-            }
-            overview={movie?.overview! || credit?.overview!}
-            vote_average={movie?.vote_average! || credit?.vote_average!}
-            category={categoryType}
-            genreId={genreId}
-            dataMovie={dataMovie}
-            dataGenre={dataGenre}
-          />
-        </div>
+          >
+            <Trailer
+              id={movie?.id! || credit?.id!}
+              poster_path={movie?.poster_path! || credit?.poster_path!}
+              title={
+                (movie?.original_title
+                  ? movie?.original_title
+                  : movie?.original_name)! || credit?.original_title!
+              }
+              release_date={
+                (movie?.release_date
+                  ? movie?.release_date!
+                  : movie?.first_air_date)! ||
+                (credit?.release_date!
+                  ? credit?.release_date!
+                  : credit?.first_air_date!)
+              }
+              overview={movie?.overview! || credit?.overview!}
+              vote_average={movie?.vote_average! || credit?.vote_average!}
+              category={categoryType}
+              genreId={genreId}
+              dataMovie={dataMovie}
+              dataGenre={dataGenre}
+            />
+          </div>
+          {remainder === 1 && (
+            <div className={styles.container_last_image}>
+              <img src={notFoundImage} alt="" />
+            </div>
+          )}
+        </>
       ) : (
-        <div
-          id={`rect_${movie?.id}`}
-          className={styles.container_image}          
-        >
+        <div id={`rect_${movie?.id}`} className={styles.container_image}>
           <img
             onMouseEnter={() =>
               handleOnMouseOver(genreId, movie?.id || credit?.id)
             }
-            src={(movie?.poster_path || credit?.poster_path) ? `${imageSize}${movie?.poster_path || credit?.poster_path}` : notFoundImage}
+            src={
+              movie?.poster_path || credit?.poster_path
+                ? `${imageSize}${movie?.poster_path || credit?.poster_path}`
+                : notFoundImage
+            }
             alt=""
           />
         </div>

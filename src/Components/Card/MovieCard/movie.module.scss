@@ -1,14 +1,24 @@
 .container_image {
-  height: auto;
   width: 100%;
   display: flex;  
-  bottom: 0;
   z-index: 998;
+
   img {
     object-fit:fill;
     height: 185px;
     width: 100%;
     border-radius: 5px;
+    margin: 10px 4px;
+    border: 1px solid #000;
+  }
+}
+.container_last_image{
+  width: 100%;
+  z-index: 998;
+  visibility: hidden;
+  img {
+    width: 100%;
+    height: 181px;
     margin: 10px 4px;
     border: 1px solid #000;
   }
@@ -27,7 +37,12 @@
   height: 100%;
   transition: transform 0.5s ease;
   position: absolute;
-  top: -100px;
+  top: 0;  
   left: 0;
   z-index: 998; 
+  &.active{  
+    &:hover{
+      top: -170px;
+    }
+  }
 }
