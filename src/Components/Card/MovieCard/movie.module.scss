@@ -12,17 +12,6 @@
     border: 1px solid #000;
   }
 }
-.container_last_image{
-  width: 100%;
-  z-index: 998;
-  visibility: hidden;
-  img {
-    width: 100%;
-    height: 181px;
-    margin: 10px 4px;
-    border: 1px solid #000;
-  }
-}
 .container_video {
   width: 100%;
   transform: scale(1.05);
@@ -34,15 +23,12 @@
 .container_video_person {
   width: 100%;
   transform: scale(1.05);
-  height: 100%;
   transition: transform 0.5s ease;
   position: absolute;
-  top: 0;  
+  top: 0;
   left: 0;
   z-index: 998; 
-  &.active{  
-    &:hover{
-      top: -170px;
-    }
+  &.active{      
+      top: -180px;
   }
 }

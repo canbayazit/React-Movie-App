@@ -6,16 +6,16 @@ import styles from "./known.module.scss";
 
 interface IProps {
   keys: string;
-  credit:string
+  credit: string;
 }
 const Known = (props: IProps) => {
-  const { keys,credit } = props;
+  const { keys, credit } = props;
   const { category, id } = useParams();
 
   const { data, isLoading } = useGetPersonCreditServiceQuery({
     category: category!,
     id: id!,
-    credit:credit,
+    credit: credit,
   });
   console.log(keys, "key");
   return (
@@ -26,15 +26,14 @@ const Known = (props: IProps) => {
         <div className={styles.container}>
           {data?.cast.map((movie) => {
             const remainder = data.cast.length % 5;
-            const lastItems = data.cast.slice(-remainder);
-            const active = lastItems.includes(movie)
-              ? true
-              : false;
+            const lastItems = data.cast.slice(
+              remainder === 0 ? -5 : -remainder
+            );
+            const active = lastItems.includes(movie) ? true : false;
             return (
               <div key={movie.id} className={styles.container_card}>
                 <MovieCard
                   active={active}
-                  remainder={remainder}
                   credit={movie}
                   categoryType={keys}
                   genreId={movie.genre_ids[0]}

@@ -18,7 +18,6 @@ interface IProps {
   categoryType: string;
   credit?: IPersonCast;
   active?: boolean;
-  remainder?: number;
 }
 
 const MovieCard = (props: IProps) => {
@@ -30,10 +29,9 @@ const MovieCard = (props: IProps) => {
     categoryType,
     credit,
     active,
-    remainder,
   } = props;
   const dispatch = useAppDispatch();
-  const { category, id } = useParams();
+  const { category } = useParams();
 
   //component 2 kere çalışır useAppSelector'dan dolayı
   //redux sayesinde hem önceki değeri hem yeni değeri karşılaştırıp fragmanı günceller.
@@ -95,11 +93,6 @@ const MovieCard = (props: IProps) => {
               dataGenre={dataGenre}
             />
           </div>
-          {remainder === 1 && (
-            <div className={styles.container_last_image}>
-              <img src={notFoundImage} alt="" />
-            </div>
-          )}
         </>
       ) : (
         <div id={`rect_${movie?.id}`} className={styles.container_image}>
