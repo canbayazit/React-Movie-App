@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ICredit } from "../Types/credit";
 import { IGenres } from "../Types/genres";
-import { IListMovieResponse, IMovieTv} from "../Types/movie_tv";
+import { IListMovieResponse, IMovieTv } from "../Types/movie_tv";
 import { IMovieTVPersonDetail } from "../Types/detailPage";
 import { IPersonMovies } from "../Types/personMovies";
 import { ISimilar } from "../Types/similar";
@@ -27,7 +27,7 @@ export const movieApi = createApi({
   // RTK Sorgusu, bir uç nokta için bir mutasyonun , başka bir uç noktadan bir sorgu tarafından sağlanan bazı verileri
   // geçersiz kılma niyetinde olup olmadığını belirlemek için 'etiketler' kavramını kullanır .
   endpoints: (builder) => ({
-    //<result type, query type>       
+    //<result type, query type>
     getPersonMoviesService: builder.query<IPersonMovies, number>({
       query: (id) =>
         `${clientURL.person}${id}${clientURL.person_movie}?api_key=${process.env.REACT_APP_API_KEY}`,
@@ -66,36 +66,73 @@ export const movieApi = createApi({
               { type: "Post", id: "LIST" },
             ]
           : [{ type: "Post", id: "LIST" }],
-    }),    
-    getDetailService: builder.query<IMovieTVPersonDetail,{ category: string;id: string; }>({
+    }),
+    getDetailService: builder.query<
+      IMovieTVPersonDetail,
+      { category: string; id: string }
+    >({
       query: (arg) =>
         `/${arg.category}/${arg.id}?api_key=${process.env.REACT_APP_API_KEY}`,
-        providesTags: (result, error, arg) => [{ type: "Post",arg}],
+      providesTags: (result, error, arg) => [{ type: "Post", arg }],
     }),
-    getMovieOrTvService: builder.query<IListMovieResponse<IMovieTv>,{ category: string; page:number; id: string; }>({
+    getMovieOrTvService: builder.query<
+      IListMovieResponse<IMovieTv>,
+      { category: string; page: number; id: string; vote?: number | string }
+    >({
       query: (arg) =>
-        `/discover/${arg.category}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=popularity.desc&page=${arg.page}&with_genres=${arg.id}`,
-        providesTags: (result, error, arg) => [{ type: "Post",arg}],
+        `/discover/${arg.category}?api_key=${
+          process.env.REACT_APP_API_KEY
+        }&sort_by=popularity.desc&page=${arg.page}&with_genres=${
+          arg.id ?? ""
+        }&vote_average.gte=${arg.vote ?? ""}`,
+
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.results.map(({ id }) => ({
+                type: "Post" as const,
+                id,
+              })),
+              { type: "Post", id: "PARTIAL-LIST" },
+            ]
+          : [{ type: "Post", id: "PARTIAL-LIST" }],
+    
+      // // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        if (currentCache?.page !== newItems?.page) {
+          currentCache.results.push(...newItems.results);
+        }
+      },
+      // Refetch when the arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
     }),
-    getVideoService: builder.query<IVideos,{ category: string;id: string; }>({
+    getVideoService: builder.query<IVideos, { category: string; id: string }>({
       query: (arg) =>
         `/${arg.category}/${arg.id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
-        providesTags: (result, error, arg) => [{ type: "Post",arg}],
+      providesTags: (result, error, arg) => [{ type: "Post", arg }],
     }),
-    getCreditService: builder.query<ICredit,{ category: string;id: string; }>({
+    getCreditService: builder.query<ICredit, { category: string; id: string }>({
       query: (arg) =>
         `/${arg.category}/${arg.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`,
-        providesTags: (result, error, arg) => [{ type: "Post",arg}],
+      providesTags: (result, error, arg) => [{ type: "Post", arg }],
     }),
-    getPersonCreditService: builder.query<IPersonCredit,{ category: string;id: string; credit:string }>({
+    getPersonCreditService: builder.query<
+      IPersonCredit,
+      { category: string; id: string; credit: string }
+    >({
       query: (arg) =>
         `/${arg.category}/${arg.id}/${arg.credit}?api_key=${process.env.REACT_APP_API_KEY}`,
-        providesTags: (result, error, arg) => [{ type: "Post",arg}],
+      providesTags: (result, error, arg) => [{ type: "Post", arg }],
     }),
-    getSimilarMovieService: builder.query<ISimilar,{ category: string;id: string; }>({
+    getSimilarMovieService: builder.query<
+      ISimilar,
+      { category: string; id: string }
+    >({
       query: (arg) =>
         `/${arg.category}/${arg.id}/similar?api_key=${process.env.REACT_APP_API_KEY}`,
-        providesTags: (result, error, arg) => [{ type: "Post",arg}],
+      providesTags: (result, error, arg) => [{ type: "Post", arg }],
     }),
   }),
 });
@@ -109,7 +146,5 @@ export const {
   useGetGenresServiceQuery,
   useGetVideoServiceQuery,
   useGetCreditServiceQuery,
-  useGetSimilarMovieServiceQuery
-
-
+  useGetSimilarMovieServiceQuery,
 } = movieApi;

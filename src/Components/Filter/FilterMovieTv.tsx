@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Formik,
   FormikHelpers,
@@ -8,9 +8,13 @@ import {
   FieldProps,
 } from "formik";
 import styles from "./filterMovieTv.module.scss";
-import { useGetGenresServiceQuery } from "../../Store/services";
+import {
+  useGetGenresServiceQuery,
+  useGetMovieOrTvServiceQuery,
+} from "../../Store/services";
+import { useParams } from "react-router";
 interface IValues {
-  genre: string;
+  genre: number;
   imdb: number;
 }
 interface IImdb {
@@ -27,11 +31,34 @@ const imdb: IImdb[] = [
   { name: "9 and upper", value: 9 },
 ];
 const FilterMovieTv = () => {
-  const [filter, setFilter] = useState<IValues[]>([]);
-  const { data, isLoading } = useGetGenresServiceQuery();
-  console.log(data,"data")
+  const { category } = useParams();
+  const [filter, setFilter] = useState<IValues>();
+  const [page, setPage] = useState<number>(1);
+  const genres = useGetGenresServiceQuery();
+  console.log(filter,"filter")
+  const allMovieTv = useGetMovieOrTvServiceQuery({
+    category: category!,
+    page: page,
+    id: filter?.genre.toString()!,
+    vote: filter?.imdb
+  });
+  console.log(allMovieTv.data,"data")
+  useEffect(() => {
+    const onScroll = () => {
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight;
+      if (scrolledToBottom && !allMovieTv.isFetching) {
+        console.log("Fetching more data...");
+        setPage((prev) => prev + 1);
+      }
+    };
+    document.addEventListener("scroll", onScroll);
+    return function () {
+      document.removeEventListener("scroll", onScroll);
+    };
+  }, [allMovieTv.isFetching, page]);
   const initialValues: IValues = {
-    genre: "",
+    genre: 0,
     imdb: 0,
   };
   return (
@@ -41,27 +68,24 @@ const FilterMovieTv = () => {
           initialValues={initialValues}
           onSubmit={(values: IValues) => {
             console.log({ values });
-            setFilter([
-              ...filter,
-              {
-                genre: values.genre,
-                imdb: values.imdb,
-              },
-            ]);
+            setFilter({
+              genre: values.genre,
+              imdb: values.imdb,
+            });
           }}
         >
           <Form className={styles.container_filter_form}>
             <div className={styles.container_filter_form_genre}>
               <Field as="select" name="genre">
-              <option selected>Genre</option>
-                {data?.genres.map((genre) => (
-                  <option value={genre.name}>{genre.name}</option>
+                <option selected>Genre</option>
+                {genres?.data?.genres.map((genre) => (
+                  <option value={genre.id}>{genre.name}</option>
                 ))}
               </Field>
             </div>
             <div className={styles.container_filter_form_imdb}>
               <Field as="select" name="imdb">
-              <option selected>IMDB Rating</option>
+                <option selected>IMDB Rating</option>
                 {imdb.map((item) => (
                   <option value={item.value}>{item.name}</option>
                 ))}
@@ -73,6 +97,7 @@ const FilterMovieTv = () => {
           </Form>
         </Formik>
       </div>
+      <div></div>
     </div>
   );
 };
