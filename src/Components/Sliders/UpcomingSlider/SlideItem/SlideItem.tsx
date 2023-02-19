@@ -109,8 +109,7 @@ const SlideItem = (props: IProps) => {
               })}
             </ul>
             <p>{movie.overview}</p>
-            <div className={styles.container_info_button}>
-              <button>All Movies</button>
+            <div className={styles.container_info_button}>              
               <button onClick={() => handleClickTrailer(movie.id)}>
                 Watch Trailer
               </button>
