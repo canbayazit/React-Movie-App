@@ -17,7 +17,7 @@ const buttonList: IButtonItem[] = [
 ];
 
 const GenreSlider = () => {
-  const [category, setCategory] = useState<string>();
+  const [category, setCategory] = useState<string>("movie");
   const [height, setHeigh] = useState<number>();
   // state bu componentte kullanılmasa bile selector ile redux store bağlandıysak herhangi bir state
   // değiştiğinde component render olur o yüzden shallowEqual kullanıyoruz ve state tek tek alıyoruz.
@@ -33,27 +33,19 @@ const GenreSlider = () => {
   const handleClick = (category: string) => {
     setCategory(category);
   };
-
-  console.log(isLoading, "isLoading");
+  console.log(category,"category")
   useEffect(() => {
     if (!isLoading) {
-      let elLast = document.getElementById(
-        `rect_${
-          data!.genres.filter(
-            (item) =>
-              item.id !==
-              genreFilterId
-                .filter((item) => item.category === category)
-                .find((i) => i.genreId === item.id)?.genreId
-          ).length - 2
-        }`
-      );
-      let rectLast = window.pageYOffset + elLast?.getBoundingClientRect().top!;
-
-      const height = rectLast!;
-      setHeigh(height);
+      let length = data?.genres.filter(
+        (item) =>
+          item.id !==
+          genreFilterId
+            .filter((item) => item.category === category)
+            .find((i) => i.genreId === item.id)?.genreId
+      ).length!;
+      setHeigh(310 * length);
     }
-  }, [data, genreFilterId, category, isLoading]);
+  }, [category, data?.genres, genreFilterId, isLoading]);
 
   return (
     <>
@@ -88,8 +80,7 @@ const GenreSlider = () => {
                 .map((genre, i) => {
                   return (
                     <div
-                      key={genre.id}
-                      id={`rect_${i}`}
+                      key={genre.id}                    
                       className={styles.container_data_slider}
                       style={{ "--index": i } as React.CSSProperties}
                     >
