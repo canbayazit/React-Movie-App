@@ -77,7 +77,7 @@ export const movieApi = createApi({
     }),
     getMovieOrTvService: builder.query<
       IListMovieResponse<IMovieTv>,
-      { category: string; page: number; id: string; vote?: number | string }
+      { category: string; page: number; id?: string; vote?: number }
     >({
       query: (arg) =>
         `/discover/${arg.category}?api_key=${
@@ -96,11 +96,13 @@ export const movieApi = createApi({
               { type: "Post", id: "PARTIAL-LIST" },
             ]
           : [{ type: "Post", id: "PARTIAL-LIST" }],
-    
-      // // Always merge incoming data to the cache entry
+          serializeQueryArgs: ({ endpointName,queryArgs }) => {
+            return `${queryArgs.id}-${queryArgs.vote}-${queryArgs.category}`;
+          },
+      // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
         if (currentCache?.page !== newItems?.page) {
-          currentCache.results.push(...newItems.results);
+          currentCache.results=[...currentCache.results,...newItems.results]
         }
       },
       // Refetch when the arg changes
