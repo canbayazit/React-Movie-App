@@ -2,9 +2,9 @@ import React from "react";
 import { useParams } from "react-router";
 import { imageSize } from "../../../Store/constant";
 import { useGetDetailServiceQuery } from "../../../Store/services";
-import styles from "./info.module.scss";
+import styles from "./personDetail.module.scss";
 
-const PersonInfo = () => {
+const PersonDetail = () => {
   const { category, id } = useParams();
   const { data, isLoading } = useGetDetailServiceQuery({
     category: category!,
@@ -32,4 +32,4 @@ const PersonInfo = () => {
   );
 };
 
-export default PersonInfo;
+export default PersonDetail;

@@ -6,7 +6,7 @@ import Suggested from "./NavContents/Suggested/Suggested";
 import styles from "./list.module.scss";
 import { useParams } from "react-router";
 import Known from "./NavContents/Known/Known";
-import PersonDetail from "./NavContents/Detail/PersonDetail";
+import PersonDetail from "./NavContents/Detail/PersonNavDetail";
 
 interface INavItem {
   id: number;

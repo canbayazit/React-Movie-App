@@ -1,0 +1,89 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 40px;
+    &_header{
+        width: 100%;
+        h1{
+            color: #f9f9f9;
+        }
+    }
+    &_main{
+        display: flex;
+        width: 100%;
+        margin-top: 20px;
+        &_filter{
+            width: 25%;
+            margin-top: 10px;
+            margin-right: 30px;
+            &_form{
+                width: 100%;
+                &_genre{
+                    width: 100%;
+                    margin-bottom: 7px;
+                    &_field{                        
+                        width: 100%;
+                        padding: 8px 10px;
+                        font-size: 16px;
+                        font: normal 14px arial;
+                        color: #2e576f;
+                        border: 1px solid #2f354799;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        &:hover{
+                            background-color: #f2f8fb;
+                        }
+                    }
+                }
+                &_imdb{
+                    width: 100%;
+                    margin-bottom: 15px;
+                    &_field{                        
+                        width: 100%;
+                        padding: 8px 10px;
+                        font-size: 16px;
+                        font: normal 14px arial;
+                        color: #2e576f;
+                        border: 1px solid #2f354799;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        &:hover{
+                            background-color: #f2f8fb;
+                        }
+                    }
+                }
+                &_button{
+                    width: 100%;
+                    button{
+                        width: 100%;
+                        padding: 8px 10px;
+                        border: 1px solid #2f354799;
+                        border-radius: 4px;
+                        background: linear-gradient(to bottom, #fff 0%, #d2d7da 100%);
+                        cursor: pointer;
+                        font: bold 14px arial;
+                        color: #42616f;
+                        &:hover{
+                            opacity: .9;
+                        }
+                    }
+                }
+            }
+        }
+        &_movie{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            &_card{
+            height: 190px;
+            position: relative;
+            width:25%;
+            }
+        }
+    }
+}

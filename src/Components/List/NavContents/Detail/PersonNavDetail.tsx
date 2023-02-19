@@ -2,9 +2,9 @@ import moment from "moment";
 import React from "react";
 import { useParams } from "react-router";
 import { useGetDetailServiceQuery } from "../../../../Store/services";
-import styles from "./personDetail.module.scss";
+import styles from "./personNavDetail.module.scss";
 
-const PersonDetail = () => {
+const PersonNavDetail = () => {
   const { category, id } = useParams();
   const { data, isLoading } = useGetDetailServiceQuery({
     category: category!,
@@ -53,4 +53,4 @@ const PersonDetail = () => {
   );
 };
 
-export default PersonDetail;
+export default PersonNavDetail;

@@ -1,8 +1,9 @@
 import Slider from "react-slick";
-import { useEffect, useState } from "react";
 import styles from "./upcoming.module.scss";
 import { ISetting } from "../../../Types/sliderTypes";
-import { useGetUpcomingMoviesServiceQuery } from "../../../Store/services";
+import {
+  useGetUpcomingMoviesServiceQuery,
+} from "../../../Store/services";
 import SlideItem from "./SlideItem/SlideItem";
 import More from "../../More/More";
 import {
@@ -34,7 +35,7 @@ const settings: ISetting = {
         infinite: true,
         adaptiveHeight: true,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 1,
         slidesToScroll: 1,
         initialSlide: 0,
       },
@@ -68,7 +69,6 @@ const settings: ISetting = {
   ],
 };
 const UpcomingSlider = () => {
-  // const [page, setpage] = useState<number>(1);
   const { data, isLoading } = useGetUpcomingMoviesServiceQuery(1);
 
   return (

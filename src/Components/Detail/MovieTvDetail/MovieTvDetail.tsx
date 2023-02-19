@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { addFavorite } from "../../../Assets/svg/icons/addFavorite";
 import { closeButton } from "../../../Assets/svg/icons/closeButton";
 import { deleteFavorite } from "../../../Assets/svg/icons/deleteFavorite";
+import { play } from "../../../Assets/svg/icons/play";
 import { star } from "../../../Assets/svg/icons/star";
 import { tick } from "../../../Assets/svg/icons/tick";
 import { addWhistList } from "../../../Assets/svg/icons/whistList";
@@ -15,7 +16,7 @@ import {
 } from "../../../Store/movieSlice";
 import { useGetDetailServiceQuery, useGetVideoServiceQuery } from "../../../Store/services";
 import { IMovieTVPersonDetail } from "../../../Types/detailPage";
-import styles from "./detail.module.scss";
+import styles from "./movieTvDetail.module.scss";
 interface ITagItem {
   key: string;
   name?: string;
@@ -191,7 +192,7 @@ const MovieTvDetail = () => {
               </div>
             </div>
             <div className={styles.container_detail_button}>
-              <button onClick={()=>handleClickTrailer(Number(id))}>WATCH TRAILER</button>
+              <button onClick={()=>handleClickTrailer(Number(id))}><span>{play()}</span>WATCH TRAILER</button>
               <div className={styles.container_detail_button_icons}>
                 <div className={styles.container_detail_button_icons_whistlist}>
                   <label>
