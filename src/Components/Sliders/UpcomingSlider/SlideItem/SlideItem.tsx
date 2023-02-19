@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { closeButton } from "../../../../Assets/svg/icons/closeButton";
+import { star } from "../../../../Assets/svg/icons/star";
 import {
   clientURL,
   imageOriginal,
   imageSize,
 } from "../../../../Store/constant";
 import {
-  useGetGenresServiceQuery, useGetVideoServiceQuery,
+  useGetGenresServiceQuery,
+  useGetVideoServiceQuery,
 } from "../../../../Store/services";
 import { Result } from "../../../../Types/upcomingMovies";
 import styles from "./slideItem.module.scss";
@@ -21,18 +23,21 @@ const SlideItem = (props: IProps) => {
   const [active, setActive] = useState<boolean>(false);
   const [movieId, setMovieId] = useState<number>(0);
   const genreService = useGetGenresServiceQuery();
-  const movieService = useGetVideoServiceQuery({
-    category: "movie"!,
-    id: movie.id.toString(),
-  }, {
-    skip: !movie.id,
-  });
+  const movieService = useGetVideoServiceQuery(
+    {
+      category: "movie"!,
+      id: movie.id.toString(),
+    },
+    {
+      skip: !movie.id,
+    }
+  );
   useEffect(() => {
     setActive(true);
   }, []);
   useEffect(() => {
     if (movieId === movie.id) {
-      document.addEventListener("keydown", (e: KeyboardEvent) => {  
+      document.addEventListener("keydown", (e: KeyboardEvent) => {
         if (e.key === "Escape") {
           const modal = document.querySelector(
             `#modal_${movieId}`
@@ -100,6 +105,9 @@ const SlideItem = (props: IProps) => {
         <div className={styles.container_info}>
           <div className={styles.container_info_overview}>
             <h1>{movie.title}</h1>
+            <div className={styles.container_info_overview_new}>
+              <span>{star()}</span>NEW
+            </div>
             <ul>
               {movie.genre_ids.map((id, i) => {
                 const name = genreService.data?.genres.find(
@@ -109,11 +117,13 @@ const SlideItem = (props: IProps) => {
               })}
             </ul>
             <p>{movie.overview}</p>
-            <div className={styles.container_info_button}>              
+            <div className={styles.container_info_button}>
               <button onClick={() => handleClickTrailer(movie.id)}>
                 Watch Trailer
               </button>
-              <button><Link to={`/movie/${movie.id}`}>See Detail</Link></button>
+              <button>
+                <Link to={`/movie/${movie.id}`}>See Detail</Link>
+              </button>
             </div>
           </div>
           <div className={styles.container_info_image}>
@@ -143,7 +153,6 @@ const SlideItem = (props: IProps) => {
           <button onClick={() => closeModal()}>{closeButton()}</button>
         </div>
       </dialog>
-      
     </>
   );
 };

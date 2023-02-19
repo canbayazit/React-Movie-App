@@ -37,12 +37,30 @@
       justify-content: flex-start;
       align-items: center;
       flex-direction: column;
-      h1 {
+      h1 {        
         width: 100%;        
         font-weight: 900;
         font-size: 3.5rem;
         transform: translateY(-100px);
-        transition: transform 0.7s ease;
+        transition: transform 0.7s ease;        
+      }
+      &_new{
+        display: flex;  
+        justify-content: flex-start;
+        align-items: center;     
+        color: #ffc107;
+        font-size: 1.5rem;
+        text-align: left;
+        width: 100%;
+        margin: 10px 0;
+        font-weight: 900;
+        font-size: 1.5em;
+        span{
+          display: flex;  
+          justify-content: center;
+          align-items: center;    
+          margin-right:15px;          
+        }
       }
       ul {
         width: 100%;
@@ -89,7 +107,7 @@
         border-radius: 30px;
         background-color: transparent;
         border: 3px solid #f9f9f9;
-        transition: all .5s ease-in-out;   
+        transition: all .3s ease-in-out;   
         cursor: pointer;
         &:first-child{          
           display: flex;
