@@ -1,11 +1,25 @@
-export interface IMovieTv{
-    first_air_date?: string;
-    name?: string;
-    origin_country?: string[];
-    original_name?: string;
+export interface IMovieTv extends IMovie,ITv{}
+
+export interface ITv {
+    backdrop_path: string;
+    first_air_date: string;
+    genre_ids?: number[];
+    id: number;
+    name: string;
+    origin_country: string[];
+    original_language: string;
+    original_name: string;
+    overview: string;
+    popularity: number;
+    poster_path: string;
+    vote_average: number;
+    vote_count: number;
+}
+
+export interface IMovie {
     adult: boolean;
     backdrop_path: string;
-    genre_ids: number[];
+    genre_ids?: number[];
     id: number;
     original_language: string;
     original_title: string;
@@ -19,9 +33,13 @@ export interface IMovieTv{
     vote_count: number;
 }
 
-export interface IListMovieResponse<T>{
+export interface IListMovieTvResponse<T>{
     page:number,
     results: T[],
     total_pages:number,
     total_results:number
 }
+
+
+
+

@@ -1,35 +1,16 @@
 // MAIN INTERFACE ***********************************************
 
-export interface IMovieTVPersonDetail {
-  also_known_as: string[];
-  biography?: string;
-  birthday?: string;
-  deathday?: any;
-  gender?: number;
-  known_for_department?: string;
-  place_of_birth?: string;
-  profile_path?: string;
+export interface IMovieTVPersonDetail
+  extends ITvDetail,
+    IMovieDetail,
+    IPersonDetail {}
 
-  created_by?: CreatedBy[];
-  episode_run_time?: number[];
-  first_air_date?: string;
-  in_production?: boolean;
-  languages?: string[];
-  last_air_date?: string;
-  last_episode_to_air?: LastEpisodeToAir;
-  name?: string;
-  next_episode_to_air?: NextEpisodeToAir;
-  networks?: Network[];
-  number_of_episodes?: number;
-  number_of_seasons?: number;
-  origin_country?: string[];
-  original_name?: string;
-  seasons?: Season[];
-  type?: string;
+// MOVIE ***********************************************
 
+export interface IMovieDetail {
   adult: boolean;
   backdrop_path: string;
-  belongs_to_collection: BelongsToCollection;
+  belongs_to_collection?: any;
   budget: number;
   genres: Genre[];
   homepage: string;
@@ -54,7 +35,63 @@ export interface IMovieTVPersonDetail {
   vote_count: number;
 }
 
-// MOVIE ***********************************************
+// TV ***********************************************
+
+export interface ITvDetail {
+  adult: boolean;
+  backdrop_path: string;
+  created_by: CreatedBy[];
+  episode_run_time: number[];
+  first_air_date: string;
+  genres: Genre[];
+  homepage: string;
+  id: number;
+  in_production: boolean;
+  languages: string[];
+  last_air_date: string;
+  last_episode_to_air: LastEpisodeToAir;
+  name: string;
+  next_episode_to_air: NextEpisodeToAir;
+  networks: Network[];
+  number_of_episodes: number;
+  number_of_seasons: number;
+  origin_country: string[];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  production_companies: ProductionCompany[];
+  production_countries: ProductionCountry[];
+  seasons: Season[];
+  spoken_languages: SpokenLanguage[];
+  status: string;
+  tagline: string;
+  type: string;
+  vote_average: number;
+  vote_count: number;
+}
+
+// PERSON ***********************************************
+
+export interface IPersonDetail {
+  adult: boolean;
+  also_known_as: string[];
+  biography: string;
+  birthday: string;
+  deathday: string;
+  gender: number;
+  homepage: string;
+  id: number;
+  imdb_id: string;
+  known_for_department: string;
+  name: string;
+  place_of_birth: string;
+  popularity: number;
+  profile_path: string;
+}
+
+// COMMON TYPES ****************************************
 
 export interface BelongsToCollection {
   id: number;
@@ -85,8 +122,6 @@ export interface SpokenLanguage {
   iso_639_1: string;
   name: string;
 }
-
-// TV ***********************************************
 
 export interface CreatedBy {
   id: number;

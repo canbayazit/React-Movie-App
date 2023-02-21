@@ -1,13 +1,19 @@
-export interface IPersonCast {
-  origin_country?: string[];
-  original_name?: string;
-  first_air_date?: string;
-  name?: string;
-  episode_count?: number;
+export interface IPersonCast extends IMovieCast, ITvCast {}
 
+export interface IPersonCrew extends IMovieCrew {}
+
+export interface IPersonCredit {
+  cast: IPersonCast[];
+  crew: IPersonCrew[];
+  id: number;
+}
+
+// MOVIE *******************************************
+
+export interface IMovieCast {
   adult: boolean;
   backdrop_path: string;
-  genre_ids: number[];
+  genre_ids?: number[];
   id: number;
   original_language: string;
   original_title: string;
@@ -19,12 +25,12 @@ export interface IPersonCast {
   video: boolean;
   vote_average: number;
   vote_count: number;
-  character: string;
-  credit_id: string;
-  order: number;
+  character?: string;
+  credit_id?: string;
+  order?: number;
 }
 
-export interface IPersonCrew {
+export interface IMovieCrew {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -44,8 +50,24 @@ export interface IPersonCrew {
   job: string;
 }
 
-export interface IPersonCredit {
-  cast: IPersonCast[];
-  crew: IPersonCrew[];
+// TV *******************************************
+
+export interface ITvCast {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids?: number[];
   id: number;
+  origin_country: string[];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  first_air_date: string;
+  name: string;
+  vote_average: number;
+  vote_count: number;
+  character?: string;
+  credit_id?: string;
+  episode_count?: number;
 }
