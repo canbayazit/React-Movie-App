@@ -78,9 +78,9 @@ const MovieTvDetail = () => {
 
   const handleClick = (key: string) => {
     if (key === "favorite") {
-      dispatch(setFavoriteChangeIcon(Number(id)));
+      dispatch(setFavoriteChangeIcon({id:Number(id),category:category!}));
     } else if (key === "whistList") {
-      dispatch(setWhistListChangeIcon(Number(id)));
+      dispatch(setWhistListChangeIcon({id:Number(id),category:category!}));
     }
   };
   useEffect(() => {
@@ -196,24 +196,24 @@ const MovieTvDetail = () => {
               <div className={styles.container_detail_button_icons}>
                 <div className={styles.container_detail_button_icons_whistlist}>
                   <label>
-                    {iconWhistListMovieId?.find((i) => i === Number(id))
+                    {iconWhistListMovieId?.find((i) => i.id === Number(id))
                       ? "İzleme Listesinden Kaldır"
                       : "İzleme Listesine Ekle"}
                   </label>
                   <span onClick={() => handleClick("whistList")}>
-                    {iconWhistListMovieId?.find((i) => i === Number(id))
+                    {iconWhistListMovieId?.find((i) => i.id === Number(id))
                       ? tick()
-                      : addWhistList()}
+                      : addWhistList(30)}
                   </span>
                 </div>
                 <div className={styles.container_detail_button_icons_favorite}>
                   <label>
-                    {iconFavoriteMovieId?.find((i) => i === Number(id))
+                    {iconFavoriteMovieId?.find((i) => i.id === Number(id))
                       ? "Favoriler Listesinden Kaldır"
                       : "Favoriler Listesine Ekle"}
                   </label>
                   <span onClick={() => handleClick("favorite")}>
-                    {iconFavoriteMovieId?.find((i) => i === Number(id))
+                    {iconFavoriteMovieId?.find((i) => i.id === Number(id))
                       ? deleteFavorite()
                       : addFavorite()}
                   </span>

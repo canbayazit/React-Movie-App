@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGenreFilter } from "../Types/actions";
-import { Genre } from "../Types/genres";
-import { State } from "../Types/state";
+import { IICon, State } from "../Types/state";
 
 const initialState: State = {
   movieId: 0,
@@ -25,23 +24,23 @@ const movieSlice = createSlice({
     setUpcomingMovieId: (state, action: PayloadAction<number>) => {
       state.upcomingMovieId = action.payload;
     },
-    setFavoriteChangeIcon: (state, action: PayloadAction<number>) => {
-      if (state.iconFavoriteMovieId.findIndex((i) => i === action.payload) > -1) {
+    setFavoriteChangeIcon: (state, action: PayloadAction<IICon>) => {
+      if (state.iconFavoriteMovieId.findIndex((i) => i.id === action.payload.id) > -1) {
         state.iconFavoriteMovieId = state.iconFavoriteMovieId.filter(
-          (i) => i !== action.payload
+          (i) => i.id !== action.payload.id
         );
       }else{
-        state.iconFavoriteMovieId.push(action.payload);
+        state.iconFavoriteMovieId=[...state.iconFavoriteMovieId,{id:action.payload.id,category:action.payload.category}]
 
       }
     },
-    setWhistListChangeIcon: (state, action: PayloadAction<number>) => {
-      if (state.iconWhistListMovieId.findIndex((i) => i === action.payload) > -1) {
+    setWhistListChangeIcon: (state, action: PayloadAction<IICon>) => {
+      if (state.iconWhistListMovieId.findIndex((i) => i.id === action.payload.id) > -1) {
         state.iconWhistListMovieId = state.iconWhistListMovieId.filter(
-          (i) => i !== action.payload
+          (i) => i.id !== action.payload.id
         );
       }else{
-        state.iconWhistListMovieId.push(action.payload);
+        state.iconWhistListMovieId=[...state.iconWhistListMovieId,{id:action.payload.id,category:action.payload.category}]
 
       }
     },
