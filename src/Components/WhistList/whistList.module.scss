@@ -1,0 +1,46 @@
+.container{
+    width: 100%;
+    padding: 0 calc(3.5vw + 24px);
+    position: relative;
+    z-index: 2;
+    &_empty{
+        width: 100%;
+        height: 550px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #f9f9f9;
+        span{
+            border-radius: 50%;
+            border: 5px solid #f9f9f9;
+            opacity: .4;
+            margin-bottom: 35px;
+            padding: 15px;
+        }
+    }
+    &_list{
+        width: 100%;
+        min-height: 550px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color:#f9f9f9; 
+        margin-top: 82px;
+        h1{
+            font-size: 44px;
+            padding-bottom: 1.5rem;
+            margin-left: 4px;            
+        }
+        h4{
+            font-size: 20px;
+            padding-bottom: 1rem;
+            margin-left: 4px;  
+        }
+        &_card{
+            display: flex;
+            flex-wrap: wrap;           
+            
+        }
+    }
+}
