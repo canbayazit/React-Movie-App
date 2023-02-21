@@ -5,12 +5,8 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: auto;
   z-index: 998;
-  &:hover {
-    //   transform: scale(1.2);
-  }
-
+ 
   &_modal {
     display: flex;
     height: 100%;
@@ -46,7 +42,6 @@
     flex-direction: column;
     position: relative;
     background: linear-gradient(#1b253000, #1b2530 0);
-    // background: red;
     padding: 12px;
     width: 100%;
     height: auto;
@@ -236,10 +231,7 @@
         font-weight: 700;
         margin-bottom: 4px;
       }
-      p {
-        // -webkit-box-orient: vertical;
-        // -webkit-line-camp: 3;
-        // display: -webkit-box;
+      p {      
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;

@@ -19,12 +19,7 @@ import { IMovieTv } from "../../../Types/movie_tv";
 
 import styles from "./trailer.module.scss";
 interface IProps {
-  id: number;
-  poster_path: string;
-  title: string;
-  release_date: string;
-  overview: string;
-  vote_average: number;
+  movie: IMovieTv;
   category: string;
   genreId?: number;
   dataMovie?: IMovieTv[];
@@ -32,37 +27,26 @@ interface IProps {
 }
 
 const Trailer = (props: IProps) => {
-  const {
-    id,
-    vote_average,
-    poster_path,
-    title,
-    overview,
-    release_date,
-    category,
-    genreId,
-    dataMovie,
-    dataGenre,
-  } = props;
+  const { movie, category, genreId, dataMovie, dataGenre } = props;
   const dispatch = useAppDispatch();
   const iconFavoriteMovieId = useAppSelector((store) => {
     if (store.movies.genreId === genreId) {
-      if (store.movies.movieId === id) {
+      if (store.movies.movieId === movie?.id) {
         return store.movies.iconFavoriteMovieId;
       }
     } else {
-      if (store.movies.movieId === id) {
+      if (store.movies.movieId === movie?.id) {
         return store.movies.iconFavoriteMovieId;
       }
     }
   }, shallowEqual);
   const iconWhistListMovieId = useAppSelector((store) => {
     if (store.movies.genreId === genreId) {
-      if (store.movies.movieId === id) {
+      if (store.movies.movieId === movie?.id) {
         return store.movies.iconWhistListMovieId;
       }
     } else {
-      if (store.movies.movieId === id) {
+      if (store.movies.movieId === movie?.id) {
         return store.movies.iconWhistListMovieId;
       }
     }
@@ -70,17 +54,17 @@ const Trailer = (props: IProps) => {
   const getVideo = useGetVideoServiceQuery(
     {
       category: category!,
-      id: id.toString(),
+      id: (movie?.id).toString(),
     },
     {
-      skip: !id,
+      skip: !movie?.id,
     }
   );
 
   useEffect(() => {
     const setModal = (src: string) => {
-      if (!!id) {
-        const modal = document.querySelector(`#modal_${id}`);
+      if (!!movie?.id) {
+        const modal = document.querySelector(`#modal_${movie?.id}`);
         modal?.querySelector("iframe")?.setAttribute("src", src);
       }
     };
@@ -91,7 +75,7 @@ const Trailer = (props: IProps) => {
         "?autoplay=1&modestbranding=1&autohide=1&showinfo=0&controls=0";
       setModal(src);
     }
-  }, [getVideo.data?.results, getVideo.isFetching, id]);
+  }, [getVideo.data?.results, getVideo.isFetching, movie?.id]);
 
   const handleOnMouseLeave = () => {
     dispatch(setMovieId(0));
@@ -100,44 +84,66 @@ const Trailer = (props: IProps) => {
   const handleClick = (key: string) => {
     if (!dataGenre) {
       key === "favorite"
-        ? dispatch(setFavoriteChangeIcon(id))
-        : dispatch(setWhistListChangeIcon(id));
+        ? dispatch(
+            setFavoriteChangeIcon({
+              id: movie?.id,
+              category: category!,
+            })
+          )
+        : dispatch(
+            setWhistListChangeIcon({
+              id: movie?.id,
+              category: category!,
+            })
+          );
     } else {
       if (dataGenre!.genres.findIndex((i) => i.id === genreId) > -1) {
-        if (dataMovie!.findIndex((i) => i.id === id) > -1) {
+        if (dataMovie!.findIndex((i) => i.id === movie?.id) > -1) {
           key === "favorite"
-            ? dispatch(setFavoriteChangeIcon(id))
-            : dispatch(setWhistListChangeIcon(id));
+            ? dispatch(
+                setFavoriteChangeIcon({
+                  id: movie?.id,
+                  category: category!,
+                })
+              )
+            : dispatch(
+                setWhistListChangeIcon({
+                  id: movie?.id,
+                  category: category!,
+                })
+              );
         }
       }
     }
   };
 
   useEffect(() => {
-    let c2 = document.querySelector(`#canvas_${id}`) as HTMLCanvasElement;
+    let c2 = document.querySelector(
+      `#canvas_${movie?.id}`
+    ) as HTMLCanvasElement;
 
     let ctx = c2.getContext("2d");
     ctx!.beginPath();
     ctx!.lineWidth = 20;
     ctx!.strokeStyle =
-      vote_average >= 7
+      movie?.vote_average >= 7
         ? "#2f9e44"
-        : vote_average >= 6
+        : movie?.vote_average >= 6
         ? "#e67700"
-        : vote_average >= 5
+        : movie?.vote_average >= 5
         ? "#fab005"
         : "#ff0000";
-    ctx!.arc(70, 70, 60, (2 * Math.PI * vote_average) / 10, 0, true);
+    ctx!.arc(70, 70, 60, (2 * Math.PI * movie?.vote_average) / 10, 0, true);
     ctx!.stroke();
     ctx?.closePath();
 
     ctx!.beginPath();
     ctx!.lineWidth = 20;
     ctx!.strokeStyle = "#202020";
-    ctx!.arc(70, 70, 60, 0, (2 * Math.PI * vote_average) / 10, true);
+    ctx!.arc(70, 70, 60, 0, (2 * Math.PI * movie?.vote_average) / 10, true);
     ctx!.stroke();
     ctx?.closePath();
-  }, [id, vote_average]);
+  }, [movie?.id, movie?.vote_average]);
 
   return (
     <>
@@ -145,7 +151,7 @@ const Trailer = (props: IProps) => {
         className={styles.container}
         onMouseLeave={() => handleOnMouseLeave()}
       >
-        <div className={styles.container_modal} id={`modal_${id}`}>
+        <div className={styles.container_modal} id={`modal_${movie?.id}`}>
           {getVideo.data?.results.find((item) => item.type === "Trailer")
             ?.key ? (
             getVideo.isLoading ? (
@@ -163,7 +169,7 @@ const Trailer = (props: IProps) => {
             <img
               width="295"
               height="220"
-              src={`${imageSize}${poster_path}`}
+              src={`${imageSize}${movie?.poster_path}`}
               alt=""
             />
           )}
@@ -171,30 +177,30 @@ const Trailer = (props: IProps) => {
         <div className={styles.container_info}>
           <div className={styles.container_info_icons}>
             <div className={styles.container_info_icons_imdb}>
-              <span>{vote_average?.toFixed(1)}</span>
-              <canvas id={`canvas_${id}`}></canvas>
+              <span>{movie?.vote_average?.toFixed(1)}</span>
+              <canvas id={`canvas_${movie?.id}`}></canvas>
             </div>
             <div className={styles.container_info_icons_buttons}>
               <div className={styles.container_info_icons_buttons_whistlist}>
                 <label>
-                  {iconWhistListMovieId?.find((i) => i === id)
+                  {iconWhistListMovieId?.find((i) => i.id === movie?.id)
                     ? "İzleme Listesinden Kaldır"
                     : "İzleme Listesine Ekle"}
                 </label>
                 <span onClick={() => handleClick("whistList")}>
-                  {iconWhistListMovieId?.find((i) => i === id)
+                  {iconWhistListMovieId?.find((i) => i.id === movie?.id)
                     ? tick()
-                    : addWhistList()}
+                    : addWhistList(30)}
                 </span>
               </div>
               <div className={styles.container_info_icons_buttons_favorite}>
                 <label>
-                  {iconFavoriteMovieId?.find((i) => i === id)
+                  {iconFavoriteMovieId?.find((i) => i.id === movie?.id)
                     ? "Favoriler Listesinden Kaldır"
                     : "Favoriler Listesine Ekle"}
                 </label>
                 <span onClick={() => handleClick("favorite")}>
-                  {iconFavoriteMovieId?.find((i) => i === id)
+                  {iconFavoriteMovieId?.find((i) => i.id === movie?.id)
                     ? deleteFavorite()
                     : addFavorite()}
                 </span>
@@ -202,15 +208,23 @@ const Trailer = (props: IProps) => {
             </div>
           </div>
           <Link
-            to={`/${category}/${id}`}
+            to={`/${category}/${movie?.id}`}
             className={styles.container_info_more}
           >
             <span>See More</span>
           </Link>
           <div className={styles.container_info_overview}>
-            <h3>{title}</h3>
-            <p>{overview}</p>
-            <span>{release_date}</span>
+            <h3>
+              {movie?.original_title
+                ? movie?.original_title
+                : movie?.original_name}
+            </h3>
+            <p>{movie?.overview}</p>
+            <span>
+              {movie?.release_date
+                ? movie?.release_date
+                : movie?.first_air_date}
+            </span>
           </div>
         </div>
       </div>
