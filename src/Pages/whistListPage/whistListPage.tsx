@@ -1,11 +1,11 @@
 import React from 'react'
-import WhistList from '../../Components/WhistList/WhistList'
+import WhistlistFavorites from '../../Components/WhistList/WhistlistFavorites'
 import styles from "./home.module.scss";
 
 const whistListPage = () => {
   return (
     <div className={styles.container}>
-        <WhistList/>
+        <WhistlistFavorites/>
     </div>
   )
 }

@@ -2,10 +2,10 @@ import React from "react";
 import { shallowEqual } from "react-redux";
 import { addWhistList } from "../../Assets/svg/icons/whistList";
 import { useAppSelector } from "../../Hooks/Hook";
-import WhistItem from "./whistItem/WhistItem";
-import styles from "./whistList.module.scss";
+import WhistItem from "./MovieItem/MovieItem";
+import styles from "./whistlistFavorites.module.scss";
 
-const WhistList = () => {
+const WhistlistFavorites = () => {
   const movieTv = useAppSelector(
     (store) => store.movies.iconWhistListMovieId,
     shallowEqual
@@ -42,4 +42,4 @@ const WhistList = () => {
   );
 };
 
-export default WhistList;
+export default WhistlistFavorites;

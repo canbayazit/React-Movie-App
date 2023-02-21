@@ -2,7 +2,7 @@ import React from 'react'
 import { useGetDetailServiceQuery } from '../../../Store/services'
 import { IICon } from '../../../Types/state'
 import MovieCard from '../../Card/MovieCard/MovieCard'
-import styles from "./whistItem.module.scss";
+import styles from "./movieItem.module.scss";
 
 interface IProps{
     movie:IICon
