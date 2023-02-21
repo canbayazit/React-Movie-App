@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ICredit } from "../Types/credit";
 import { IGenres } from "../Types/genres";
-import { IListMovieResponse, IMovieTv } from "../Types/movie_tv";
+import { IListMovieTvResponse, IMovieTv } from "../Types/movie_tv";
 import { IMovieTVPersonDetail } from "../Types/detailPage";
 import { IPersonMovies } from "../Types/personMovies";
 import { ISimilar } from "../Types/similar";
@@ -76,7 +76,7 @@ export const movieApi = createApi({
       providesTags: (result, error, arg) => [{ type: "Post", arg }],
     }),
     getMovieOrTvService: builder.query<
-      IListMovieResponse<IMovieTv>,
+      IListMovieTvResponse<IMovieTv>,
       { category: string; page: number; id?: string; vote?: number }
     >({
       query: (arg) =>
@@ -96,13 +96,13 @@ export const movieApi = createApi({
               { type: "Post", id: "PARTIAL-LIST" },
             ]
           : [{ type: "Post", id: "PARTIAL-LIST" }],
-          serializeQueryArgs: ({ endpointName,queryArgs }) => {
-            return `${queryArgs.id}-${queryArgs.vote}-${queryArgs.category}`;
-          },
+      serializeQueryArgs: ({ endpointName, queryArgs }) => {
+        return `${queryArgs.id}-${queryArgs.vote}-${queryArgs.category}`;
+      },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
         if (currentCache?.page !== newItems?.page) {
-          currentCache.results=[...currentCache.results,...newItems.results]
+          currentCache.results = [...currentCache.results, ...newItems.results];
         }
       },
       // Refetch when the arg changes
