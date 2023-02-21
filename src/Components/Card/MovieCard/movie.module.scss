@@ -1,14 +1,12 @@
 .container_image {
   width: 100%;
   display: flex;  
-  z-index: 998;
-
   img {
     object-fit:fill;
     height: 185px;
     width: 100%;
     border-radius: 5px;
-    margin: 10px 4px;
+    margin: 5px;
     border: 1px solid #000;
   }
 }
@@ -20,7 +18,7 @@
   position: relative;
   z-index: 998;  
 }
-.container_video_person {
+.container_video_other {
   width: 100%;
   transform: scale(1.05);
   transition: transform 0.5s ease;

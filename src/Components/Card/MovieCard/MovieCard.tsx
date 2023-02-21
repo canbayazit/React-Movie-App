@@ -1,5 +1,5 @@
 import { shallowEqual } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
 import { imageSize } from "../../../Store/constant";
 import { setGenreId, setMovieId } from "../../../Store/movieSlice";
@@ -9,35 +9,30 @@ import { IPersonCast } from "../../../Types/personCredit";
 import Trailer from "../CardTrailer/Trailer";
 import notFoundImage from "../../../Assets/img/notFoundImage.png";
 import styles from "./movie.module.scss";
+import { IMovieTVPersonDetail } from "../../../Types/detailPage";
+
+interface IPropsMovie extends IMovieTv, IPersonCast {}
 
 interface IProps {
-  movie?: IMovieTv;
+  movie?: IPropsMovie | IMovieTVPersonDetail;
   genreId?: number;
   dataMovie?: IMovieTv[];
   dataGenre?: IGenres;
   categoryType: string;
-  credit?: IPersonCast;
   active?: boolean;
 }
 
 const MovieCard = (props: IProps) => {
-  const {
-    genreId,
-    movie,
-    dataMovie,
-    dataGenre,
-    categoryType,
-    credit,
-    active,
-  } = props;
+  const { genreId, movie, dataMovie, dataGenre, categoryType, active } = props;
   const dispatch = useAppDispatch();
   const { category } = useParams();
-
+  const location = useLocation();
+  console.log(location.pathname,"pathname")
   //component 2 kere çalışır useAppSelector'dan dolayı
   //redux sayesinde hem önceki değeri hem yeni değeri karşılaştırıp fragmanı günceller.
   const status = useAppSelector((store) => {
     if (store.movies.genreId === genreId) {
-      if (store.movies.movieId === (movie?.id || credit?.id)) {
+      if (store.movies.movieId === movie?.id) {
         return store.movies.movieId;
       }
     }
@@ -62,31 +57,17 @@ const MovieCard = (props: IProps) => {
         <>
           <div
             className={
-              category === "person"
-                ? `${styles.container_video_person} ${
+              category === "person" ||
+              location.pathname === "/whistlist" ||
+              location.pathname === "/favorites"
+                ? `${styles.container_video_other} ${
                     active ? styles.active : ""
                   }`
                 : styles.container_video
             }
           >
             <Trailer
-              id={movie?.id! || credit?.id!}
-              poster_path={movie?.poster_path! || credit?.poster_path!}
-              title={
-                (movie?.original_title
-                  ? movie?.original_title
-                  : movie?.original_name)! || credit?.original_title!
-              }
-              release_date={
-                (movie?.release_date
-                  ? movie?.release_date!
-                  : movie?.first_air_date)! ||
-                (credit?.release_date!
-                  ? credit?.release_date!
-                  : credit?.first_air_date!)
-              }
-              overview={movie?.overview! || credit?.overview!}
-              vote_average={movie?.vote_average! || credit?.vote_average!}
+              movie={movie!}
               category={categoryType}
               genreId={genreId}
               dataMovie={dataMovie}
@@ -97,12 +78,10 @@ const MovieCard = (props: IProps) => {
       ) : (
         <div id={`rect_${movie?.id}`} className={styles.container_image}>
           <img
-            onMouseEnter={() =>
-              handleOnMouseOver(genreId, movie?.id || credit?.id)
-            }
+            onMouseEnter={() => handleOnMouseOver(genreId, movie?.id)}
             src={
-              movie?.poster_path || credit?.poster_path
-                ? `${imageSize}${movie?.poster_path || credit?.poster_path}`
+              movie?.poster_path
+                ? `${imageSize}${movie?.poster_path}`
                 : notFoundImage
             }
             alt=""
