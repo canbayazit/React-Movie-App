@@ -118,7 +118,7 @@ const FilterMovieTv = () => {
             <div className={styles.container_main_movie_card}>
               <MovieCard
                 movie={movie}
-                genreId={filter?.genre ?? movie.genre_ids[0]}
+                genreId={filter?.genre ?? movie.genre_ids![0]}
                 categoryType={category!}
               />
             </div>

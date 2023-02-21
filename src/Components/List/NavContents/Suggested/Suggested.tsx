@@ -76,7 +76,7 @@ const Suggested = () => {
           <Slider {...settings}>
             {similar.data?.results.map((movie) => (
               <div key={movie.id} className={styles.movie_card}>
-                <MovieCard movie={movie} categoryType={category!} genreId={movie.genre_ids[0]}/>
+                <MovieCard movie={movie} categoryType={category!} genreId={movie.genre_ids![0]}/>
               </div>
             ))}         
           </Slider>

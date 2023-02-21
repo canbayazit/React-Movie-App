@@ -34,9 +34,9 @@ const Known = (props: IProps) => {
               <div key={movie.id} className={styles.container_card}>
                 <MovieCard
                   active={active}
-                  credit={movie}
+                  movie={movie}
                   categoryType={keys}
-                  genreId={movie.genre_ids[0]}
+                  genreId={movie.genre_ids![0]}
                 />
               </div>
             );
