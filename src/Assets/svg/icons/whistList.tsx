@@ -1,8 +1,8 @@
-export const addWhistList = () => (
+export const addWhistList = (size:number) => (
     <svg
       enable-background="new 0 0 50 50"
-      width="30"
-      height="30"
+      width={size}
+      height={size}
       id="Layer_1"
       version="1.1"
       viewBox="0 0 50 50"
