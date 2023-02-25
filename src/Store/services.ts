@@ -9,6 +9,7 @@ import { IUpcomingMovies } from "../Types/upcomingMovies";
 import { IVideos } from "../Types/video";
 import { baseURL, clientURL } from "./constant";
 import { IPersonCredit } from "../Types/personCredit";
+import { ISearch, ISearchMovie } from "../Types/search";
 
 export const movieApi = createApi({
   reducerPath: "movieApi",
@@ -110,6 +111,45 @@ export const movieApi = createApi({
         return currentArg !== previousArg;
       },
     }),
+    getSearchService: builder.query<
+    ISearch<ISearchMovie>,
+      { category: string; page: number; query: string; }
+    >({
+      query: (arg) =>
+        `https://api.themoviedb.org/3/search/${arg.category}?api_key=${
+          process.env.REACT_APP_API_KEY
+        }&language=en-US&query=${arg.query}&page=${arg.page}`,
+
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.results.map(({ id }) => ({
+                type: "Post" as const,
+                id,
+              })),
+              { type: "Post", id: "PARTIAL-LIST" },
+            ]
+          : [{ type: "Post", id: "PARTIAL-LIST" }],
+          //query arg leri güncellemek için kullanılıyor
+      serializeQueryArgs: ({ endpointName, queryArgs }) => {        
+        return `${queryArgs.query}-${queryArgs.category}`;
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {    
+        if (newItems?.page===1) {
+          currentCache.results=currentCache.results.slice(0,20);
+        } else {
+          if (currentCache?.page !== newItems?.page) {
+            currentCache.results = [...currentCache.results, ...newItems.results];
+          }
+        }    
+        
+      },
+      // Refetch when the arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
     getVideoService: builder.query<IVideos, { category: string; id: string }>({
       query: (arg) =>
         `/${arg.category}/${arg.id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
@@ -141,6 +181,7 @@ export const movieApi = createApi({
 
 export const {
   useGetMovieOrTvServiceQuery,
+  useGetSearchServiceQuery,
   useGetDetailServiceQuery,
   useGetPersonCreditServiceQuery,
   useGetPersonMoviesServiceQuery,
