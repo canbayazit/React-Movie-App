@@ -10,11 +10,12 @@ import Trailer from "../CardTrailer/Trailer";
 import notFoundImage from "../../../Assets/img/notFoundImage.png";
 import styles from "./movie.module.scss";
 import { IMovieTVPersonDetail } from "../../../Types/detailPage";
+import { ISearchMovie } from "../../../Types/search";
 
 interface IPropsMovie extends IMovieTv, IPersonCast {}
 
 interface IProps {
-  movie?: IPropsMovie | IMovieTVPersonDetail;
+  movie?: IPropsMovie | IMovieTVPersonDetail | ISearchMovie;
   genreId?: number;
   dataMovie?: IMovieTv[];
   dataGenre?: IGenres;
@@ -27,7 +28,6 @@ const MovieCard = (props: IProps) => {
   const dispatch = useAppDispatch();
   const { category } = useParams();
   const location = useLocation();
-  console.log(location.pathname,"pathname")
   //component 2 kere çalışır useAppSelector'dan dolayı
   //redux sayesinde hem önceki değeri hem yeni değeri karşılaştırıp fragmanı günceller.
   const status = useAppSelector((store) => {
