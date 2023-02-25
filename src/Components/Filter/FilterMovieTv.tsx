@@ -36,21 +36,18 @@ const FilterMovieTv = () => {
   const [filter, setFilter] = useState<IValues>();
   const [page, setPage] = useState<number>(1);
   const genres = useGetGenresServiceQuery();
-  console.log(filter, "filter");
   const allMovieTv = useGetMovieOrTvServiceQuery({
     category: category!,
     page: page,
     id: filter?.genre.toString()!,
     vote: filter?.imdb,
   });
-  console.log(allMovieTv.data, "data");
   useEffect(() => {
     const onScroll = () => {
       const scrolledToBottom =
         window.innerHeight + window.scrollY + 20 >= document.body.offsetHeight;
       if (scrolledToBottom && !allMovieTv.isFetching) {
-        console.log("Fetching more data...");
-        setPage((prev) => prev + 1);
+        setPage(page + 1);
       }
     };
     document.addEventListener("scroll", onScroll);
