@@ -12,8 +12,8 @@ interface IButtonItem {
 }
 
 const buttonList: IButtonItem[] = [
-  { id: 1, name: "Filmler", category: "movie" },
-  { id: 2, name: "Diziler", category: "tv" },
+  { id: 1, name: "Movies", category: "movie" },
+  { id: 2, name: "Tv Shows", category: "tv" },
 ];
 
 const GenreSlider = () => {
@@ -29,11 +29,11 @@ const GenreSlider = () => {
     setCategory("movie");
   }, []);
 
-  const { data, isLoading } = useGetGenresServiceQuery();
+  const { data, isLoading, isFetching } = useGetGenresServiceQuery();
   const handleClick = (category: string) => {
     setCategory(category);
   };
-  console.log(category,"category")
+  console.log(category, "category");
   useEffect(() => {
     if (!isLoading) {
       let length = data?.genres.filter(
@@ -66,33 +66,29 @@ const GenreSlider = () => {
             <div className={styles.indicator}></div>
           </div>
           <div className={styles.container_data} style={{ height: height }}>
-            {data?.genres.length === 0 ? (
-              <div>Veri Yok</div>
-            ) : (
-              data?.genres
-                .filter(
-                  (item) =>
-                    item.id !==
-                    genreFilterId
-                      .filter((item) => item.category === category)
-                      .find((i) => i.genreId === item.id)?.genreId
-                )
-                .map((genre, i) => {
-                  return (
-                    <div
-                      key={genre.id}                    
-                      className={styles.container_data_slider}
-                      style={{ "--index": i } as React.CSSProperties}
-                    >
-                      <MovieSlider
-                        genre={genre}
-                        category={category!}
-                        dataGenre={data}
-                      />
-                    </div>
-                  );
-                })
-            )}
+            {data?.genres
+              .filter(
+                (item) =>
+                  item.id !==
+                  genreFilterId
+                    .filter((item) => item.category === category)
+                    .find((i) => i.genreId === item.id)?.genreId
+              )
+              .map((genre, i) => {
+                return (
+                  <div
+                    key={genre.id}
+                    className={styles.container_data_slider}
+                    style={{ "--index": i } as React.CSSProperties}
+                  >
+                    <MovieSlider
+                      genre={genre}
+                      category={category!}
+                      dataGenre={data}
+                    />
+                  </div>
+                );
+              })}
           </div>
         </div>
       )}
