@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import {
+  createSearchParams,
+  NavLink,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { logo } from "../../Assets/svg/icons/logo";
 import styles from "./header.module.scss";
 import {
@@ -11,6 +16,7 @@ import {
   FieldProps,
 } from "formik";
 import { search } from "../../Assets/svg/icons/search";
+import { Link } from "react-router-dom";
 interface INavItem {
   id: number;
   name: string;
@@ -26,15 +32,18 @@ interface IValues {
 }
 const Header = () => {
   const [isScrolling, setScrolling] = useState(false);
-  const [query, setQuery] = useState<string>("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.pathname,"pathname")
+  const initialValues: IValues = {
+    query: "",
+  };
   useEffect(() => {
     window.addEventListener("scroll", () => {
       window.scrollY >= 80 ? setScrolling(true) : setScrolling(false);
     });
   }, []);
-  const initialValues: IValues = {
-    query: "",
-  };
+
   return (
     <header
       className={
@@ -56,7 +65,9 @@ const Header = () => {
               {item.name}
             </NavLink>
           ))}
-          <div className={styles.indicator}></div>
+          {headerList.find((i) => i.to === location.pathname) && (
+            <div className={styles.indicator}></div>
+          )}
         </div>
       </div>
       <div className={styles.container_right}>
@@ -65,26 +76,33 @@ const Header = () => {
             initialValues={initialValues}
             className={styles.container_right_search_formik}
             onSubmit={(values: IValues) => {
-              console.log({ values });
-              setQuery(values.query);
+              console.log(values);
+              const params = { query: values.query };
+              // to navigate we have to set handlesubmit
+              navigate({
+                pathname: "/search/movie",
+                search: `?${createSearchParams(params)}`,
+              });
             }}
           >
-            <Form
-            className={styles.container_right_search_formik_form}
-            >
-              <Field
-                name="search"
-                placeholder="Search for a Movie, Tv Shows, Person ..."
-                type="text"
-                className={styles.container_right_search_formik_form_input}
-              />
-              <button
-                className={styles.container_right_search_formik_form_button}
-                type="submit"
-              >
-                {search()}
-              </button>
-            </Form>
+            {(props) => (
+              <Form className={styles.container_right_search_formik_form}>
+                <Field
+                  name="query"
+                  placeholder="Search for a Movie, Tv Shows, Person ..."
+                  type="text"
+                  value={props.values.query}
+                  className={styles.container_right_search_formik_form_input}
+                />
+                <button
+                  className={styles.container_right_search_formik_form_button}
+                  type="submit"
+                  onClick={() => props.handleSubmit()}
+                >
+                  <Link to={"/search"}>{search()}</Link>
+                </button>
+              </Form>
+            )}
           </Formik>
         </div>
         <button className={styles.container_right_login}>Giriş</button>
