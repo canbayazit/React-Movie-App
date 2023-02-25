@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import DetailPage from "./Pages/DetailPage/DetailPage";
 import FilterPage from "./Pages/FilterPage/FilterPage";
 import WhistlistFavoritesPage from "./Components/WhistList/WhistlistFavorites";
+import SearchPage from "./Pages/Search/SearchPage";
 
 function App() {
   useEffect(() => {
@@ -17,12 +18,14 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/:category/:id" element={<DetailPage />}></Route>
-        <Route path="/:category" element={<FilterPage />}></Route>
-        <Route path="/login" element={<Home />}></Route>
-        <Route path="/whistlist" element={<WhistlistFavoritesPage />}></Route>
-        <Route path="/favourites" element={<WhistlistFavoritesPage />}></Route>
+        <Route path="" element={<Home />}/>
+        <Route path=":category/:id" element={<DetailPage />}/>
+        <Route path=":category" element={<FilterPage />}/>
+        <Route path="login" element={<Home />}/>
+        <Route path="whistlist" element={<WhistlistFavoritesPage />}/>
+        <Route path="favorites" element={<WhistlistFavoritesPage />}/>
+        <Route path="search/:category" element={<SearchPage />}/>
+         
       </Routes>
       <Footer />
     </>
