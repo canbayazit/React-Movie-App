@@ -1,0 +1,239 @@
+@use "../../../Scss/variables" as *;
+
+.container {
+  position: absolute;
+  bottom: 150px;
+  left: 80px;
+  // border: 2px solid blue;
+  width: 400px;
+  h1 {
+    color: #f9f9f9;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  &_form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &_mail {
+      width: 100%;
+      position: relative;
+      &_error {
+        position: relative;
+        width: 100%;
+        height: 10px;
+        color: red;
+        &:not(:empty) ~ .svg {
+          bottom: 20px;
+        }
+      }
+      h5 {
+        position: absolute;
+        opacity: 0.8;
+        font-weight: 600;
+        color: silver;
+        left: 30px;
+        font-size: 18px;
+        transition: 0.3s;
+        z-index: 1;
+      }
+      .svg {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+      }
+      &_field {
+        width: 100%;
+        padding: 10px 0;
+        padding-left: 30px;
+        background-color: transparent;
+        border: none;
+        color: #f9f9f9;
+        outline: none;
+        position: relative;
+        z-index: 2;
+        &[value=""] {
+          opacity: 0.6;
+          border-bottom: 2px solid silver;
+        }
+        &:not([value=""]) {
+          opacity: 1;
+          border-bottom: 2px solid $theme-color;
+        }
+        &:focus {
+          opacity: 1;
+          border-bottom: 2px solid $theme-color;
+        }
+        //text
+        &[value=""] ~ h5 {
+          top: 8px;
+          font-size: 18px;
+        }
+        &:not([value=""]) ~ h5 {
+          top: -10px;
+          font-size: 15px;
+        }
+        &:focus ~ h5 {
+          top: -10px;
+          font-size: 15px;
+        }
+
+        //icon
+        &[value=""] {
+          & ~ .svg {
+            opacity: 0.7;
+          }
+          & ~ .svg > .path {
+            fill: silver;
+          }
+        }
+
+        &:not([value=""]) {
+          & ~ .svg {
+            opacity: 1;
+          }
+          & ~ .svg > .path {
+            fill: $theme-color;
+          }
+        }
+        &:focus {
+          & ~ .svg {
+            opacity: 1;
+          }
+          & ~ .svg > .path {
+            fill: $theme-color;
+          }
+        }
+      }
+    }
+    &_password {
+      margin-top: 20px;
+      width: 100%;
+      position: relative;
+      &_error {
+        position: relative;
+        width: 100%;
+        height: 10px;
+        color: red;
+        &:not(:empty) ~ .svg {
+          bottom: 20px;
+        }
+      }
+      h5 {
+        position: absolute;
+        opacity: 0.8;
+        font-weight: 600;
+        color: silver;
+        left: 30px;
+        font-size: 18px;
+        transition: 0.3s;
+        z-index: 1;
+      }
+      .svg {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+      }
+      &_field {
+        width: 100%;
+        padding: 10px 0;
+        padding-left: 30px;
+        background-color: transparent;
+        border: none;
+        color: #f9f9f9;
+        outline: none;
+        position: relative;
+        z-index: 2;
+        &[value=""] {
+          opacity: 0.6;
+          border-bottom: 2px solid silver;
+        }
+        &:not([value=""]) {
+          opacity: 1;
+          border-bottom: 2px solid $theme-color;
+        }
+        &:focus {
+          opacity: 1;
+          border-bottom: 2px solid $theme-color;
+        }
+        //text
+        &[value=""] ~ h5 {
+          top: 8px;
+          font-size: 18px;
+        }
+        &:not([value=""]) ~ h5 {
+          top: -10px;
+          font-size: 15px;
+        }
+        &:focus ~ h5 {
+          top: -10px;
+          font-size: 15px;
+        }
+
+        //icon
+        &[value=""] {
+          & ~ .svg {
+            opacity: 0.7;
+          }
+          & ~ .svg > .path {
+            fill: silver;
+          }
+        }
+
+        &:not([value=""]) {
+          & ~ .svg {
+            opacity: 1;
+          }
+          & ~ .svg > .path {
+            fill: $theme-color;
+          }
+        }
+        &:focus {
+          & ~ .svg {
+            opacity: 1;
+          }
+          & ~ .svg > .path {
+            fill: $theme-color;
+          }
+        }
+      }
+    }
+    &_button {
+      margin-top: 30px;
+      width: 100%;
+      button {
+        border-radius: 30px;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background: $background;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+    &_link {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 20px;
+      a {
+        text-decoration: none;
+        color: $theme-color;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
