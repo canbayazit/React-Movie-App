@@ -8,6 +8,7 @@ import DetailPage from "./Pages/DetailPage/DetailPage";
 import FilterPage from "./Pages/FilterPage/FilterPage";
 import WhistlistFavoritesPage from "./Components/WhistList/WhistlistFavorites";
 import SearchPage from "./Pages/Search/SearchPage";
+import LoginPage from "./Pages/LoginPage/LoginPage";
 
 function App() {
   useEffect(() => {
@@ -18,14 +19,15 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="" element={<Home />}/>
-        <Route path=":category/:id" element={<DetailPage />}/>
-        <Route path=":category" element={<FilterPage />}/>
-        <Route path="login" element={<Home />}/>
-        <Route path="whistlist" element={<WhistlistFavoritesPage />}/>
-        <Route path="favorites" element={<WhistlistFavoritesPage />}/>
-        <Route path="search/:category" element={<SearchPage />}/>
-         
+        <Route path="" element={<Home />} />
+        <Route path=":category/:id" element={<DetailPage />} />
+        <Route path=":category" element={<FilterPage />} />
+        {["login", "register"].map((path, index) => (
+          <Route path={path} element={<LoginPage />} key={index} />
+        ))}    
+        <Route path="whistlist" element={<WhistlistFavoritesPage />} />
+        <Route path="favorites" element={<WhistlistFavoritesPage />} />
+        <Route path="search/:category" element={<SearchPage />} />
       </Routes>
       <Footer />
     </>
