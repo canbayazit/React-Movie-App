@@ -9,6 +9,8 @@ import FilterPage from "./Pages/FilterPage/FilterPage";
 import WhistlistFavoritesPage from "./Components/WhistList/WhistlistFavorites";
 import SearchPage from "./Pages/Search/SearchPage";
 import LoginPage from "./Pages/LoginPage/LoginPage";
+import Login from "./Components/Login/Login/Login";
+import Register from "./Components/Login/Register/Register";
 
 function App() {
   useEffect(() => {
@@ -22,9 +24,10 @@ function App() {
         <Route path="" element={<Home />} />
         <Route path=":category/:id" element={<DetailPage />} />
         <Route path=":category" element={<FilterPage />} />
-        {["login", "register"].map((path, index) => (
-          <Route path={path} element={<LoginPage />} key={index} />
-        ))}    
+        <Route element={<LoginPage />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
         <Route path="whistlist" element={<WhistlistFavoritesPage />} />
         <Route path="favorites" element={<WhistlistFavoritesPage />} />
         <Route path="search/:category" element={<SearchPage />} />
