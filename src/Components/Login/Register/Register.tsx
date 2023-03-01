@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import {
   Formik,
@@ -9,15 +9,17 @@ import {
   FieldProps,
 } from "formik";
 import styles from "./register.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { lock } from "../../../Assets/svg/icons/lock";
 import { person } from "../../../Assets/svg/icons/person";
 import { mail } from "../../../Assets/svg/icons/mail";
+import { signUp } from "../../../Service/authServices";
+
 interface IValues {
   email: string;
   password: string;
-  confirm:string
-  username:string
+  confirm: string;
+  username: string;
 }
 const commentSchema = Yup.object().shape({
   username: Yup.string()
@@ -38,14 +40,14 @@ const commentSchema = Yup.object().shape({
     'Must match "password" field value'
   ),
 });
-const Register = () => {
+const RegisterForm = () => {
   const initialValues: IValues = {
     email: "",
     password: "",
-    confirm:"",
-    username:"",
+    confirm: "",
+    username: "",
   };
-  console.log(styles);
+  const navigate = useNavigate();
   return (
     <div className={styles.container}>
       <h1>Sign Up</h1>
@@ -54,8 +56,13 @@ const Register = () => {
         validationSchema={commentSchema}
         validateOnChange={true}
         validateOnBlur={true}
-        onSubmit={(values: IValues) => {
+        onSubmit={async(values: IValues) => {
           console.log({ values });
+          const user = await signUp(values.username,values.email,values.password);
+          navigate("/login", { replace: true });
+          if (user) {
+            return console.log("Account created successfully")
+          }
         }}
       >
         {({ errors, touched }) => (
@@ -121,7 +128,7 @@ const Register = () => {
             <div className={styles.container_form_button}>
               <button type="submit">
                 {/* <span>{plane()}</span>  */}
-                LOGIN
+                Sign-Up
               </button>
             </div>
             <div className={styles.container_form_link}>
@@ -134,4 +141,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterForm;
