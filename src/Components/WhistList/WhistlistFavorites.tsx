@@ -3,7 +3,7 @@ import { shallowEqual } from "react-redux";
 import { useLocation } from "react-router";
 import { addWhistList } from "../../Assets/svg/icons/whistList";
 import { useAppSelector } from "../../Hooks/Hook";
-import { IICon } from "../../Types/state";
+import { IICon } from "../../Types/sliceStates";
 import WhistItem from "./MovieItem/MovieItem";
 import styles from "./whistlistFavorites.module.scss";
 const WhistlistFavorites = () => {

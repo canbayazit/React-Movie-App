@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { imageSize } from "../../../../Store/constant";
-import { useGetCreditServiceQuery } from "../../../../Store/services";
+import { useGetCreditServiceQuery } from "../../../../Service/movieServices";
 import { ICrew } from "../../../../Types/credit";
 import styles from "./crew.module.scss";
 

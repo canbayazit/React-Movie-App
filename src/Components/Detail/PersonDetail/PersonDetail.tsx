@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router";
 import { imageSize } from "../../../Store/constant";
-import { useGetDetailServiceQuery } from "../../../Store/services";
+import { useGetDetailServiceQuery } from "../../../Service/movieServices";
 import notFoundImage from "../../../Assets/img/personUser.png";
 import styles from "./personDetail.module.scss";
 

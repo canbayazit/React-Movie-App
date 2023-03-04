@@ -14,7 +14,7 @@ import {
   setFavoriteChangeIcon,
   setWhistListChangeIcon,
 } from "../../../Store/movieSlice";
-import { useGetDetailServiceQuery, useGetVideoServiceQuery } from "../../../Store/services";
+import { useGetDetailServiceQuery, useGetVideoServiceQuery } from "../../../Service/movieServices";
 import { IMovieTVPersonDetail } from "../../../Types/detailPage";
 import styles from "./movieTvDetail.module.scss";
 interface ITagItem {

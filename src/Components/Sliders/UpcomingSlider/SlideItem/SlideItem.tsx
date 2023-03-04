@@ -10,7 +10,7 @@ import {
 import {
   useGetGenresServiceQuery,
   useGetVideoServiceQuery,
-} from "../../../../Store/services";
+} from "../../../../Service/movieServices";
 import { Result } from "../../../../Types/upcomingMovies";
 import styles from "./slideItem.module.scss";
 interface IProps {

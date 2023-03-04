@@ -11,7 +11,7 @@ import styles from "./filterMovieTv.module.scss";
 import {
   useGetGenresServiceQuery,
   useGetMovieOrTvServiceQuery,
-} from "../../Store/services";
+} from "../../Service/movieServices";
 import { useParams } from "react-router";
 import MovieCard from "../Card/MovieCard/MovieCard";
 interface IValues {

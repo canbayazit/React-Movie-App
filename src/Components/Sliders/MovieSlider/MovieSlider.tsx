@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { useAppDispatch } from "../../../Hooks/Hook";
 import { setGenreFilterId } from "../../../Store/movieSlice";
-import { useGetMovieOrTvServiceQuery } from "../../../Store/services";
+import { useGetMovieOrTvServiceQuery } from "../../../Service/movieServices";
 import { Genre, IGenres } from "../../../Types/genres";
 import { ISetting } from "../../../Types/sliderTypes";
 import { SampleNextArrow, SamplePrevArrow } from "../../../Utils/Functions";

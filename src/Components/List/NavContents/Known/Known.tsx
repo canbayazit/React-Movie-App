@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetPersonCreditServiceQuery } from "../../../../Store/services";
+import { useGetPersonCreditServiceQuery } from "../../../../Service/movieServices";
 import MovieCard from "../../../Card/MovieCard/MovieCard";
 import styles from "./known.module.scss";
 

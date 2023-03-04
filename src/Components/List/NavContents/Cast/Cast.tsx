@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { imageSize } from "../../../../Store/constant";
-import { useGetCreditServiceQuery } from "../../../../Store/services";
+import { useGetCreditServiceQuery } from "../../../../Service/movieServices";
 import user from '../../../../Assets/img/user.png'
 import styles from "./cast.module.scss";
 

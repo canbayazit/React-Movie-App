@@ -7,14 +7,14 @@ import { IPersonMovies } from "../Types/personMovies";
 import { ISimilar } from "../Types/similar";
 import { IUpcomingMovies } from "../Types/upcomingMovies";
 import { IVideos } from "../Types/video";
-import { baseURL, clientURL } from "./constant";
+import { baseURL, clientURL } from "../Store/constant";
 import { IPersonCredit } from "../Types/personCredit";
 import { ISearch, ISearchMovie } from "../Types/search";
 
 export const movieApi = createApi({
   reducerPath: "movieApi",
   baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
-  tagTypes: ["Post", "User"],
+  tagTypes: ["QUERY"],
   // burda query yada mutation larda kullanacağımız tagleri tanımlıyoruz
   // sonrasında bu tagleri providesTags keyword ile kullanacağımız tag'i
   // service içine tanımlayarak sen bu tagi kullanaksın diyoruz. Peki bu tagler ne işe yarıyor ?
@@ -35,10 +35,10 @@ export const movieApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.cast.map(({ id }) => ({ type: "Post" as const, id })),
-              { type: "Post", id: "LIST" },
+              ...result.cast.map(({ id }) => ({ type: "QUERY" as const, id })),
+              { type: "QUERY", id: "LIST" },
             ]
-          : [{ type: "Post", id: "LIST" }],
+          : [{ type: "QUERY", id: "LIST" }],
     }),
     getUpcomingMoviesService: builder.query<IUpcomingMovies, number>({
       query: (page) =>
@@ -47,12 +47,12 @@ export const movieApi = createApi({
         result
           ? [
               ...result.results.map(({ id }) => ({
-                type: "Post" as const,
+                type: "QUERY" as const,
                 id,
               })),
-              { type: "Post", id: "LIST" },
+              { type: "QUERY", id: "LIST" },
             ]
-          : [{ type: "Post", id: "LIST" }],
+          : [{ type: "QUERY", id: "LIST" }],
     }),
     getGenresService: builder.query<IGenres, void>({
       query: () =>
@@ -61,12 +61,12 @@ export const movieApi = createApi({
         result
           ? [
               ...result.genres.map(({ id }) => ({
-                type: "Post" as const,
+                type: "QUERY" as const,
                 id,
               })),
-              { type: "Post", id: "LIST" },
+              { type: "QUERY", id: "LIST" },
             ]
-          : [{ type: "Post", id: "LIST" }],
+          : [{ type: "QUERY", id: "LIST" }],
     }),
     getDetailService: builder.query<
       IMovieTVPersonDetail,
@@ -74,7 +74,7 @@ export const movieApi = createApi({
     >({
       query: (arg) =>
         `/${arg.category}/${arg.id}?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result, error, arg) => [{ type: "Post", arg }],
+      providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
     getMovieOrTvService: builder.query<
       IListMovieTvResponse<IMovieTv>,
@@ -91,12 +91,12 @@ export const movieApi = createApi({
         result
           ? [
               ...result.results.map(({ id }) => ({
-                type: "Post" as const,
+                type: "QUERY" as const,
                 id,
               })),
-              { type: "Post", id: "PARTIAL-LIST" },
+              { type: "QUERY", id: "PARTIAL-LIST" },
             ]
-          : [{ type: "Post", id: "PARTIAL-LIST" }],
+          : [{ type: "QUERY", id: "PARTIAL-LIST" }],
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         return `${queryArgs.id}-${queryArgs.vote}-${queryArgs.category}`;
       },
@@ -124,12 +124,12 @@ export const movieApi = createApi({
         result
           ? [
               ...result.results.map(({ id }) => ({
-                type: "Post" as const,
+                type: "QUERY" as const,
                 id,
               })),
-              { type: "Post", id: "PARTIAL-LIST" },
+              { type: "QUERY", id: "PARTIAL-LIST" },
             ]
-          : [{ type: "Post", id: "PARTIAL-LIST" }],
+          : [{ type: "QUERY", id: "PARTIAL-LIST" }],
           //query arg leri güncellemek için kullanılıyor
       serializeQueryArgs: ({ endpointName, queryArgs }) => {        
         return `${queryArgs.query}-${queryArgs.category}`;
@@ -153,12 +153,12 @@ export const movieApi = createApi({
     getVideoService: builder.query<IVideos, { category: string; id: string }>({
       query: (arg) =>
         `/${arg.category}/${arg.id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result, error, arg) => [{ type: "Post", arg }],
+      providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
     getCreditService: builder.query<ICredit, { category: string; id: string }>({
       query: (arg) =>
         `/${arg.category}/${arg.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result, error, arg) => [{ type: "Post", arg }],
+      providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
     getPersonCreditService: builder.query<
       IPersonCredit,
@@ -166,7 +166,7 @@ export const movieApi = createApi({
     >({
       query: (arg) =>
         `/${arg.category}/${arg.id}/${arg.credit}?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result, error, arg) => [{ type: "Post", arg }],
+      providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
     getSimilarMovieService: builder.query<
       ISimilar,
@@ -174,7 +174,7 @@ export const movieApi = createApi({
     >({
       query: (arg) =>
         `/${arg.category}/${arg.id}/similar?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result, error, arg) => [{ type: "Post", arg }],
+      providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
   }),
 });

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { shallowEqual } from "react-redux";
 import { useAppSelector } from "../../../Hooks/Hook";
-import { useGetGenresServiceQuery } from "../../../Store/services";
+import { useGetGenresServiceQuery } from "../../../Service/movieServices";
 import MovieSlider from "../MovieSlider/MovieSlider";
 import styles from "./genreSlider.module.scss";
 

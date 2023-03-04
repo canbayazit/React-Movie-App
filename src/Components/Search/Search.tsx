@@ -5,7 +5,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { useGetSearchServiceQuery } from "../../Store/services";
+import { useGetSearchServiceQuery } from "../../Service/movieServices";
 import MovieCard from "../Card/MovieCard/MovieCard";
 import PersonCard from "../Card/PersonCard/PersonCard";
 import styles from "./search.module.scss";

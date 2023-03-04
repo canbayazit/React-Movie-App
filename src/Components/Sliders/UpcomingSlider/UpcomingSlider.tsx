@@ -3,7 +3,7 @@ import styles from "./upcoming.module.scss";
 import { ISetting } from "../../../Types/sliderTypes";
 import {
   useGetUpcomingMoviesServiceQuery,
-} from "../../../Store/services";
+} from "../../../Service/movieServices";
 import SlideItem from "./SlideItem/SlideItem";
 import More from "../../More/More";
 import {

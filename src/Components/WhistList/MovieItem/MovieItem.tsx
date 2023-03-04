@@ -1,6 +1,6 @@
 import React from 'react'
-import { useGetDetailServiceQuery } from '../../../Store/services'
-import { IICon } from '../../../Types/state'
+import { useGetDetailServiceQuery } from '../../../Service/movieServices'
+import { IICon } from '../../../Types/sliceStates'
 import MovieCard from '../../Card/MovieCard/MovieCard'
 import styles from "./movieItem.module.scss";
 

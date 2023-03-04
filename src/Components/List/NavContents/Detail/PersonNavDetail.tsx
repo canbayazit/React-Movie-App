@@ -1,7 +1,7 @@
 import moment from "moment";
 import React from "react";
 import { useParams } from "react-router";
-import { useGetDetailServiceQuery } from "../../../../Store/services";
+import { useGetDetailServiceQuery } from "../../../../Service/movieServices";
 import styles from "./personNavDetail.module.scss";
 
 const PersonNavDetail = () => {

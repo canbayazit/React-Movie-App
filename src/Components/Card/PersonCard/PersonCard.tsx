@@ -1,6 +1,6 @@
 import React from 'react'
 import { imageSize } from '../../../Store/constant';
-import { useGetDetailServiceQuery } from '../../../Store/services';
+import { useGetDetailServiceQuery } from '../../../Service/movieServices';
 import notFoundImage from "../../../Assets/img/personUser.png";
 import styles from "./person.module.scss";
 import { Link } from 'react-router-dom';
