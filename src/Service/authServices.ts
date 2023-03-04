@@ -1,12 +1,11 @@
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { app } from "./firebase";
+import { auth } from "./firebase";
 import image from "../Assets/img/user.png";
-const auth = getAuth(app);
+import { toast } from "react-toastify";
 
 //Sign-up
 export const signUp = async (name: string, email: string, password: string) => {
@@ -22,7 +21,16 @@ export const signUp = async (name: string, email: string, password: string) => {
     });
     return user;
   } catch (error: any) {
-    console.log(error.message);
+    toast.error(`${error.message}`, {
+      position: "top-center",
+      autoClose: 5500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 };
 
@@ -32,6 +40,15 @@ export const Login = async (email: string, password: string) => {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     return user;
   } catch (error: any) {
-    console.log(error.message);
+    toast.error(`${error.message}`, {
+      position: "top-center",
+      autoClose: 5500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 };
