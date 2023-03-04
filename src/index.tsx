@@ -6,6 +6,7 @@ import { store } from "./Store";
 import { BrowserRouter } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
