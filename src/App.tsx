@@ -11,6 +11,7 @@ import SearchPage from "./Pages/Search/SearchPage";
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import Login from "./Components/Login/Login/Login";
 import Register from "./Components/Login/Register/Register";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   useEffect(() => {
@@ -32,6 +33,11 @@ function App() {
         <Route path="favorites" element={<WhistlistFavoritesPage />} />
         <Route path="search/:category" element={<SearchPage />} />
       </Routes>
+      <ToastContainer
+        style={{ width: "max-content" }}
+        progressClassName="toastProgress"
+        bodyClassName="toastBody"
+      />
       <Footer />
     </>
   );
