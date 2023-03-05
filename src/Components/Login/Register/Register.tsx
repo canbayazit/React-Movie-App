@@ -13,7 +13,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { lock } from "../../../Assets/svg/icons/lock";
 import { person } from "../../../Assets/svg/icons/person";
 import { mail } from "../../../Assets/svg/icons/mail";
-import { signUp } from "../../../Service/authServices";
+import { toast } from "react-toastify";
+import { usePostRegisterServiceMutation } from "../../../Service/firebaseServices";
 
 interface IValues {
   email: string;
@@ -24,6 +25,7 @@ interface IValues {
 const commentSchema = Yup.object().shape({
   username: Yup.string()
     .min(3, "The username is too short")
+    .max(8, "The username must be 8 characters long")
     .required("Username is required"),
   email: Yup.string()
     .email("The email is invalid")
@@ -35,10 +37,9 @@ const commentSchema = Yup.object().shape({
     .matches(/[0-9]/, "Password requires a number")
     .matches(/[a-z]/, "Password requires a lowercase letter")
     .matches(/[A-Z]/, "Password requires an uppercase letter"),
-  confirm: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    'Must match "password" field value'
-  ),
+  confirm: Yup.string()
+    .required("Confirm password is required")
+    .oneOf([Yup.ref("password"), null], 'Must match "password" field value'),
 });
 const RegisterForm = () => {
   const initialValues: IValues = {
@@ -48,6 +49,8 @@ const RegisterForm = () => {
     username: "",
   };
   const navigate = useNavigate();
+  const [postRegister, { isLoading }] = usePostRegisterServiceMutation();
+
   return (
     <div className={styles.container}>
       <h1>Sign Up</h1>
@@ -56,16 +59,41 @@ const RegisterForm = () => {
         validationSchema={commentSchema}
         validateOnChange={true}
         validateOnBlur={true}
-        onSubmit={async(values: IValues) => {
+        onSubmit={async (values: IValues) => {
           console.log({ values });
-          const user = await signUp(values.username,values.email,values.password);
-          navigate("/login", { replace: true });
-          if (user) {
-            return console.log("Account created successfully")
-          }
+          await postRegister({
+            username: values.username,
+            email: values.email,
+            password: values.password,
+          })
+          .unwrap()
+          .then(()=> {
+            toast.success("Account created successfully", {
+              position: "top-center",
+              autoClose: 6000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+            navigate("/login", { replace: true })
+          })
+          .catch((error)=>toast.error(`${error.message}`, {
+            position: "top-center",
+            autoClose: 6000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }))
+          
         }}
       >
-        {({ errors, touched }) => (
+        {({ errors, touched, isValid, dirty, isSubmitting }) => (
           <Form className={styles.container_form}>
             <div className={styles.container_form_username}>
               <Field
@@ -126,7 +154,10 @@ const RegisterForm = () => {
               <h5>Confirm Password</h5>
             </div>
             <div className={styles.container_form_button}>
-              <button type="submit">
+              <button
+                type="submit"
+                disabled={!(isValid && dirty) || isSubmitting}
+              >
                 {/* <span>{plane()}</span>  */}
                 Sign-Up
               </button>
