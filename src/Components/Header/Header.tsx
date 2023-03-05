@@ -17,6 +17,11 @@ import {
 } from "formik";
 import { search } from "../../Assets/svg/icons/search";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../Hooks/Hook";
+import { shallowEqual } from "react-redux";
+import { getAuth, signOut } from "firebase/auth";
+import { logOutHandle } from "../../Store/authSlice";
+import { toast } from "react-toastify";
 interface INavItem {
   id: number;
   name: string;
@@ -32,18 +37,47 @@ interface IValues {
 }
 const Header = () => {
   const [isScrolling, setScrolling] = useState(false);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname,"pathname")
   const initialValues: IValues = {
     query: "",
   };
+  const user = useAppSelector((store) => store.auth.user, shallowEqual);
   useEffect(() => {
     window.addEventListener("scroll", () => {
       window.scrollY >= 80 ? setScrolling(true) : setScrolling(false);
     });
   }, []);
-
+  const handlelogOut=()=>{
+      const auth= getAuth();
+      signOut(auth).then(
+        ()=>{
+          dispatch(logOutHandle())
+          toast.success("Successfully logged out", {
+            position: "top-center",
+            autoClose: 5500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      ).catch((error)=>{
+        toast.error(`${error.message}`, {
+          position: "top-center",
+          autoClose: 5500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+  }
   return (
     <header
       className={
@@ -105,7 +139,22 @@ const Header = () => {
             )}
           </Formik>
         </div>
-        <button className={styles.container_right_login}>Giriş</button>
+        {user.email ? (
+          <div className={styles.container_right_profile}>
+            <ul>
+              <li>
+                <h2>{user.displayName}</h2>
+
+                <img src={user.photoURL} alt="" />
+              </li>
+              <li onClick={()=>handlelogOut()}>Log Out</li>
+            </ul>
+          </div>
+        ) : (
+          <Link to={"/login"} className={styles.container_right_login}>
+            Giriş
+          </Link>
+        )}
       </div>
     </header>
   );
