@@ -212,9 +212,12 @@
         background: $background;
         font-size: 16px;
         font-weight: 600;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.8;
+        &:disabled {
+            background: grey;
+        }
+        &:not(:disabled):hover{
+            opacity: .85;
+            cursor: pointer;
         }
       }
     }
