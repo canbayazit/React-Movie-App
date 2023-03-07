@@ -4,9 +4,9 @@ export interface IMovieSliceState {
   movieId: number;
   upcomingMovieId: number;
   genreId: number;
-  iconFavoriteMovieId: IICon[];
-  iconWhistListMovieId: IICon[];
   genreFilterId: IGenreFilter[];
+  favoriteList: IICon[];
+  watchList: IICon[];
 }
 
 export interface IICon {
@@ -16,27 +16,26 @@ export interface IICon {
 
 export interface IUserLogin {
   email: string;
-  password:string;
+  password: string;
 }
 
 export interface IUserRegister {
   username: string;
   email: string;
-  password:string;
+  password: string;
 }
 
 export interface IUserCollection {
   id: number;
   category: string;
-  uid:string;
-  key:string;
+  uid: string;
+  key: string;
 }
 //Auth Slice
 export interface IAuthSliceState {
-  user:IUser
- 
+  user: IUser;
 }
-export interface IUser{
+export interface IUser {
   email: string;
   uid: string;
   displayName: string;
