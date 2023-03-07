@@ -11,12 +11,12 @@ import { addWhistList } from "../../../Assets/svg/icons/whistList";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
 import { clientURL, imageOriginal } from "../../../Store/constant";
 import {
-  setFavoriteChangeIcon,
-  setWhistListChangeIcon,
+
 } from "../../../Store/movieSlice";
 import { useGetDetailServiceQuery, useGetVideoServiceQuery } from "../../../Service/movieServices";
 import { IMovieTVPersonDetail } from "../../../Types/detailPage";
 import styles from "./movieTvDetail.module.scss";
+import { usePostFavoriteServiceMutation, usePostWatchListServiceMutation } from "../../../Service/firebaseServices";
 interface ITagItem {
   key: string;
   name?: string;
@@ -40,13 +40,13 @@ const MovieTvDetail = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [movieId, setMovieId] = useState<number>(0);
   const { category, id } = useParams();
-  const dispatch = useAppDispatch();
-  const iconFavoriteMovieId = useAppSelector(
-    (store) => store.movies.iconFavoriteMovieId,
+  const uid = useAppSelector((store) => store.auth.user.uid, shallowEqual);
+  const favoriteList = useAppSelector(
+    (store) => store.movies.favoriteList,
     shallowEqual
   );
-  const iconWhistListMovieId = useAppSelector(
-    (store) => store.movies.iconWhistListMovieId,
+  const watchList = useAppSelector(
+    (store) => store.movies.watchList,
     shallowEqual
   );
   const { data, isLoading } = useGetDetailServiceQuery({
@@ -59,6 +59,8 @@ const MovieTvDetail = () => {
   }, {
     skip: !Number(id),
   });
+  const [postFavorite] = usePostFavoriteServiceMutation();
+  const [postWatchList] = usePostWatchListServiceMutation();
   const toHoursAndMinutes = (min: number) => {
     const hours = Math.floor(min / 60);
     const minutes = min % 60;
@@ -76,11 +78,11 @@ const MovieTvDetail = () => {
     }
   }, []);
 
-  const handleClick = (key: string) => {
+  const handleClick = async(key: string) => {
     if (key === "favorite") {
-      dispatch(setFavoriteChangeIcon({id:Number(id),category:category!}));
+      await postFavorite({uid:uid,id:Number(id),category:category!});
     } else if (key === "whistList") {
-      dispatch(setWhistListChangeIcon({id:Number(id),category:category!}));
+      await postWatchList({uid:uid,id:Number(id),category:category!});
     }
   };
   useEffect(() => {
@@ -196,24 +198,24 @@ const MovieTvDetail = () => {
               <div className={styles.container_detail_button_icons}>
                 <div className={styles.container_detail_button_icons_whistlist}>
                   <label>
-                    {iconWhistListMovieId?.find((i) => i.id === Number(id))
+                    {watchList?.find((i) => i.id === Number(id))
                       ? "İzleme Listesinden Kaldır"
                       : "İzleme Listesine Ekle"}
                   </label>
                   <span onClick={() => handleClick("whistList")}>
-                    {iconWhistListMovieId?.find((i) => i.id === Number(id))
+                    {watchList?.find((i) => i.id === Number(id))
                       ? tick()
                       : addWhistList(30)}
                   </span>
                 </div>
                 <div className={styles.container_detail_button_icons_favorite}>
                   <label>
-                    {iconFavoriteMovieId?.find((i) => i.id === Number(id))
+                    {favoriteList?.find((i) => i.id === Number(id))
                       ? "Favoriler Listesinden Kaldır"
                       : "Favoriler Listesine Ekle"}
                   </label>
                   <span onClick={() => handleClick("favorite")}>
-                    {iconFavoriteMovieId?.find((i) => i.id === Number(id))
+                    {favoriteList?.find((i) => i.id === Number(id))
                       ? deleteFavorite()
                       : addFavorite()}
                   </span>

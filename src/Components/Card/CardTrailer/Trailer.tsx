@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addFavorite } from "../../../Assets/svg/icons/addFavorite";
 import { deleteFavorite } from "../../../Assets/svg/icons/deleteFavorite";
 import { tick } from "../../../Assets/svg/icons/tick";
 import { addWhistList } from "../../../Assets/svg/icons/whistList";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
 import { clientURL, imageSize } from "../../../Store/constant";
-import {
-  setFavoriteChangeIcon,
-  setGenreId,
-  setMovieId,
-  setWhistListChangeIcon,
-} from "../../../Store/movieSlice";
-import { useGetVideoServiceQuery } from "../../../Store/services";
+import { setGenreId, setMovieId } from "../../../Store/movieSlice";
+import { useGetVideoServiceQuery } from "../../../Service/movieServices";
 import { IGenres } from "../../../Types/genres";
 import { IMovieTv } from "../../../Types/movie_tv";
 
 import styles from "./trailer.module.scss";
+import {
+  usePostFavoriteServiceMutation,
+  usePostWatchListServiceMutation,
+} from "../../../Service/firebaseServices";
+import { toast } from "react-toastify";
 interface IProps {
   movie: IMovieTv;
   category: string;
@@ -29,28 +29,18 @@ interface IProps {
 const Trailer = (props: IProps) => {
   const { movie, category, genreId, dataMovie, dataGenre } = props;
   const dispatch = useAppDispatch();
-  const iconFavoriteMovieId = useAppSelector((store) => {
-    if (store.movies.genreId === genreId) {
-      if (store.movies.movieId === movie?.id) {
-        return store.movies.iconFavoriteMovieId;
-      }
-    } else {
-      if (store.movies.movieId === movie?.id) {
-        return store.movies.iconFavoriteMovieId;
-      }
-    }
-  }, shallowEqual);
-  const iconWhistListMovieId = useAppSelector((store) => {
-    if (store.movies.genreId === genreId) {
-      if (store.movies.movieId === movie?.id) {
-        return store.movies.iconWhistListMovieId;
-      }
-    } else {
-      if (store.movies.movieId === movie?.id) {
-        return store.movies.iconWhistListMovieId;
-      }
-    }
-  }, shallowEqual);
+  const navigate = useNavigate();
+  const [postFavorite] = usePostFavoriteServiceMutation();
+  const [postWatchList] = usePostWatchListServiceMutation();
+  const uid = useAppSelector((store) => store.auth.user.uid, shallowEqual);
+  const watchList = useAppSelector(
+    (store) => store.movies.watchList,
+    shallowEqual
+  );
+  const favoriteList = useAppSelector(
+    (store) => store.movies.favoriteList,
+    shallowEqual
+  );
   const getVideo = useGetVideoServiceQuery(
     {
       category: category!,
@@ -81,39 +71,56 @@ const Trailer = (props: IProps) => {
     dispatch(setMovieId(0));
     dispatch(setGenreId(0));
   };
-  const handleClick = (key: string) => {
-    if (!dataGenre) {
-      key === "favorite"
-        ? dispatch(
-            setFavoriteChangeIcon({
-              id: movie?.id,
-              category: category!,
-            })
-          )
-        : dispatch(
-            setWhistListChangeIcon({
-              id: movie?.id,
-              category: category!,
-            })
-          );
-    } else {
-      if (dataGenre!.genres.findIndex((i) => i.id === genreId) > -1) {
-        if (dataMovie!.findIndex((i) => i.id === movie?.id) > -1) {
-          key === "favorite"
-            ? dispatch(
-                setFavoriteChangeIcon({
-                  id: movie?.id,
-                  category: category!,
-                })
-              )
-            : dispatch(
-                setWhistListChangeIcon({
-                  id: movie?.id,
-                  category: category!,
-                })
-              );
+  console.log("trailer");
+  const handleClick = async (key: string) => {
+    if (uid) {
+      if (!dataGenre) {
+        if (key === "favoriteList") {
+          await postFavorite({
+            uid: uid,
+            id: movie?.id,
+            category: category,          
+          });
+        } else if (key === "watchList") {
+          await postWatchList({
+            uid: uid,
+            id: movie?.id,
+            category: category,
+          });
+        }
+      } else {
+        if (dataGenre!.genres.findIndex((i) => i.id === genreId) > -1) {
+          if (dataMovie!.findIndex((i) => i.id === movie?.id) > -1) {
+            if (key === "favoriteList") {
+              await postFavorite({
+                uid:uid,
+                id: movie?.id,
+                category: category,
+              });
+            } else if (key === "watchList") {
+              await postWatchList({
+                uid:uid,
+                id: movie?.id,
+                category: category,
+              });
+            }
+          }
         }
       }
+    } else {
+      toast.error("You need to be logged in to add!", {
+        position: "top-center",
+        autoClose: 5500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      dispatch(setMovieId(0));
+      dispatch(setGenreId(0));
+      navigate("/login", { replace: true });
     }
   };
 
@@ -183,24 +190,24 @@ const Trailer = (props: IProps) => {
             <div className={styles.container_info_icons_buttons}>
               <div className={styles.container_info_icons_buttons_whistlist}>
                 <label>
-                  {iconWhistListMovieId?.find((i) => i.id === movie?.id)
+                  {watchList?.find((i) => i.id === movie?.id)
                     ? "İzleme Listesinden Kaldır"
                     : "İzleme Listesine Ekle"}
                 </label>
-                <span onClick={() => handleClick("whistList")}>
-                  {iconWhistListMovieId?.find((i) => i.id === movie?.id)
+                <span onClick={() => handleClick("watchList")}>
+                  {watchList?.find((i) => i.id === movie?.id)
                     ? tick()
                     : addWhistList(30)}
                 </span>
               </div>
               <div className={styles.container_info_icons_buttons_favorite}>
                 <label>
-                  {iconFavoriteMovieId?.find((i) => i.id === movie?.id)
+                  {favoriteList?.find((i) => i.id === movie?.id)
                     ? "Favoriler Listesinden Kaldır"
                     : "Favoriler Listesine Ekle"}
                 </label>
-                <span onClick={() => handleClick("favorite")}>
-                  {iconFavoriteMovieId?.find((i) => i.id === movie?.id)
+                <span onClick={() => handleClick("favoriteList")}>
+                  {favoriteList?.find((i) => i.id === movie?.id)
                     ? deleteFavorite()
                     : addFavorite()}
                 </span>
