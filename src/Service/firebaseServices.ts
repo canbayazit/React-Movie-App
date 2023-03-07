@@ -7,7 +7,16 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import {
   IUserCollection,
@@ -26,6 +35,17 @@ export const firebaseApi = createApi({
         return { data: "ok" };
       },
     }),
+    getUserMovieListService: builder.query<any, string>({
+      async queryFn(arg) {
+        try {
+          const querySnapshot = await getDocs(collection(db, `${arg}`));
+          return { data: JSON.stringify(querySnapshot) };
+        } catch (error: any) {
+          return { error: error.message };
+        }
+      },
+      providesTags: [{ type: "POST", id: "LIST" }],
+    }),
     postLoginService: builder.mutation<any, Partial<IUserLogin>>({
       async queryFn(arg) {
         try {
@@ -34,7 +54,7 @@ export const firebaseApi = createApi({
             arg.email!,
             arg.password!
           );
-          //To serialize an object to JSON, you can use JSON.stringify: 
+          //To serialize an object to JSON, you can use JSON.stringify:
           //otherwise you will get error on console.
           return { data: JSON.stringify(user) };
         } catch (error: any) {
@@ -46,11 +66,7 @@ export const firebaseApi = createApi({
     postRegisterService: builder.mutation<any, Partial<IUserRegister>>({
       async queryFn(arg) {
         try {
-          await createUserWithEmailAndPassword(
-            auth,
-            arg.email!,
-            arg.password!
-          );
+          await createUserWithEmailAndPassword(auth, arg.email!, arg.password!);
           await updateProfile(auth.currentUser!, {
             displayName: arg.username,
             photoURL: image,
@@ -66,13 +82,32 @@ export const firebaseApi = createApi({
     postFavoriteService: builder.mutation<string, Partial<IUserCollection>>({
       async queryFn(arg) {
         try {
-          await addDoc(collection(db, `${arg.uid}`), {
-            ...arg,
-          });
+          const docRef = doc(db, `${arg.uid}`, "FL");
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            let data = docSnap
+              .data()
+              .ids.find(
+                (item: { id: number | undefined }) => item.id === arg.id
+              );
+            if (data) {
+              await updateDoc(docRef, {
+                ids: arrayRemove(data),
+              });
+            } else {
+              await updateDoc(docRef, {
+                ids: arrayUnion({ id: arg.id, category: arg.category }),
+              });
+            }
+          } else {
+            await setDoc(doc(db, `${arg.uid}`, "FL"), {
+              ids: arrayUnion({ id: arg.id, category: arg.category }),
+            });
+          }
           return { data: "ok" };
-        } catch (error) {
+        } catch (error: any) {
           return {
-            error: toast.error(`${error}`, {
+            error: toast.error(`${error.message}`, {
               position: "top-center",
               autoClose: 5500,
               hideProgressBar: false,
@@ -90,15 +125,35 @@ export const firebaseApi = createApi({
     postWatchListService: builder.mutation<string, Partial<IUserCollection>>({
       async queryFn(arg) {
         try {
-          await addDoc(collection(db, `${arg.uid}`), {
-            ...arg,
-          });
+          const docRef = doc(db, `${arg.uid}`, "WL");
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            let data = docSnap
+              .data()
+              .ids.find(
+                (item: { id: number | undefined }) => item.id === arg.id
+              );
+            if (data) {
+              await updateDoc(docRef, {
+                ids: arrayRemove(data),
+              });
+            } else {
+              await updateDoc(docRef, {
+                ids: arrayUnion({ id: arg.id, category: arg.category }),
+              });
+            }
+          } else {
+            await setDoc(doc(db, `${arg.uid}`, "WL"), {
+              ids: arrayUnion({ id: arg.id, category: arg.category }),
+            });
+          }
+
           return { data: "ok" };
-        } catch (error) {
+        } catch (error: any) {
           return {
-            error: toast.error(`${error}`, {
+            error: toast.error(`${error.message}`, {
               position: "top-center",
-              autoClose: 5500,
+              autoClose: 20000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: false,
@@ -115,6 +170,7 @@ export const firebaseApi = createApi({
 });
 export const {
   useFethBlogsQuery,
+  useGetUserMovieListServiceQuery,
   usePostFavoriteServiceMutation,
   usePostWatchListServiceMutation,
   usePostRegisterServiceMutation,
