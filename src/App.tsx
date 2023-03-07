@@ -12,11 +12,10 @@ import LoginPage from "./Pages/LoginPage/LoginPage";
 import Login from "./Components/Login/Login/Login";
 import Register from "./Components/Login/Register/Register";
 import { ToastContainer } from "react-toastify";
+import { useUserListListener } from "./Hooks/useUserListListener";
 
 function App() {
-  useEffect(() => {
-    console.log("render");
-  });
+  useUserListListener();
 
   return (
     <>
