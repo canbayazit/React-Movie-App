@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
 import styles from "./comment.module.scss";
-import user from '../../../../Assets/img/user.png'
+import user from "../../../../Assets/img/user.png";
 import {
   Formik,
   FormikHelpers,
@@ -12,6 +12,9 @@ import {
 } from "formik";
 import moment from "moment";
 import { plane } from "../../../../Assets/svg/icons/paperPlane";
+import { usePostCommentServiceMutation } from "../../../../Service/firebaseServices";
+import { useParams } from "react-router";
+import { useCommentListener } from "../../../../Hooks/useCommentListener";
 interface IValues {
   name: string;
   email: string;
@@ -32,7 +35,9 @@ const commentSchema = Yup.object().shape({
 });
 
 const Comment = () => {
-  const [comment, setComment] = useState<IValues[]>([]);
+  const [postComment] = usePostCommentServiceMutation();
+  const {id}=useParams();
+  const comments =useCommentListener(id);
   const initialValues: IValues = {
     name: "",
     email: "",
@@ -40,33 +45,23 @@ const Comment = () => {
     date: "",
   };
   return (
-    <div className={styles.container}> 
+    <div className={styles.container}>
       <Formik
         initialValues={initialValues}
         validationSchema={commentSchema}
         validateOnChange={false}
         validateOnBlur={false}
-        onSubmit={(
-          values: IValues
-          // actions,
-          // validate : FormikHelpers<IValues>
-          // { setSubmitting }: FormikHelpers<IValues>
-        ) => {
-          // setTimeout(() => {
-          //   alert(JSON.stringify(values, null, 2));
-          //   setSubmitting(false);
-          // }, 500);
-          console.log({ values });
+        onSubmit={async (
+          values: IValues       
+        ) => {  
           let date = moment.utc().format();
-          setComment([
-            ...comment,
-            {
-              name: values.name,
-              email: values.email,
-              description: values.description,
-              date: date,
-            },
-          ]);
+          await postComment({
+            id:id,
+            name: values.name,
+            email: values.email,
+            description: values.description,
+            date: date,
+          });
         }}
       >
         {({ errors, touched }) => (
@@ -124,14 +119,14 @@ const Comment = () => {
           </Form>
         )}
       </Formik>
-      {comment.length > 0 ? (
+      {comments.length > 0 ? (
         <div className={styles.container_user}>
           <div className={styles.container_user_header}>
             <i className="fa fa-start"></i>
             <h2>All Comments</h2>
           </div>
           <ul>
-            {comment.map((item, i) => (
+            {comments.map((item, i) => (
               <li>
                 <div className={styles.container_user_img}>
                   <img src={user} alt="" />
@@ -140,7 +135,11 @@ const Comment = () => {
                   <div className={styles.container_user_comment_info}>
                     <span>{item.name}</span>
                     <time dateTime={item.date}>
-                      {moment.utc(item.date).local().startOf('seconds').fromNow()}
+                      {moment
+                        .utc(item.date)
+                        .local()
+                        .startOf("seconds")
+                        .fromNow()}
                     </time>
                   </div>
                   <p>{item.description}</p>

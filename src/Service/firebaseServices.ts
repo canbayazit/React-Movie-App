@@ -10,15 +10,14 @@ import {
 import {
   arrayRemove,
   arrayUnion,
-  collection,
   doc,
   getDoc,
-  getDocs,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import {
+  IComment,
   IUserCollection,
   IUserLogin,
   IUserRegister,
@@ -30,21 +29,45 @@ export const firebaseApi = createApi({
   baseQuery: fakeBaseQuery(),
   tagTypes: ["POST"],
   endpoints: (builder) => ({
-    fethBlogs: builder.query({
-      queryFn() {
-        return { data: "ok" };
-      },
-    }),
-    getUserMovieListService: builder.query<any, string>({
+    postCommentService: builder.mutation<any, Partial<IComment>>({
       async queryFn(arg) {
         try {
-          const querySnapshot = await getDocs(collection(db, `${arg}`));
-          return { data: JSON.stringify(querySnapshot) };
+          const docRef = doc(db, `${arg.id}`, "Comments");
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            await updateDoc(docRef, {
+                comments: arrayUnion({
+                name: arg.name,
+                description: arg.description,
+                date: arg.date,
+              }),
+            });
+          } else {
+            await setDoc(doc(db, `${arg.id}`, "Comments"), {
+            comments: arrayUnion({
+                name: arg.name,
+                description: arg.description,
+                date: arg.date,
+              }),
+            });
+          }
+          return { data: "ok" };
         } catch (error: any) {
-          return { error: error.message };
+          return {
+            error: toast.error(`${error.message}`, {
+              position: "top-center",
+              autoClose: 5500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            }),
+          };
         }
       },
-      providesTags: [{ type: "POST", id: "LIST" }],
+      invalidatesTags: [{ type: "POST", id: "LIST" }],
     }),
     postLoginService: builder.mutation<any, Partial<IUserLogin>>({
       async queryFn(arg) {
@@ -169,8 +192,7 @@ export const firebaseApi = createApi({
   }),
 });
 export const {
-  useFethBlogsQuery,
-  useGetUserMovieListServiceQuery,
+  usePostCommentServiceMutation,
   usePostFavoriteServiceMutation,
   usePostWatchListServiceMutation,
   usePostRegisterServiceMutation,
