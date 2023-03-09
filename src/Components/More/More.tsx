@@ -1,5 +1,5 @@
 import styles from "./more.module.scss";
-import { arrowDown } from "../../Assets/svg/svg";
+import { arrowDown } from "../../Assets/svg/icons/arrows";
 import { Link } from "react-scroll";
 const More = () => {
   return (

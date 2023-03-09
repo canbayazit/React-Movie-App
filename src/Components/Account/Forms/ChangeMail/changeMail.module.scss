@@ -77,12 +77,14 @@
         font-weight: 600;
         height: 30px;
         background-color: transparent;
-        border: none;
-        cursor: pointer;
-        opacity: 0.85;
-        &:hover {
-          opacity: 1;
+        border: none;        
+        &:disabled {
+            color: grey;
         }
+        &:not(:disabled):hover{
+            opacity: .85;
+            cursor: pointer;
+        }        
       }
     }
   }

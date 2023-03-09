@@ -12,7 +12,7 @@ export const mail = (styles: any) => (
       className={styles.path}
       d="M21,6V8l-9,5L3,8V6A1,1,0,0,1,4,5H20A1,1,0,0,1,21,6Z"
       fill="rgb(44, 169, 188)"
-      stroke-width={2}
+      strokeWidth={2}
     ></path>
     <path
       className={styles.path}

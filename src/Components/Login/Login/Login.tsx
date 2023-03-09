@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import * as Yup from "yup";
 import {
   Formik,
-  FormikHelpers,
-  FormikProps,
   Form,
   Field,
-  FieldProps,
 } from "formik";
 import styles from "./login.module.scss";
 import { Link, useNavigate } from "react-router-dom";
@@ -58,7 +55,6 @@ const LoginForm = () => {
             .unwrap()
             .then((userObject) => {
               const user= JSON.parse(userObject)
-              console.log(user.email, "login user");
               dispatch(
                 loginHandle({
                   email: user.email,
@@ -68,8 +64,8 @@ const LoginForm = () => {
                 })
               );
               toast.success("Successfully logged in", {
-                position: "top-center",
-                autoClose: 5500,
+                position: "top-right",
+                autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,
@@ -77,12 +73,12 @@ const LoginForm = () => {
                 progress: undefined,
                 theme: "colored",
               });
-              navigate("/", { replace: true });
+              navigate("/");
             })
             .catch((error) => {
-              toast.error(`${error}`, {
-                position: "top-center",
-                autoClose: 5500,
+              toast.error(`${error.message}`, {
+                position: "top-right",
+                autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,

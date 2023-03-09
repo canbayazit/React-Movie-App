@@ -69,8 +69,8 @@ const RegisterForm = () => {
           .unwrap()
           .then(()=> {
             toast.success("Account created successfully", {
-              position: "top-center",
-              autoClose: 6000,
+              position: "top-right",
+              autoClose: 5000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: false,
@@ -81,8 +81,8 @@ const RegisterForm = () => {
             navigate("/login", { replace: true })
           })
           .catch((error)=>toast.error(`${error.message}`, {
-            position: "top-center",
-            autoClose: 6000,
+            position: "top-right",
+            autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,

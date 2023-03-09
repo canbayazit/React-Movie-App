@@ -38,7 +38,7 @@ const ChangePassword = () => {
         validationSchema={commentSchema}
         validateOnChange={true}
         validateOnBlur={true}
-        onSubmit={async (values: IValues) => {
+        onSubmit={(values: IValues) => {
           setPassword(values.password)
         }}
       >

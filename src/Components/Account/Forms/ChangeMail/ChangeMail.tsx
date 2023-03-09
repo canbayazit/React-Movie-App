@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import styles from "./changeMail.module.scss";
 import * as Yup from "yup";
-import {
-  Formik,
-  Form,
-  Field,
-} from "formik";
+import { Formik, Form, Field } from "formik";
 import { useChangeEmail } from "../../../../Hooks/useChangeEmail";
 interface IValues {
   email: string;
@@ -19,7 +15,7 @@ const ChangeMail = () => {
   const initialValues: IValues = {
     email: "",
   };
-  const [email, setEmail] = useState<string>("")
+  const [email, setEmail] = useState<string>("");
   useChangeEmail(email);
   return (
     <div className={styles.container}>
@@ -29,7 +25,7 @@ const ChangeMail = () => {
         validationSchema={commentSchema}
         validateOnChange={true}
         validateOnBlur={true}
-        onSubmit={ (values: IValues) => {
+        onSubmit={(values: IValues) => {
           setEmail(values.email);
         }}
       >
