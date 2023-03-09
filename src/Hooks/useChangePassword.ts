@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { logOutHandle } from "../Store/authSlice";
 import { useAppDispatch } from "./Hook";
 
-export const useChangePassword = async (newPassword: string) => {
+export const useChangePassword = (newPassword: string) => {
   const auth = getAuth();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

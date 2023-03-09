@@ -5,64 +5,69 @@ import { toast } from "react-toastify";
 import { logOutHandle } from "../Store/authSlice";
 import { useAppDispatch } from "./Hook";
 
-export const useChangeEmail = async (newEmail: string) => {
+export const useChangeEmail = (newEmail: string) => {
   const auth = getAuth();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     if (newEmail) {
-      updateEmail(auth.currentUser!, newEmail)
-        .then(() => {
-          toast.success("Successfully updated email!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
+      const update = async () => {
+        await updateEmail(auth.currentUser!, newEmail)
+          .then(() => {
+            toast.success("Successfully updated email!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          })
+          .catch((error) => {
+            toast.error(`${error.message}`, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
           });
-        })
-        .catch((error) => {
-          toast.error(`${error.message}`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
+
+        await signOut(auth)
+          .then(() => {
+            dispatch(logOutHandle());
+            navigate("/login");
+            toast.warning("you need to login again!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          })
+          .catch((error) => {
+            toast.error(`${error.message}`, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
           });
-        });
-      signOut(auth)
-        .then(() => {
-          dispatch(logOutHandle());
-          navigate("/login");
-          toast.warning("you need to login again!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        })
-        .catch((error) => {
-          toast.error(`${error.message}`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        });
+      };
+
+      update();
     }
   }, [auth, dispatch, navigate, newEmail]);
 };
