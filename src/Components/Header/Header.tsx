@@ -49,14 +49,14 @@ const Header = () => {
       window.scrollY >= 80 ? setScrolling(true) : setScrolling(false);
     });
   }, []);
-  const handlelogOut=()=>{
+  const handlelogOut=async()=>{
       const auth= getAuth();
-      signOut(auth).then(
+      await signOut(auth).then(
         ()=>{
           dispatch(logOutHandle())
           toast.success("Successfully logged out", {
-            position: "top-center",
-            autoClose: 5500,
+            position: "top-right",
+            autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
@@ -67,8 +67,8 @@ const Header = () => {
         }
       ).catch((error)=>{
         toast.error(`${error.message}`, {
-          position: "top-center",
-          autoClose: 5500,
+          position: "top-right",
+          autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
@@ -77,6 +77,7 @@ const Header = () => {
           theme: "colored",
         });
       });
+      navigate("/login");
   }
   return (
     <header
@@ -147,6 +148,7 @@ const Header = () => {
 
                 <img src={user.photoURL} alt="" />
               </li>
+              <li><Link to={"/account"}>Account</Link></li>
               <li onClick={()=>handlelogOut()}>Log Out</li>
             </ul>
           </div>
