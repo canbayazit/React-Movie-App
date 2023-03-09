@@ -25,10 +25,14 @@ const movieSlice = createSlice({
       state.upcomingMovieId = action.payload;
     },
     setFavoriteList: (state, action: PayloadAction<IICon[]>) => {
-      state.favoriteList = action.payload;
+      if (action.payload) {
+        state.favoriteList = action.payload;
+      }
     },
     setWatchList: (state, action: PayloadAction<IICon[]>) => {
-      state.watchList = action.payload;
+      if (action.payload) {
+        state.watchList = action.payload;
+      }
     },
     setGenreFilterId: (state, action: PayloadAction<IGenreFilter>) => {
       const filterData = state.genreFilterId.filter(

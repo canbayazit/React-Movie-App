@@ -9,6 +9,14 @@ export interface IMovieSliceState {
   watchList: IICon[];
 }
 
+export interface IComment {
+  id: string;
+  name: string;
+  email: string;
+  description: string;
+  date: string;
+}
+
 export interface IICon {
   id: number;
   category: string;
