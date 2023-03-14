@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { shallowEqual } from "react-redux";
-import { useAppSelector } from "../../../Hooks/Hook";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/Hook";
 import { useGetGenresServiceQuery } from "../../../Service/movieServices";
+import { setLoading } from "../../../Store/movieSlice";
+import Loading from "../../Loading/Loading";
 import MovieSlider from "../MovieSlider/MovieSlider";
 import styles from "./genreSlider.module.scss";
 
@@ -19,6 +21,9 @@ const buttonList: IButtonItem[] = [
 const GenreSlider = () => {
   const [category, setCategory] = useState<string>("movie");
   const [height, setHeigh] = useState<number>();
+  const [slice, setSlice] = useState<number>(2);
+  const { data, isLoading, isFetching } = useGetGenresServiceQuery();
+
   // state bu componentte kullanılmasa bile selector ile redux store bağlandıysak herhangi bir state
   // değiştiğinde component render olur o yüzden shallowEqual kullanıyoruz ve state tek tek alıyoruz.
   const genreFilterId = useAppSelector(
@@ -28,29 +33,42 @@ const GenreSlider = () => {
   useEffect(() => {
     setCategory("movie");
   }, []);
-
-  const { data, isLoading, isFetching } = useGetGenresServiceQuery();
+ 
   const handleClick = (category: string) => {
     setCategory(category);
+    setSlice(2)
   };
-  console.log(category, "category");
   useEffect(() => {
-    if (!isLoading) {
+    if (!isFetching) {
       let length = data?.genres.filter(
         (item) =>
           item.id !==
           genreFilterId
             .filter((item) => item.category === category)
             .find((i) => i.genreId === item.id)?.genreId
-      ).length!;
+      ).slice(0,slice).length!;
       setHeigh(310 * length);
     }
-  }, [category, data?.genres, genreFilterId, isLoading]);
+  }, [category, data?.genres, genreFilterId, isFetching, isLoading, slice]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY + 400 >= document.body.offsetHeight;
+      if (scrolledToBottom && !isFetching) {
+        setSlice(slice + 1);
+      }
+    };
+    document.addEventListener("scroll", onScroll);
+    return function () {
+      document.removeEventListener("scroll", onScroll);
+    };
+  }, [isFetching, slice]);
 
   return (
     <>
-      {isLoading ? (
-        <div>loading</div>
+      {isFetching ? (
+        <Loading/>
       ) : (
         <div className={styles.container} id="content">
           <div className={styles.container_button}>
@@ -73,7 +91,7 @@ const GenreSlider = () => {
                   genreFilterId
                     .filter((item) => item.category === category)
                     .find((i) => i.genreId === item.id)?.genreId
-              )
+              ).slice(0,slice)
               .map((genre, i) => {
                 return (
                   <div
