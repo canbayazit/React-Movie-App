@@ -30,7 +30,7 @@ interface INavItem {
 const headerList: INavItem[] = [
   { id: 1, name: "HOME", to: "/" },
   { id: 2, name: "WATCHLIST", to: "/whistlist" },
-  { id: 3, name: "FAVORITES", to: "/favorites" },
+  { id: 3, name: "FAVORITES", to: "/favoritelist" },
 ];
 interface IValues {
   query: string;

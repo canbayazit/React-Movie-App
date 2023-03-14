@@ -28,8 +28,6 @@ const Search = () => {
     page: page,
     query: searchParams.get("query") || "",
   });
-  console.log(page, "page");
-  console.log(data, "data");
 
   useEffect(() => {
     const onScroll = () => {

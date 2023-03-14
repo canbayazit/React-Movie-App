@@ -9,7 +9,6 @@ export const useCommentListener = (id?: string) => {
     if (id) {
       onSnapshot(doc(db, `${id}`, "Comments"), (doc) => {
         let data = doc.data();
-        console.log(data, "comments");
         setData([...data?.comments])
       });
     }

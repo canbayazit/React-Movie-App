@@ -73,7 +73,7 @@
           text-decoration: underline;
           text-decoration-color: $theme-color;
           cursor: pointer;
-          background-image: linear-gradient(to right, #c0fecf 0%, #1ed5a9 100%);
+          background-image: $background;
           background-size: 100%;
           background-clip: text;
           -webkit-background-clip: text;

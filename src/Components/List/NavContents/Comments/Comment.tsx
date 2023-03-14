@@ -4,11 +4,8 @@ import styles from "./comment.module.scss";
 import user from "../../../../Assets/img/user.png";
 import {
   Formik,
-  FormikHelpers,
-  FormikProps,
   Form,
   Field,
-  FieldProps,
 } from "formik";
 import moment from "moment";
 import { plane } from "../../../../Assets/svg/icons/paperPlane";

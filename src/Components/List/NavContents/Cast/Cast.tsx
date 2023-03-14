@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { imageSize } from "../../../../Store/constant";
 import { useGetCreditServiceQuery } from "../../../../Service/movieServices";
@@ -7,12 +7,12 @@ import styles from "./cast.module.scss";
 
 const Cast = () => {
   const { category, id } = useParams();
-  const credit = useGetCreditServiceQuery({ category: category!, id: id! });
+  const {data,isLoading} = useGetCreditServiceQuery({ category: category!, id: id! });
 
   return (
     <div className={styles.container_nav_content_cast}>
-      {credit.data?.cast.map((item, i) => (
-        <Link to={`/person/${item.id}`}>
+      {data?.cast.map((item, i) => (
+        <Link to={`/detail/person/${item.id}`}>
           <div
             key={`${i}_${item.name}`}
             className={styles.container_nav_content_cast_profil}
@@ -25,8 +25,7 @@ const Cast = () => {
               <span>{item.character}</span>
             </div>
           </div>
-        </Link>
-        
+        </Link>        
       ))}
     </div>
   );

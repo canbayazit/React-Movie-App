@@ -31,7 +31,7 @@ export const arrowButtonRightUpcoming = () => (
     style={{ transform: `rotate(180deg)` }}
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M12 29L1.5 16L12 1.5" stroke="#7fffd4" strokeWidth="3" />
+    <path d="M12 29L1.5 16L12 1.5" stroke="#62b4f5" strokeWidth="3" />
   </svg>
 );
 
@@ -43,7 +43,7 @@ export const arrowButtonLeftUpcoming = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M12 29L1.5 16L12 1.5" stroke="#7fffd4" strokeWidth="3" />
+    <path d="M12 29L1.5 16L12 1.5" stroke="#62b4f5" strokeWidth="3" />
   </svg>
 );
 

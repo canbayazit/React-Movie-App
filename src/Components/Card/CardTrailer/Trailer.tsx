@@ -11,7 +11,6 @@ import { setGenreId, setMovieId } from "../../../Store/movieSlice";
 import { useGetVideoServiceQuery } from "../../../Service/movieServices";
 import { IGenres } from "../../../Types/genres";
 import { IMovieTv } from "../../../Types/movie_tv";
-
 import styles from "./trailer.module.scss";
 import {
   usePostFavoriteServiceMutation,
@@ -215,7 +214,7 @@ const Trailer = (props: IProps) => {
             </div>
           </div>
           <Link
-            to={`/${category}/${movie?.id}`}
+            to={`/detail/${category}/${movie?.id}`}
             className={styles.container_info_more}
           >
             <span>See More</span>

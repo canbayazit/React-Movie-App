@@ -14,7 +14,7 @@ const More = () => {
         duration={500}
       >
         <span>MORE</span>
-        <span>{arrowDown("#7fffd4")}</span>
+        <span>{arrowDown("#62b4f5")}</span>
       </Link>
     </div>
   );

@@ -6,14 +6,14 @@ import {
 } from "../Assets/svg/icons/arrows";
 
 export function SamplePrevArrow(props: any) {
-  const { onClick, currentSlide } = props;
+  const { onClick, currentSlide,location } = props;
   return (
     <div
       style={{
         display: currentSlide === 0 ? "none" : "flex",
         position: "absolute",
-        left: "-5px",
-        top: "0",
+        left: location==="home" ? "0px" : "-5px",
+        top: location==="home" ? "-5px" : "-5px",
         bottom: "0",
         alignItems: "center",
         justifyContent: "center",
@@ -33,15 +33,15 @@ export function SamplePrevArrow(props: any) {
   );
 }
 export function SampleNextArrow(props: any) {
-  const { onClick, currentSlide } = props;
+  const { onClick, currentSlide,location} = props;
 
   return (
     <div
       style={{
         display: currentSlide === 15 ? "none" : "flex",
         position: "absolute",
-        right: "1px",
-        top: "0",
+        right: location==="home" ? 0 : "5px",
+        top: location==="home" ? "5px" : "5px",
         bottom: "0",
         alignItems: "center",
         justifyContent: "center",
@@ -52,7 +52,7 @@ export function SampleNextArrow(props: any) {
         height: "185px",
         backgroundColor: "rgba(0, 0, 0, 0.3)",
         cursor: "Pointer",
-        margin: "10px 0",
+        margin: "0",
       }}
       onClick={onClick}
     >

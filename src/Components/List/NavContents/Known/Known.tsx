@@ -11,13 +11,12 @@ interface IProps {
 const Known = (props: IProps) => {
   const { keys, credit } = props;
   const { category, id } = useParams();
-
   const { data, isLoading } = useGetPersonCreditServiceQuery({
     category: category!,
     id: id!,
     credit: credit,
   });
-  console.log(keys, "key");
+
   return (
     <>
       {isLoading ? (
