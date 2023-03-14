@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { useAppDispatch } from "../../../Hooks/Hook";
@@ -9,8 +9,9 @@ import { ISetting } from "../../../Types/sliderTypes";
 import { SampleNextArrow, SamplePrevArrow } from "../../../Utils/Functions";
 import MovieCard from "../../Card/MovieCard/MovieCard";
 import styles from "./movieSlide.module.scss";
+import Loading from "../../Loading/Loading";
 const settings: ISetting = {
-  lazyLoad: "progressive",
+  lazyLoad: "ondemand" ,
   dots: false,
   arrows: true,
   infinite: false,
@@ -19,9 +20,8 @@ const settings: ISetting = {
   initialSlide: 0,
   slidesToShow: 5,
   slidesToScroll: 4,
-  cssEase: "linear",
-  nextArrow: <SampleNextArrow />,
-  prevArrow: <SamplePrevArrow />,
+  nextArrow: <SampleNextArrow location={"home"}/>,
+  prevArrow: <SamplePrevArrow location={"home"}/>,
 
   responsive: [
     {
@@ -64,32 +64,32 @@ interface IProps {
 const MovieSlider = (props: IProps) => {
   const { genre, category, dataGenre } = props;
   const dispatch = useAppDispatch();
-  const getMovieTv = useGetMovieOrTvServiceQuery({
+  const { data, isLoading, isFetching } = useGetMovieOrTvServiceQuery({
     category: category,
     page: 1,
     id: genre.id.toString(),
   });
-
+ 
   useEffect(() => {
-    if (getMovieTv.data?.results.length === 0) {
+    if (data?.results.length === 0) {
       dispatch(setGenreFilterId({ genreId: genre.id, category: category }));
     }
-  }, [category, dispatch, genre.id, getMovieTv.data?.results.length]);
+  }, [category, dispatch, genre.id, data?.results.length]);
 
   return (
     <>
-      {!getMovieTv.isLoading ? (
-        getMovieTv.data?.results.length !== 0 ? (
+      {!isFetching ? (
+        data?.results.length !== 0 ? (
           <div className={styles.container}>
             <div className={styles.container_button}>
               <h1>{genre.name} Movies</h1>
-              <Link to={`/${category}`}>
+              <Link to={`/filter/${category}`}>
                 <button>Daha Fazlasını Görüntüle</button>
               </Link>
             </div>
             <div className={styles.container_slider}>
               <Slider {...settings}>
-                {getMovieTv.data?.results.map((movie, i) => (
+                {data?.results.map((movie, i) => (
                   <div
                     className={styles.movie_card}
                     key={`${movie.id}_${i}_${genre.id}`}
@@ -98,7 +98,7 @@ const MovieSlider = (props: IProps) => {
                       genreId={genre.id}
                       dataGenre={dataGenre}
                       movie={movie}
-                      dataMovie={getMovieTv.data?.results}
+                      dataMovie={data?.results}
                       categoryType={category}
                     />
                   </div>
@@ -108,7 +108,7 @@ const MovieSlider = (props: IProps) => {
           </div>
         ) : null
       ) : (
-        <div>loading</div>
+        <Loading/>
       )}
     </>
   );

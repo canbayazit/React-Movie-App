@@ -1,9 +1,7 @@
 import Slider from "react-slick";
 import styles from "./upcoming.module.scss";
 import { ISetting } from "../../../Types/sliderTypes";
-import {
-  useGetUpcomingMoviesServiceQuery,
-} from "../../../Service/movieServices";
+import { useGetUpcomingMoviesServiceQuery } from "../../../Service/movieServices";
 import SlideItem from "./SlideItem/SlideItem";
 import More from "../../More/More";
 import {
@@ -12,17 +10,16 @@ import {
 } from "../../../Utils/Functions";
 const settings: ISetting = {
   dots: false,
-  lazyLoad: "progressive",
+  lazyLoad: "anticipated",
   arrows: true,
   infinite: true,
   adaptiveHeight: true,
-  speed: 1000,
+  speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
   initialSlide: 0,
   autoplay: true,
   autoplaySpeed: 6000,
-  cssEase: "linear",
   pauseOnHover: true,
   nextArrow: <SampleNextArrowUpcoming />,
   prevArrow: <SamplePrevArrowUpcoming />,
@@ -69,29 +66,24 @@ const settings: ISetting = {
   ],
 };
 const UpcomingSlider = () => {
-  const { data, isLoading } = useGetUpcomingMoviesServiceQuery(1);
-
+  const { data } = useGetUpcomingMoviesServiceQuery(1);
   return (
     <>
-      {isLoading ? (
-        "loading"
-      ) : (
-        <div className={styles.container}>
-          <div className={styles.container_slider}>
-            <Slider {...settings} className={styles.container_slider_movie}>
-              {data?.results.map((movie, index) => (
-                <div
-                  key={movie.id}
-                  className={styles.container_slider_movie_item}
-                >
-                  <SlideItem movie={movie} index={index} />
-                </div>
-              ))}
-            </Slider>
-          </div>
-          <More />
+      <div className={styles.container}>
+        <div className={styles.container_slider}>
+          <Slider {...settings} className={styles.container_slider_movie}>
+            {data?.results.map((movie, index) => (
+              <div
+                key={movie.id}
+                className={styles.container_slider_movie_item}
+              >
+                <SlideItem movie={movie} index={index} />
+              </div>
+            ))}
+          </Slider>
         </div>
-      )}
+        <More />
+      </div>
     </>
   );
 };
