@@ -1,11 +1,11 @@
 import React from 'react'
-import WhistlistFavorites from '../../Components/WhistList/WhistlistFavorites'
-import styles from "./home.module.scss";
+import { Outlet } from 'react-router';
+import styles from "./list.module.scss";
 
 const whistListPage = () => {
   return (
     <div className={styles.container}>
-        <WhistlistFavorites/>
+        <Outlet/>
     </div>
   )
 }
