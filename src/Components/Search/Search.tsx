@@ -8,6 +8,7 @@ import {
 import { useGetSearchServiceQuery } from "../../Service/movieServices";
 import MovieCard from "../Card/MovieCard/MovieCard";
 import PersonCard from "../Card/PersonCard/PersonCard";
+import Loading from "../Loading/Loading";
 import styles from "./search.module.scss";
 interface ICategory {
   category: string;
@@ -53,53 +54,56 @@ const Search = () => {
     });
   };
   return (
-    <div className={styles.container}>
-      <div className={styles.container_query}>
-        <h2>
-          {searchParams.get("query")
-            ? `"${searchParams.get("query")}" results...`
-            : " "}
-        </h2>
-      </div>
-      <div className={styles.container_search}>
-        <div className={styles.container_search_filter}>
-          <ul>
-            <h3>Search Filter</h3>
-            {categories.map((item) => (
-              <li
-                className={item.category === category && styles.active}
-                onClick={() => handleClick(item.category)}
-              >
-                {item.name}
-              </li>
-            ))}
-          </ul>
+    <>
+      {isFetching && <Loading />}
+      <div className={styles.container}>
+        <div className={styles.container_query}>
+          <h2>
+            {searchParams.get("query")
+              ? `"${searchParams.get("query")}" results...`
+              : " "}
+          </h2>
         </div>
-        {data?.results.length === 0 ? (
-          <div className={styles.container_search_empty}>
-            <p>There are no movies that matched your query.</p>
+        <div className={styles.container_search}>
+          <div className={styles.container_search_filter}>
+            <ul>
+              <h3>Search Filter</h3>
+              {categories.map((item) => (
+                <li
+                  className={item.category === category && styles.active}
+                  onClick={() => handleClick(item.category)}
+                >
+                  {item.name}
+                </li>
+              ))}
+            </ul>
           </div>
-        ) : (
-          <div className={styles.container_search_result}>
-            {data?.results.map((item) => (
-              <div
-                className={
-                  category === "person"
-                    ? styles.container_search_result_person_card
-                    : styles.container_search_result_movie_card
-                }
-              >
-                {category === "person" ? (
-                  <PersonCard id={item.id} />
-                ) : (
-                  <MovieCard movie={item} categoryType={category!} />
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+          {data?.results.length === 0 ? (
+            <div className={styles.container_search_empty}>
+              <p>There are no movies that matched your query.</p>
+            </div>
+          ) : (
+            <div className={styles.container_search_result}>
+              {data?.results.map((item) => (
+                <div
+                  className={
+                    category === "person"
+                      ? styles.container_search_result_person_card
+                      : styles.container_search_result_movie_card
+                  }
+                >
+                  {category === "person" ? (
+                    <PersonCard id={item.id} />
+                  ) : (
+                    <MovieCard movie={item} categoryType={category!} />
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,10 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as Yup from "yup";
-import {
-  Formik,
-  Form,
-  Field,
-} from "formik";
+import { Formik, Form, Field } from "formik";
 import styles from "./login.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { lock } from "../../../Assets/svg/icons/lock";
@@ -13,6 +9,7 @@ import { loginHandle } from "../../../Store/authSlice";
 import { useAppDispatch } from "../../../Hooks/Hook";
 import { toast } from "react-toastify";
 import { usePostLoginServiceMutation } from "../../../Service/firebaseServices";
+import Loading from "../../Loading/Loading";
 interface IValues {
   email: string;
   password: string;
@@ -39,104 +36,107 @@ const LoginForm = () => {
   const [postLogin, { isLoading }] = usePostLoginServiceMutation();
 
   return (
-    <div className={styles.container}>
-      <h1>Login</h1>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={commentSchema}
-        validateOnChange={true}
-        validateOnBlur={true}
-        onSubmit={async (values: IValues) => {
-          console.log({ values });
-          await postLogin({
-            email: values.email,
-            password: values.password,
-          })
-            .unwrap()
-            .then((userObject) => {
-              const user= JSON.parse(userObject)
-              dispatch(
-                loginHandle({
-                  email: user.email,
-                  uid: user.uid,
-                  displayName: user.displayName,
-                  photoURL: user.photoURL,
-                })
-              );
-              toast.success("Successfully logged in", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-              });
-              navigate("/");
+    <>
+      {isLoading && <Loading />}
+      <div className={styles.container}>
+        <h1>Login</h1>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={commentSchema}
+          validateOnChange={true}
+          validateOnBlur={true}
+          onSubmit={async (values: IValues) => {
+            console.log({ values });
+            await postLogin({
+              email: values.email,
+              password: values.password,
             })
-            .catch((error) => {
-              toast.error(`${error.message}`, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
+              .unwrap()
+              .then((userObject) => {
+                const user = JSON.parse(userObject);
+                dispatch(
+                  loginHandle({
+                    email: user.email,
+                    uid: user.uid,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                  })
+                );
+                toast.success("Successfully logged in", {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: false,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                });
+                navigate("/");
+              })
+              .catch((error) => {
+                toast.error(`${error}`, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: false,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                });
               });
-            });
-        }}
-      >
-        {({ errors, touched, isValid, dirty, isSubmitting }) => (
-          <Form className={styles.container_form}>
-            <div className={styles.container_form_mail}>
-              <Field
-                className={styles.container_form_mail_field}
-                name="email"
-                type="email"
-              ></Field>
-              {errors.email && touched.email ? (
-                <div className={styles.container_form_mail_error}>
-                  {errors.email}
-                </div>
-              ) : null}
-              {mail(styles)}
-              <h5>Email</h5>
-            </div>
-            <div className={styles.container_form_password}>
-              <Field
-                className={styles.container_form_password_field}
-                id="password"
-                name="password"
-                type="password"
-              />
-              {errors.password && touched.password ? (
-                <div className={styles.container_form_password_error}>
-                  {errors.password}
-                </div>
-              ) : null}
-              {lock(styles)}
-              <h5>Password</h5>
-            </div>
-            <div className={styles.container_form_button}>
-              <button
-                type="submit"
-                disabled={!(isValid && dirty) || isSubmitting}
-              >
-                {/* dirty: It is true when we write to any element of the form. */}
-                {/* isSubmitting: period of submit */}
-                LOGIN
-              </button>
-            </div>
-            <div className={styles.container_form_link}>
-              <Link to={"/register"}>Don't have an account ?</Link>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </div>
+          }}
+        >
+          {({ errors, touched, isValid, dirty, isSubmitting }) => (
+            <Form className={styles.container_form}>
+              <div className={styles.container_form_mail}>
+                <Field
+                  className={styles.container_form_mail_field}
+                  name="email"
+                  type="email"
+                ></Field>
+                {errors.email && touched.email ? (
+                  <div className={styles.container_form_mail_error}>
+                    {errors.email}
+                  </div>
+                ) : null}
+                {mail(styles)}
+                <h5>Email</h5>
+              </div>
+              <div className={styles.container_form_password}>
+                <Field
+                  className={styles.container_form_password_field}
+                  id="password"
+                  name="password"
+                  type="password"
+                />
+                {errors.password && touched.password ? (
+                  <div className={styles.container_form_password_error}>
+                    {errors.password}
+                  </div>
+                ) : null}
+                {lock(styles)}
+                <h5>Password</h5>
+              </div>
+              <div className={styles.container_form_button}>
+                <button
+                  type="submit"
+                  disabled={!(isValid && dirty) || isSubmitting}
+                >
+                  {/* dirty: It is true when we write to any element of the form. */}
+                  {/* isSubmitting: period of submit */}
+                  LOGIN
+                </button>
+              </div>
+              <div className={styles.container_form_link}>
+                <Link to={"/register"}>Don't have an account ?</Link>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </>
   );
 };
 
