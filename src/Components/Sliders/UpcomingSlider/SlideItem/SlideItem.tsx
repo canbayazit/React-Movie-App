@@ -86,9 +86,6 @@ const SlideItem = (props: IProps) => {
     setMovieId(0);
   };
 
-  // önceki componentteki veri siliniyor 2 kere çalışıyor
-  // ardından yeni componentteki veri geliyor 2 kere çalışıyor
-  // toplam 4 kere çalışmış oluyor
   return (
     <>
       <div
