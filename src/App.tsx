@@ -9,6 +9,8 @@ import { useUserListListener } from "./Hooks/useUserListListener";
 import PrivateRoute from "./Components/PrivateRoute";
 import Loading from "./Components/Loading/Loading";
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
+import ScrollToTop from "./Utils/ScrollToTop";
+import ScrollToTopButton from "./Components/ScrollToTop/ScrollToTopButton";
 
 const DetailPage = React.lazy(() => import("./Pages/DetailPage/DetailPage"));
 const FilterPage = React.lazy(() => import("./Pages/FilterPage/FilterPage"));
@@ -40,9 +42,10 @@ const Account = React.lazy(() => import("./Components/Account/Account"));
 function App() {
   useUserListListener();
   return (
-    <>
+    <ScrollToTop>
+      <ScrollToTopButton/>
       <Header />
-      <Routes>        
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route
           element={
@@ -161,7 +164,7 @@ function App() {
               <SearchPage />
             </Suspense>
           }
-        /> 
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <ToastContainer
@@ -170,7 +173,7 @@ function App() {
         bodyClassName="toastBody"
       />
       <Footer />
-    </>
+    </ScrollToTop>
   );
 }
 
