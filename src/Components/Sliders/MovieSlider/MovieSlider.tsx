@@ -10,6 +10,8 @@ import { SampleNextArrow, SamplePrevArrow } from "../../../Utils/Functions";
 import MovieCard from "../../Card/MovieCard/MovieCard";
 import styles from "./movieSlide.module.scss";
 import Loading from "../../Loading/Loading";
+import { useTranslation } from "react-i18next";
+import i18n from "../../../Assets/i18n";
 const settings: ISetting = {
   lazyLoad: "ondemand" ,
   dots: false,
@@ -68,7 +70,9 @@ const MovieSlider = (props: IProps) => {
     category: category,
     page: 1,
     id: genre.id.toString(),
+    lang:i18n.language.replace("_","-")    
   });
+  const { t } = useTranslation();
  
   useEffect(() => {
     if (data?.results.length === 0) {
@@ -82,9 +86,9 @@ const MovieSlider = (props: IProps) => {
         data?.results.length !== 0 ? (
           <div className={styles.container}>
             <div className={styles.container_button}>
-              <h1>{genre.name} Movies</h1>
+              <h1>{genre.name} {category === "movie" ? t('movies') : t('tvShows')}i</h1>
               <Link to={`/filter/${category}`}>
-                <button>Daha Fazlasını Görüntüle</button>
+                <button>{t('seeMore')}</button>
               </Link>
             </div>
             <div className={styles.container_slider}>

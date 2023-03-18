@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { shallowEqual } from "react-redux";
+import i18n from "../../../Assets/i18n";
 import { useAppSelector } from "../../../Hooks/Hook";
 import { useGetGenresServiceQuery } from "../../../Service/movieServices";
 import Loading from "../../Loading/Loading";
@@ -12,17 +14,12 @@ interface IButtonItem {
   category: string;
 }
 
-const buttonList: IButtonItem[] = [
-  { id: 1, name: "Movies", category: "movie" },
-  { id: 2, name: "Tv Shows", category: "tv" },
-];
-
 const GenreSlider = () => {
   const [category, setCategory] = useState<string>("movie");
   const [height, setHeigh] = useState<number>();
   const [slice, setSlice] = useState<number>(2);
-  const { data, isLoading, isFetching } = useGetGenresServiceQuery();
-
+  const { data, isLoading, isFetching } = useGetGenresServiceQuery(i18n.language.replace("_","-"));
+  const { t } = useTranslation();
   // state bu componentte kullanılmasa bile selector ile redux store bağlandıysak herhangi bir state
   // değiştiğinde component render olur o yüzden shallowEqual kullanıyoruz ve state tek tek alıyoruz.
   const genreFilterId = useAppSelector(
@@ -32,7 +29,10 @@ const GenreSlider = () => {
   useEffect(() => {
     setCategory("movie");
   }, []);
- 
+  const buttonList: IButtonItem[] = [
+    { id: 1, name: t('movies'), category: "movie" },
+    { id: 2, name: t('tvShows'), category: "tv" },
+  ];
   const handleClick = (category: string) => {
     setCategory(category);
     setSlice(2)
