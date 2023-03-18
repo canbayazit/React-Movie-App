@@ -82,7 +82,7 @@ const tr = {
     //search
     noQuery: "Sorgunuzla eşleşen film veya dizi bulunamadı.",
     searchFilter: "Arama Filtresi",
-    result: "Sonuçlar...",
+    result: "sonuçlar...",
     //form validations error 
     emailValidation:"E-posta geçersiz.",
     emailRequired:"E-posta gereklidir.",

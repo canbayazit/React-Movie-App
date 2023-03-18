@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { shallowEqual } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { addFavorite } from "../../../Assets/svg/icons/addFavorite";
@@ -17,6 +17,7 @@ import {
   usePostWatchListServiceMutation,
 } from "../../../Service/firebaseServices";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 interface IProps {
   movie: IMovieTv;
   category: string;
@@ -27,6 +28,7 @@ interface IProps {
 
 const Trailer = (props: IProps) => {
   const { movie, category, genreId, dataMovie, dataGenre } = props;
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [postFavorite] = usePostFavoriteServiceMutation();
@@ -78,7 +80,7 @@ const Trailer = (props: IProps) => {
           await postFavorite({
             uid: uid,
             id: movie?.id,
-            category: category,          
+            category: category,
           });
         } else if (key === "watchList") {
           await postWatchList({
@@ -92,13 +94,13 @@ const Trailer = (props: IProps) => {
           if (dataMovie!.findIndex((i) => i.id === movie?.id) > -1) {
             if (key === "favoriteList") {
               await postFavorite({
-                uid:uid,
+                uid: uid,
                 id: movie?.id,
                 category: category,
               });
             } else if (key === "watchList") {
               await postWatchList({
-                uid:uid,
+                uid: uid,
                 id: movie?.id,
                 category: category,
               });
@@ -108,7 +110,7 @@ const Trailer = (props: IProps) => {
       }
     } else {
       toast.error("You need to be logged in to add!", {
-        position: "top-center",
+        position: "top-right",
         autoClose: 5500,
         hideProgressBar: false,
         closeOnClick: true,
@@ -194,8 +196,10 @@ const Trailer = (props: IProps) => {
                     : "İzleme Listesine Ekle"}
                 </label>
                 <span onClick={() => handleClick("watchList")}>
-                  {watchList?.find((i) => i.id === movie?.id)
-                    ? tick()
+                  {uid
+                    ? watchList?.find((i) => i.id === movie?.id)
+                      ? tick()
+                      : addWhistList(30)
                     : addWhistList(30)}
                 </span>
               </div>
@@ -206,8 +210,10 @@ const Trailer = (props: IProps) => {
                     : "Favoriler Listesine Ekle"}
                 </label>
                 <span onClick={() => handleClick("favoriteList")}>
-                  {favoriteList?.find((i) => i.id === movie?.id)
-                    ? deleteFavorite()
+                  {uid
+                    ? favoriteList?.find((i) => i.id === movie?.id)
+                      ? deleteFavorite()
+                      : addFavorite()
                     : addFavorite()}
                 </span>
               </div>
@@ -217,7 +223,7 @@ const Trailer = (props: IProps) => {
             to={`/detail/${category}/${movie?.id}`}
             className={styles.container_info_more}
           >
-            <span>See More</span>
+            <span>{t('seeMore')}</span>
           </Link>
           <div className={styles.container_info_overview}>
             <h3>

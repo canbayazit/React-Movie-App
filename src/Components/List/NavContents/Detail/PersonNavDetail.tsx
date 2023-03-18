@@ -2,11 +2,12 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
+import i18n from "../../../../Assets/i18n";
 import { useGetDetailServiceQuery } from "../../../../Service/movieServices";
 import styles from "./personNavDetail.module.scss";
 
 const PersonNavDetail = () => {
-  const [lang, setLang] = useState<string>('en-EN');
+  const [lang, setLang] = useState<string>(i18n.language.replace("_","-"));
   const { category, id } = useParams();
   const { t } = useTranslation();
   const { data, isLoading, isFetching } = useGetDetailServiceQuery({
