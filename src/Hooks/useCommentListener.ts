@@ -9,7 +9,10 @@ export const useCommentListener = (id?: string) => {
     if (id) {
       onSnapshot(doc(db, `${id}`, "Comments"), (doc) => {
         let data = doc.data();
-        setData([...data?.comments])
+        if (data) {
+          setData([...data?.comments])
+        }
+        
       });
     }
   }, [id]);
