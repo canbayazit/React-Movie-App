@@ -109,6 +109,13 @@ const tr = {
     registerSuccessful:"Hesap başarıyla oluşturuldu!",
     addMovieTvError:"Eklemek için giriş yapmanız gerekiyor!",
     logOutSuccessful:"Başarıyla çıkış yapıldı!",
+    //icon tooltip
+    addWhistList:"İzleme Listesine Ekle",
+    removeWhistList:"İzleme Listesinden Kaldır",
+    addFavoriteList:"Favoriler Listesine Ekle",
+    removeFavoriteList:"Favoriler Listesinden Kaldır",
+    //trailer
+    noTrailer:"Fragman Bulunamadı!"
   },
 };
 export default tr;

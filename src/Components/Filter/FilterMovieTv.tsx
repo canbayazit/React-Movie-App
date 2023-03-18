@@ -126,7 +126,7 @@ const FilterMovieTv = () => {
                     className={styles.container_main_filter_form_imdb_field}
                   >
                     <option selected value="DEFAULT">
-                      IMDB Rating
+                    {t('imdb')}
                     </option>
                     {imdb.map((item, i) => (
                       <option key={item.id} value={item.value}>
@@ -136,7 +136,7 @@ const FilterMovieTv = () => {
                   </Field>
                 </div>
                 <div className={styles.container_main_filter_form_button}>
-                  <button type="submit">Search</button>
+                  <button type="submit">{t('searchButton')}</button>
                 </div>
               </Form>
             </Formik>

@@ -109,7 +109,7 @@ const Trailer = (props: IProps) => {
         }
       }
     } else {
-      toast.error("You need to be logged in to add!", {
+      toast.error(t('addMovieTvError'), {
         position: "top-right",
         autoClose: 5500,
         hideProgressBar: false,
@@ -192,8 +192,8 @@ const Trailer = (props: IProps) => {
               <div className={styles.container_info_icons_buttons_whistlist}>
                 <label>
                   {watchList?.find((i) => i.id === movie?.id)
-                    ? "İzleme Listesinden Kaldır"
-                    : "İzleme Listesine Ekle"}
+                    ? t('removeWhistList')
+                    : t('addWhistList')}
                 </label>
                 <span onClick={() => handleClick("watchList")}>
                   {uid
@@ -206,8 +206,8 @@ const Trailer = (props: IProps) => {
               <div className={styles.container_info_icons_buttons_favorite}>
                 <label>
                   {favoriteList?.find((i) => i.id === movie?.id)
-                    ? "Favoriler Listesinden Kaldır"
-                    : "Favoriler Listesine Ekle"}
+                    ? t('removeFavoriteList')
+                    : t('addFavoriteList')}
                 </label>
                 <span onClick={() => handleClick("favoriteList")}>
                   {uid

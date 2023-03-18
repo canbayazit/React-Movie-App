@@ -146,7 +146,7 @@ const SlideItem = (props: IProps) => {
               }
             ></iframe>
           ) : (
-            "Fragman Bulunamadı !"
+            t('noTrailer')
           )}
         </div>
         <div className={styles.container_close}>

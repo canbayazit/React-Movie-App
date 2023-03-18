@@ -109,6 +109,13 @@ const en = {
         registerSuccessful:"Account created successfully!",
         addMovieTvError:"You need to be logged in to add!",
         logOutSuccessful:"Successfully logged out!",
+        //icon tooltip
+        addWhistList:"Add to Watchlist",
+        removeWhistList:"Remove from Watchlist",
+        addFavoriteList:"Add to Favorites List",
+        removeFavoriteList:"Remove from Favorites List",
+        //trailer
+        noTrailer:"Trailer Not Found!"
 
 
     }
