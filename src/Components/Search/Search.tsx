@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   createSearchParams,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
+import i18n from "../../Assets/i18n";
 import { useGetSearchServiceQuery } from "../../Service/movieServices";
 import MovieCard from "../Card/MovieCard/MovieCard";
 import PersonCard from "../Card/PersonCard/PersonCard";
@@ -14,22 +16,24 @@ interface ICategory {
   category: string;
   name: string;
 }
-const categories: ICategory[] = [
-  { category: "movie", name: "Movies" },
-  { category: "tv", name: "TV Shows" },
-  { category: "person", name: "People" },
-];
+
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { category } = useParams();
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
+  const { t } = useTranslation();
   const { data, isFetching } = useGetSearchServiceQuery({
     category: category!,
     page: page,
     query: searchParams.get("query") || "",
+    lang:i18n.language.replace("_","-")
   });
-
+  const categories: ICategory[] = [
+    { category: "movie", name: t('movies') },
+    { category: "tv", name: t('tvShows') },
+    { category: "person", name: t('person') },
+  ];
   useEffect(() => {
     const onScroll = () => {
       const scrolledToBottom =
@@ -60,14 +64,14 @@ const Search = () => {
         <div className={styles.container_query}>
           <h2>
             {searchParams.get("query")
-              ? `"${searchParams.get("query")}" results...`
+              ? `"${searchParams.get("query")}" ${t('result')}`
               : " "}
           </h2>
         </div>
         <div className={styles.container_search}>
           <div className={styles.container_search_filter}>
             <ul>
-              <h3>Search Filter</h3>
+              <h3>{t('searchFilter')}</h3>
               {categories.map((item) => (
                 <li
                   className={item.category === category && styles.active}
@@ -80,7 +84,7 @@ const Search = () => {
           </div>
           {data?.results.length === 0 ? (
             <div className={styles.container_search_empty}>
-              <p>There are no movies that matched your query.</p>
+              <p>{t('noQuery')}</p>
             </div>
           ) : (
             <div className={styles.container_search_result}>

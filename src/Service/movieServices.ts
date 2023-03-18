@@ -107,7 +107,7 @@ export const movieApi = createApi({
       query: (arg) =>
         `https://api.themoviedb.org/3/search/${arg.category}?api_key=${
           process.env.REACT_APP_API_KEY
-        }&language=${arg.lang}&query=${arg.query}&page=${arg.page}`,
+        }&query=${arg.query}&page=${arg.page}&language=${arg.lang}`,
 
       providesTags: (result) =>
         result
@@ -121,7 +121,7 @@ export const movieApi = createApi({
           : [{ type: "QUERY", id: "PARTIAL-LIST" }],
           //query arg leri güncellemek için kullanılıyor
       serializeQueryArgs: ({ queryArgs }) => {        
-        return `${queryArgs.query}-${queryArgs.category}`;
+        return `${queryArgs.query}-${queryArgs.category}-${queryArgs.lang}`;
       },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {    
