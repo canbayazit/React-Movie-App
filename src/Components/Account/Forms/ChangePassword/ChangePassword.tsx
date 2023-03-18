@@ -7,6 +7,7 @@ import {
   Field,
 } from "formik";
 import { useChangePassword } from "../../../../Hooks/useChangePassword";
+import { useTranslation } from "react-i18next";
 interface IValues {
   password: string;
   confirm:string;
@@ -24,6 +25,7 @@ const commentSchema = Yup.object().shape({
     .oneOf([Yup.ref("password"), null], 'Must match "password" field value'),
 });
 const ChangePassword = () => {
+  const { t } = useTranslation();
   const initialValues: IValues = {
     password: "",
     confirm:""
@@ -32,7 +34,7 @@ const ChangePassword = () => {
   useChangePassword(password);
   return (
     <div className={styles.container}>
-      <h1>Change Password</h1>
+      <h1>{t('changePassword')}</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={commentSchema}
@@ -47,7 +49,7 @@ const ChangePassword = () => {
             <div className={styles.container_form_password}>
               <Field
                 className={styles.container_form_password_field}
-                placeholder="Password"
+                placeholder= {t('passwordPlaceholder')}
                 name="password"
                 type="password"
               ></Field>
@@ -60,7 +62,7 @@ const ChangePassword = () => {
             <div className={styles.container_form_password}>
               <Field
                 className={styles.container_form_password_field}
-                placeholder="Confirm Password"
+                placeholder= {t('confirmPasswordPlaceholder')}
                 name="confirm"
                 type="password"
               ></Field>
@@ -75,7 +77,7 @@ const ChangePassword = () => {
                 type="submit"
                 disabled={!(isValid && dirty) || isSubmitting}
               >
-                Change Password
+                {t('changePassword')}
               </button>
             </div>
           </Form>

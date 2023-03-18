@@ -7,6 +7,7 @@ import {
   Field,
 } from "formik";
 import { useUpdatedDisplayName } from "../../../../Hooks/useChangeDisplayName";
+import { useTranslation } from "react-i18next";
 interface IValues {
   username: string;
 }
@@ -17,6 +18,7 @@ const commentSchema = Yup.object().shape({
     .required("Username is required"),
 });
 const ChangeUsername = () => {
+  const { t } = useTranslation();
   const initialValues: IValues = {
     username: "",
   };
@@ -24,7 +26,7 @@ const ChangeUsername = () => {
   useUpdatedDisplayName(username);
   return (
     <div className={styles.container}>
-      <h1>Change Username</h1>
+      <h1>{t('changeUsername')}</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={commentSchema}
@@ -39,7 +41,7 @@ const ChangeUsername = () => {
             <div className={styles.container_form_username}>
               <Field
                 className={styles.container_form_username_field}
-                placeholder="Username"
+                placeholder={t('usernamePlaceholder')}
                 name="username"
                 type="text"
               ></Field>
@@ -54,7 +56,7 @@ const ChangeUsername = () => {
                 type="submit"
                 disabled={!(isValid && dirty) || isSubmitting}
               >
-                Change Username
+                {t('changeUsername')}
               </button>
             </div>
           </Form>

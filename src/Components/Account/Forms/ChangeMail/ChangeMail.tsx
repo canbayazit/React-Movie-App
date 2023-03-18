@@ -3,6 +3,7 @@ import styles from "./changeMail.module.scss";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import { useChangeEmail } from "../../../../Hooks/useChangeEmail";
+import { useTranslation } from "react-i18next";
 interface IValues {
   email: string;
 }
@@ -12,6 +13,7 @@ const commentSchema = Yup.object().shape({
     .required("Mail is required"),
 });
 const ChangeMail = () => {
+  const { t } = useTranslation();  
   const initialValues: IValues = {
     email: "",
   };
@@ -19,7 +21,7 @@ const ChangeMail = () => {
   useChangeEmail(email);
   return (
     <div className={styles.container}>
-      <h1>Change Mail</h1>
+      <h1>{t('changeEmail')}</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={commentSchema}
@@ -34,7 +36,7 @@ const ChangeMail = () => {
             <div className={styles.container_form_email}>
               <Field
                 className={styles.container_form_email_field}
-                placeholder="Email"
+                placeholder={t('emailPlaceholder')}
                 name="email"
                 type="email"
               ></Field>
@@ -49,7 +51,7 @@ const ChangeMail = () => {
                 type="submit"
                 disabled={!(isValid && dirty) || isSubmitting}
               >
-                Change Email
+                {t('changeEmail')}
               </button>
             </div>
           </Form>
