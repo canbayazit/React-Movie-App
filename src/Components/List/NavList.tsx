@@ -7,6 +7,7 @@ import styles from "./list.module.scss";
 import { useParams } from "react-router";
 import Known from "./NavContents/Known/Known";
 import PersonDetail from "./NavContents/Detail/PersonNavDetail";
+import { useTranslation } from "react-i18next";
 
 interface INavItem {
   id: number;
@@ -15,39 +16,34 @@ interface INavItem {
 }
 
 interface INav {
-  movie: INavItem[];
+  movieTv: INavItem[];
   person:INavItem[];
-  tv:INavItem[];
 }
-const navList: INav = {
-  movie: [
-    { id: 1, name: "SUGGESTED", component: <Suggested/> },
-    { id: 2, name: "CAST", component: <Cast/> },
-    { id: 3, name: "CREW", component: <Crew/> },
-    { id: 4, name: "COMMENT", component: <Comment/> },
-  ],
-  person: [
-    { id: 1, name: "MOVIES", component: <Known keys="movie" credit="movie_credits"/> },
-    { id: 2, name: "TV SHOWS", component: <Known keys="tv" credit="tv_credits"/> },
-    { id: 3, name: "DETAIL", component: <PersonDetail/> },
-  ],
-  tv:[
-    { id: 1, name: "SUGGESTED", component: <Suggested/> },
-    { id: 2, name: "CAST", component: <Cast/> },
-    { id: 3, name: "CREW", component: <Crew/> },
-    { id: 4, name: "COMMENT", component: <Comment/> },
-  ]
-};
+
 const NavList = () => {
   const {category}=useParams();
   const [index, setIndex] = useState<number>(0);
+  const { t } = useTranslation();
+  const navList: INav = {
+    movieTv: [
+      { id: 1, name: t('suggested'), component: <Suggested/> },
+      { id: 2, name: t('cast'), component: <Cast/> },
+      { id: 3, name: t('crew'), component: <Crew/> },
+      { id: 4, name: t('comment'), component: <Comment/> },
+    ],
+    person: [
+      { id: 1, name: t('movie'), component: <Known keys="movie" credit="movie_credits"/> },
+      { id: 2, name: t('tvShow'), component: <Known keys="tv" credit="tv_credits"/> },
+      { id: 3, name: t('detail'), component: <PersonDetail/> },
+    ]
+  };
   const handleClick = (i: number) => {
     setIndex(i);
   };
   return (
     <div className={styles.container}>
       <nav className={styles.container_nav}>
-        {navList[category as keyof INav].map((item, i) => (
+        {navList[category==="person" ? category :  "movieTv" as keyof INav].map((item, i) => (
           <div
             key={item.id}
             onClick={() => handleClick(i)}
@@ -62,7 +58,7 @@ const NavList = () => {
         ))}
         <div className={styles.indicator}></div>
       </nav>
-      {navList[category as keyof INav].map((item, i) => (
+      {navList[category === "person" ? category : ("movieTv" as keyof INav)].map((item, i) => (
         <div
           key={item.id}
           className={
