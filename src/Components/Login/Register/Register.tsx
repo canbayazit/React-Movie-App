@@ -13,6 +13,7 @@ import { mail } from "../../../Assets/svg/icons/mail";
 import { toast } from "react-toastify";
 import { usePostRegisterServiceMutation } from "../../../Service/firebaseServices";
 import Loading from "../../Loading/Loading";
+import { useTranslation } from "react-i18next";
 
 interface IValues {
   email: string;
@@ -20,32 +21,34 @@ interface IValues {
   confirm: string;
   username: string;
 }
-const commentSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3, "The username is too short")
-    .max(8, "The username must be 8 characters long")
-    .required("Username is required"),
-  email: Yup.string()
-    .email("The email is invalid")
-    .required("Mail is required"),
-  password: Yup.string()
-    .min(2, "The password is too short")
-    .required("Password is required")
-    .min(8, "Password must be 8 characters long")
-    .matches(/[0-9]/, "Password requires a number")
-    .matches(/[a-z]/, "Password requires a lowercase letter")
-    .matches(/[A-Z]/, "Password requires an uppercase letter"),
-  confirm: Yup.string()
-    .required("Confirm password is required")
-    .oneOf([Yup.ref("password"), null], 'Must match "password" field value'),
-});
+
 const RegisterForm = () => {
+  const { t } = useTranslation();
   const initialValues: IValues = {
     email: "",
     password: "",
     confirm: "",
     username: "",
   };
+  const commentSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, `${t('minUsername')}`)
+      .max(8, `${t('maxUsername')}`)
+      .required(`${t('usernameRequired')}`),
+    email: Yup.string()
+      .email(`${t('emailValidation')}`)
+      .required(`${t('emailRequired')}`),
+    password: Yup.string()
+      .min(4, `${t('minPassword')}`)
+      .required(`${t('passwordRequired')}`)
+      .max(16, `${t('maxPassword')}`)
+      .matches(/[0-9]/, `${t('matchesNumber')}`)
+      .matches(/[a-z]/, `${t('matchesLowercase')}`)
+      .matches(/[A-Z]/, `${t('matchesUppercase')}`),
+    confirm: Yup.string()
+      .required(`${t('confirmPasswordRequired')}`)
+      .oneOf([Yup.ref("password"), null], `${t('matchesPassword')}`),
+  });
   const navigate = useNavigate();
   const [postRegister, { isLoading }] = usePostRegisterServiceMutation();
 
@@ -53,7 +56,7 @@ const RegisterForm = () => {
     <>
       {isLoading && <Loading />}
       <div className={styles.container}>
-        <h1>Sign Up</h1>
+        <h1>{t('registerTitle')}</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={commentSchema}
@@ -68,7 +71,7 @@ const RegisterForm = () => {
             })
               .unwrap()
               .then(() => {
-                toast.success("Account created successfully", {
+                toast.success(t('registerSuccessful'), {
                   position: "top-right",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -108,7 +111,7 @@ const RegisterForm = () => {
                   </div>
                 ) : null}
                 {person(styles)}
-                <h5>Username</h5>
+                <h5>{t('usernamePlaceholder')}</h5>
               </div>
               <div className={styles.container_form_mail}>
                 <Field
@@ -122,7 +125,7 @@ const RegisterForm = () => {
                   </div>
                 ) : null}
                 {mail(styles)}
-                <h5>Email</h5>
+                <h5>{t('emailPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_password}>
                 <Field
@@ -137,7 +140,7 @@ const RegisterForm = () => {
                   </div>
                 ) : null}
                 {lock(styles)}
-                <h5>Password</h5>
+                <h5>{t('passwordPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_password}>
                 <Field
@@ -152,7 +155,7 @@ const RegisterForm = () => {
                   </div>
                 ) : null}
                 {lock(styles)}
-                <h5>Confirm Password</h5>
+                <h5>{t('confirmPasswordPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_button}>
                 <button
@@ -160,11 +163,11 @@ const RegisterForm = () => {
                   disabled={!(isValid && dirty) || isSubmitting}
                 >
                   {/* <span>{plane()}</span>  */}
-                  Sign-Up
+                  {t('registerTitle')}
                 </button>
               </div>
               <div className={styles.container_form_link}>
-                <Link to={"/login"}>Have an account ?</Link>
+                <Link to={"/login"}>{t('haveAccountRegister')}</Link>
               </div>
             </Form>
           )}

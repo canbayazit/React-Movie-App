@@ -10,27 +10,30 @@ import { useAppDispatch } from "../../../Hooks/Hook";
 import { toast } from "react-toastify";
 import { usePostLoginServiceMutation } from "../../../Service/firebaseServices";
 import Loading from "../../Loading/Loading";
+import { useTranslation } from "react-i18next";
 interface IValues {
   email: string;
   password: string;
 }
-const commentSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("The email is invalid")
-    .required("Mail is required"),
-  password: Yup.string()
-    .min(2, "The password is too short")
-    .required("Password is required")
-    .min(8, "Password must be 8 characters long")
-    .matches(/[0-9]/, "Password requires a number")
-    .matches(/[a-z]/, "Password requires a lowercase letter")
-    .matches(/[A-Z]/, "Password requires an uppercase letter"),
-});
+
 const LoginForm = () => {
+  const { t } = useTranslation();
   const initialValues: IValues = {
     email: "",
     password: "",
   };
+  const commentSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(`${t('emailValidation')}`)
+      .required(`${t('emailRequired')}`),
+    password: Yup.string()
+      .min(4, `${t('minPassword')}`)
+      .required(`${t('passwordRequired')}`)
+      .max(16, `${t('maxPassword')}`)
+      .matches(/[0-9]/, `${t('matchesNumber')}`)
+      .matches(/[a-z]/, `${t('matchesLowercase')}`)
+      .matches(/[A-Z]/, `${t('matchesUppercase')}`),
+  });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [postLogin, { isLoading }] = usePostLoginServiceMutation();
@@ -39,7 +42,7 @@ const LoginForm = () => {
     <>
       {isLoading && <Loading />}
       <div className={styles.container}>
-        <h1>Login</h1>
+        <h1>{t('loginTitle')}</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={commentSchema}
@@ -62,7 +65,7 @@ const LoginForm = () => {
                     photoURL: user.photoURL,
                   })
                 );
-                toast.success("Successfully logged in", {
+                toast.success(t('loginSuccessful'), {
                   position: "top-right",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -102,7 +105,7 @@ const LoginForm = () => {
                   </div>
                 ) : null}
                 {mail(styles)}
-                <h5>Email</h5>
+                <h5>{t('emailPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_password}>
                 <Field
@@ -117,7 +120,7 @@ const LoginForm = () => {
                   </div>
                 ) : null}
                 {lock(styles)}
-                <h5>Password</h5>
+                <h5>{t('passwordPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_button}>
                 <button
@@ -126,11 +129,11 @@ const LoginForm = () => {
                 >
                   {/* dirty: It is true when we write to any element of the form. */}
                   {/* isSubmitting: period of submit */}
-                  LOGIN
+                  {t('loginTitle')}
                 </button>
               </div>
               <div className={styles.container_form_link}>
-                <Link to={"/register"}>Don't have an account ?</Link>
+                <Link to={"/register"}>{t('haveAccountLogin')}</Link>
               </div>
             </Form>
           )}
