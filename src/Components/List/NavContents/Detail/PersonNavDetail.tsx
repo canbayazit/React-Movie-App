@@ -1,15 +1,26 @@
 import moment from "moment";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { useGetDetailServiceQuery } from "../../../../Service/movieServices";
 import styles from "./personNavDetail.module.scss";
 
 const PersonNavDetail = () => {
+  const [lang, setLang] = useState<string>('en-EN');
   const { category, id } = useParams();
-  const { data, isLoading } = useGetDetailServiceQuery({
+  const { t } = useTranslation();
+  const { data, isLoading, isFetching } = useGetDetailServiceQuery({
     category: category!,
     id: id!,
+    lang:lang
   });
+  useEffect(() => {
+    if (!isFetching) {
+      if (!data?.biography) {
+        setLang('en-EN')
+      }
+    }    
+  }, [data?.biography, isFetching])
   return (
     <>
       {isLoading ? (
@@ -23,26 +34,26 @@ const PersonNavDetail = () => {
             </div>
             <div className={styles.container_content_right}>
               <div className={styles.container_content_right_info}>
-                <h4>Department:</h4>
+                <h4>{t('department')}:</h4>
                 <p>{data?.known_for_department}</p>
               </div>
               <div className={styles.container_content_right_info}>
-                <h4>Age:</h4>
+                <h4>{t('age')}:</h4>
                 <p>{moment().diff(data?.birthday, "years")}</p>
               </div>
               <div className={styles.container_content_right_info}>
-                <h4>Birthday:</h4>
+                <h4>{t('birthday')}:</h4>
                 <p>{data?.birthday}</p>
               </div>
               {data?.deathday ? (
                 <div className={styles.container_content_right_info}>
-                  <h4>Day of Death:</h4>
-                  <p>{data?.birthday}</p>
+                  <h4>{t('dayOfDeath')}:</h4>
+                  <p>{data?.deathday}</p>
                 </div>
               ) : null}
 
               <div className={styles.container_content_right_info}>
-                <h4>Place of Birth:</h4>
+                <h4>{t('placeOfBirth')}:</h4>
                 <p>{data?.place_of_birth}</p>
               </div>
             </div>
