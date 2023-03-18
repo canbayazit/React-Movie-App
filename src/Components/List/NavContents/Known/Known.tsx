@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import i18n from "../../../../Assets/i18n";
 import { useGetPersonCreditServiceQuery } from "../../../../Service/movieServices";
 import MovieCard from "../../../Card/MovieCard/MovieCard";
 import styles from "./known.module.scss";
@@ -15,6 +16,7 @@ const Known = (props: IProps) => {
     category: category!,
     id: id!,
     credit: credit,
+    lang:i18n.language.replace("_","-"),
   });
 
   return (

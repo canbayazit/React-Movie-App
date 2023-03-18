@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
+import i18n from "../../../../Assets/i18n";
 import { useGetSimilarMovieServiceQuery } from "../../../../Service/movieServices";
 import { ISetting } from "../../../../Types/sliderTypes";
 import { SampleNextArrow, SamplePrevArrow } from "../../../../Utils/Functions";
@@ -65,6 +66,7 @@ const Suggested = () => {
   const { data, isLoading } = useGetSimilarMovieServiceQuery({
     category: category!,
     id: id!,
+    lang:i18n.language.replace("_","-"),
   });
 
   return (

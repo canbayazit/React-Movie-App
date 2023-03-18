@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import i18n from "../../../Assets/i18n";
 import { useGetDetailServiceQuery } from "../../../Service/movieServices";
 import { IICon } from "../../../Types/sliceStates";
 import MovieCard from "../../Card/MovieCard/MovieCard";
@@ -14,6 +15,7 @@ const WhistItem = (props: IProps) => {
   const { data, isFetching } = useGetDetailServiceQuery({
     category: movie.category,
     id: movie.id.toString(),
+    lang:i18n.language.replace("_","-")
   });
 
   return (
