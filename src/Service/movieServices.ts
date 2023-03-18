@@ -28,21 +28,10 @@ export const movieApi = createApi({
   // RTK Sorgusu, bir uç nokta için bir mutasyonun , başka bir uç noktadan bir sorgu tarafından sağlanan bazı verileri
   // geçersiz kılma niyetinde olup olmadığını belirlemek için 'etiketler' kavramını kullanır .
   endpoints: (builder) => ({
-    //<result type, query type>
-    getPersonMoviesService: builder.query<IPersonMovies, number>({
-      query: (id) =>
-        `${clientURL.person}${id}${clientURL.person_movie}?api_key=${process.env.REACT_APP_API_KEY}`,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.cast.map(({ id }) => ({ type: "QUERY" as const, id })),
-              { type: "QUERY", id: "LIST" },
-            ]
-          : [{ type: "QUERY", id: "LIST" }],
-    }),
-    getUpcomingMoviesService: builder.query<IUpcomingMovies, number>({
-      query: (page) =>
-        `${clientURL.upcoming}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`,
+    //<result type, query type>    
+    getUpcomingMoviesService: builder.query<IUpcomingMovies, { lang: string; page: number }>({
+      query: (arg) =>
+        `${clientURL.upcoming}?api_key=${process.env.REACT_APP_API_KEY}&page=${arg.page}&language=${arg.lang}`,
       providesTags: (result) =>
         result
           ? [
@@ -54,9 +43,9 @@ export const movieApi = createApi({
             ]
           : [{ type: "QUERY", id: "LIST" }],
     }),
-    getGenresService: builder.query<IGenres, void>({
-      query: () =>
-        `${clientURL.genre}?api_key=${process.env.REACT_APP_API_KEY}`,
+    getGenresService: builder.query<IGenres, string>({
+      query: (lang) =>
+        `${clientURL.genre}?api_key=${process.env.REACT_APP_API_KEY}&language=${lang}`,
       providesTags: (result) =>
         result
           ? [
@@ -70,22 +59,22 @@ export const movieApi = createApi({
     }),
     getDetailService: builder.query<
       IMovieTVPersonDetail,
-      { category: string; id: string }
+      { category: string; id: string; lang:string; }
     >({
       query: (arg) =>
-        `/${arg.category}/${arg.id}?api_key=${process.env.REACT_APP_API_KEY}`,
+        `/${arg.category}/${arg.id}?api_key=${process.env.REACT_APP_API_KEY}&language=${arg.lang}`,
       providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
     getMovieOrTvService: builder.query<
       IListMovieTvResponse<IMovieTv>,
-      { category: string; page: number; id?: string; vote?: number }
+      { category: string; page: number; id?: string; vote?: number; lang:string }
     >({
       query: (arg) =>
         `/discover/${arg.category}?api_key=${
           process.env.REACT_APP_API_KEY
         }&sort_by=popularity.desc&page=${arg.page}&with_genres=${
           arg.id ?? ""
-        }&vote_average.gte=${arg.vote ?? ""}`,
+        }&vote_average.gte=${arg.vote ?? ""}&language=${arg.lang}`,
 
       providesTags: (result) =>
         result
@@ -97,8 +86,8 @@ export const movieApi = createApi({
               { type: "QUERY", id: "PARTIAL-LIST" },
             ]
           : [{ type: "QUERY", id: "PARTIAL-LIST" }],
-      serializeQueryArgs: ({ endpointName, queryArgs }) => {
-        return `${queryArgs.id}-${queryArgs.vote}-${queryArgs.category}`;
+      serializeQueryArgs: ({ queryArgs }) => {
+        return `${queryArgs.id}-${queryArgs.vote}-${queryArgs.category}-${queryArgs.lang}`;
       },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
@@ -113,12 +102,12 @@ export const movieApi = createApi({
     }),
     getSearchService: builder.query<
     ISearch<ISearchMovie>,
-      { category: string; page: number; query: string; }
+      { category: string; page: number; query: string; lang:string }
     >({
       query: (arg) =>
         `https://api.themoviedb.org/3/search/${arg.category}?api_key=${
           process.env.REACT_APP_API_KEY
-        }&language=en-US&query=${arg.query}&page=${arg.page}`,
+        }&language=${arg.lang}&query=${arg.query}&page=${arg.page}`,
 
       providesTags: (result) =>
         result
@@ -131,7 +120,7 @@ export const movieApi = createApi({
             ]
           : [{ type: "QUERY", id: "PARTIAL-LIST" }],
           //query arg leri güncellemek için kullanılıyor
-      serializeQueryArgs: ({ endpointName, queryArgs }) => {        
+      serializeQueryArgs: ({ queryArgs }) => {        
         return `${queryArgs.query}-${queryArgs.category}`;
       },
       // Always merge incoming data to the cache entry
@@ -150,7 +139,7 @@ export const movieApi = createApi({
         return currentArg !== previousArg;
       },
     }),
-    getVideoService: builder.query<IVideos, { category: string; id: string }>({
+    getVideoService: builder.query<IVideos, { category: string; id: string;}>({
       query: (arg) =>
         `/${arg.category}/${arg.id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
@@ -162,18 +151,18 @@ export const movieApi = createApi({
     }),
     getPersonCreditService: builder.query<
       IPersonCredit,
-      { category: string; id: string; credit: string }
+      { category: string; id: string; credit: string; lang:string }
     >({
       query: (arg) =>
-        `/${arg.category}/${arg.id}/${arg.credit}?api_key=${process.env.REACT_APP_API_KEY}`,
+        `/${arg.category}/${arg.id}/${arg.credit}?api_key=${process.env.REACT_APP_API_KEY}&language=${arg.lang}`,
       providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
     getSimilarMovieService: builder.query<
       ISimilar,
-      { category: string; id: string }
+      { category: string; id: string; lang:string }
     >({
       query: (arg) =>
-        `/${arg.category}/${arg.id}/similar?api_key=${process.env.REACT_APP_API_KEY}`,
+        `/${arg.category}/${arg.id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=${arg.lang}`,
       providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
   }),
@@ -184,7 +173,6 @@ export const {
   useGetSearchServiceQuery,
   useGetDetailServiceQuery,
   useGetPersonCreditServiceQuery,
-  useGetPersonMoviesServiceQuery,
   useGetUpcomingMoviesServiceQuery,
   useGetGenresServiceQuery,
   useGetVideoServiceQuery,
