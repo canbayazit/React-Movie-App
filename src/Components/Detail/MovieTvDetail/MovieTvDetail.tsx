@@ -17,6 +17,8 @@ import { useGetDetailServiceQuery, useGetVideoServiceQuery } from "../../../Serv
 import { IMovieTVPersonDetail } from "../../../Types/detailPage";
 import styles from "./movieTvDetail.module.scss";
 import { usePostFavoriteServiceMutation, usePostWatchListServiceMutation } from "../../../Service/firebaseServices";
+import { useTranslation } from "react-i18next";
+import i18n from "../../../Assets/i18n";
 interface ITagItem {
   key: string;
   name?: string;
@@ -39,7 +41,9 @@ const Tag: ITag = {
 const MovieTvDetail = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [movieId, setMovieId] = useState<number>(0);
+  const [lang, setLang] = useState<string>(i18n.language.replace("_","-"));
   const { category, id } = useParams();
+  const { t } = useTranslation();
   const uid = useAppSelector((store) => store.auth.user.uid, shallowEqual);
   const favoriteList = useAppSelector(
     (store) => store.movies.favoriteList,
@@ -49,9 +53,10 @@ const MovieTvDetail = () => {
     (store) => store.movies.watchList,
     shallowEqual
   );
-  const { data, isLoading } = useGetDetailServiceQuery({
+  const { data, isLoading,isFetching } = useGetDetailServiceQuery({
     category: category!,
     id: id!,
+    lang:lang
   });
   const movieService = useGetVideoServiceQuery({
     category: category!,
@@ -64,8 +69,19 @@ const MovieTvDetail = () => {
   const toHoursAndMinutes = (min: number) => {
     const hours = Math.floor(min / 60);
     const minutes = min % 60;
-    return `${hours}h ${minutes}m`;
+    if (i18n.language==="en_EN") {
+      return `${hours}h ${minutes}m`;
+    }
+    return `${hours}s ${minutes}dk`;
   };
+
+  useEffect(() => {
+    if (!isFetching) {
+      if (!data?.overview) {
+        setLang('en-EN')
+      }
+    }    
+  }, [data?.overview, isFetching])
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -84,7 +100,8 @@ const MovieTvDetail = () => {
     } else if (key === "whistList") {
       await postWatchList({uid:uid,id:Number(id),category:category!});
     }
-  };
+  };  
+  
   useEffect(() => {
     if (movieId === Number(id)) {
       document.addEventListener("keydown", (e: KeyboardEvent) => {  
@@ -157,7 +174,7 @@ const MovieTvDetail = () => {
               <div className={styles.container_detail_info_rating}>
                 <span>{star()}</span>
                 <span>{data?.vote_average.toFixed(1)}</span>
-                <span>IMDb Rating</span>
+                <span>{t('imdb')}</span>
               </div>
               <div className={styles.container_detail_info_genres}>
                 <ul>
@@ -194,13 +211,13 @@ const MovieTvDetail = () => {
               </div>
             </div>
             <div className={styles.container_detail_button}>
-              <button onClick={()=>handleClickTrailer(Number(id))}><span>{play()}</span>WATCH TRAILER</button>
+              <button onClick={()=>handleClickTrailer(Number(id))}><span>{play()}</span>{t('watchTrailer').toUpperCase()}</button>
               <div className={styles.container_detail_button_icons}>
                 <div className={styles.container_detail_button_icons_whistlist}>
                   <label>
                     {watchList?.find((i) => i.id === Number(id))
-                      ? "İzleme Listesinden Kaldır"
-                      : "İzleme Listesine Ekle"}
+                      ? t('removeWhistList')
+                      : t('addWhistList')}
                   </label>
                   <span onClick={() => handleClick("whistList")}>
                     {watchList?.find((i) => i.id === Number(id))
@@ -211,8 +228,8 @@ const MovieTvDetail = () => {
                 <div className={styles.container_detail_button_icons_favorite}>
                   <label>
                     {favoriteList?.find((i) => i.id === Number(id))
-                      ? "Favoriler Listesinden Kaldır"
-                      : "Favoriler Listesine Ekle"}
+                      ? t('removeFavoriteList')
+                      : t('addFavoriteList')}
                   </label>
                   <span onClick={() => handleClick("favorite")}>
                     {favoriteList?.find((i) => i.id === Number(id))
@@ -243,7 +260,7 @@ const MovieTvDetail = () => {
               }
             ></iframe>
           ) : (
-            "Fragman Bulunamadı !"
+            t('noTrailer')
           )}
         </div>
         <div className={styles.container_dialog_close}>
