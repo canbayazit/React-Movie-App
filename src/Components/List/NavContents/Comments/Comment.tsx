@@ -12,29 +12,31 @@ import { plane } from "../../../../Assets/svg/icons/paperPlane";
 import { usePostCommentServiceMutation } from "../../../../Service/firebaseServices";
 import { useParams } from "react-router";
 import { useCommentListener } from "../../../../Hooks/useCommentListener";
+import { useTranslation } from "react-i18next";
 interface IValues {
   name: string;
   email: string;
   description: string;
   date: string;
 }
-const commentSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, "The password is too short")
-    .required("Name is required"),
-  email: Yup.string()
-    .email("The email is invalid")
-    .required("Mail is required"),
-  description: Yup.string()
-    .min(6, "The description is too short")
-    .required("Description is required")
-    .trim(),
-});
 
 const Comment = () => {
+  const { t } = useTranslation();
   const [postComment] = usePostCommentServiceMutation();
   const {id}=useParams();
   const comments =useCommentListener(id);
+  const commentSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, `${t('minName')}`)
+      .required(`${t('nameRequired')}`),
+    email: Yup.string()
+      .email(`${t('emailValidation')}`)
+      .required(`${t('emailRequired')}`),
+    description: Yup.string()
+      .min(6, `${t('minDescription')}`)
+      .required(`${t('descriptionRequired')}`)
+      .trim(),
+  });
   const initialValues: IValues = {
     name: "",
     email: "",
@@ -68,13 +70,13 @@ const Comment = () => {
                 className={styles.container_form_text_field}
                 id="name"
                 name="name"
-                placeholder="Name"
+                placeholder={t('namePlaceholder')}
               />
               <Field
                 className={styles.container_form_text_field}
                 id="email"
                 name="email"
-                placeholder="name@mail.com"
+                placeholder={t('emailPlaceholder')}
                 type="email"
               />
             </div>
@@ -84,7 +86,7 @@ const Comment = () => {
                 id="description"
                 name="description"
                 as="textarea"
-                placeholder="Add a comment..."
+                placeholder={t('commentPlaceholder')}
               />
             </div>
             <div className={styles.container_form_action}>
@@ -109,7 +111,7 @@ const Comment = () => {
               </div>
               <div className={styles.container_form_action_button}>
                 <button type="submit">
-                  <span>{plane()}</span> Submit
+                  <span>{plane()}</span> {t('submit')}
                 </button>
               </div>
             </div>
@@ -120,7 +122,7 @@ const Comment = () => {
         <div className={styles.container_user}>
           <div className={styles.container_user_header}>
             <i className="fa fa-start"></i>
-            <h2>All Comments</h2>
+            <h2>{t('allComments')}</h2>
           </div>
           <ul>
             {comments.map((item, i) => (
