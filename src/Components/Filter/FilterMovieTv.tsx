@@ -13,6 +13,8 @@ import { useParams } from "react-router";
 import MovieCard from "../Card/MovieCard/MovieCard";
 import Loading from "../Loading/Loading";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import i18n from "../../Assets/i18n";
 interface IValues {
   genre: number;
   imdb: number;
@@ -22,26 +24,29 @@ interface IImdb {
   name: string;
   value: number;
 }
-const imdb: IImdb[] = [
-  { id: 1, name: "3 and upper", value: 3 },
-  { id: 2, name: "4 and upper", value: 4 },
-  { id: 3, name: "5 and upper", value: 5 },
-  { id: 4, name: "6 and upper", value: 6 },
-  { id: 5, name: "7 and upper", value: 7 },
-  { id: 6, name: "8 and upper", value: 8 },
-  { id: 7, name: "9 and upper", value: 9 },
-];
+
 const FilterMovieTv = () => {
   const { category } = useParams();
   const [filter, setFilter] = useState<IValues>();
   const [page, setPage] = useState<number>(1);
-  const genres = useGetGenresServiceQuery();
+  const genres = useGetGenresServiceQuery(i18n.language);
   const allMovieTv = useGetMovieOrTvServiceQuery({
     category: category!,
     page: page,
     id: filter?.genre.toString()!,
     vote: filter?.imdb,
+    lang:i18n.language
   });
+  const { t } = useTranslation();
+  const imdb: IImdb[] = [
+    { id: 1, name: t('ratingThree'), value: 3 },
+    { id: 2, name: t('ratingFour'), value: 4 },
+    { id: 3, name: t('ratingFive'), value: 5 },
+    { id: 4, name: t('ratingSix'), value: 6 },
+    { id: 5, name: t('ratingSeven'), value: 7 },
+    { id: 6, name: t('ratingEight'), value: 8 },
+    { id: 7, name: t('ratingNine'), value: 9 },
+  ];
   useEffect(() => {
     const onScroll = () => {
       const scrolledToBottom =
@@ -65,7 +70,7 @@ const FilterMovieTv = () => {
       <div className={styles.container}>
         <div className={styles.container_header}>
           <h1>
-            Popular {category?.charAt(0).toUpperCase() + category?.slice(1)!}s
+            {category === "movie" ? t('filterTitleMovie'): t('filterTitleTvShow')} 
           </h1>
         </div>
         <div className={styles.container_main}>
@@ -105,7 +110,7 @@ const FilterMovieTv = () => {
                     name="genre"
                     className={styles.container_main_filter_form_genre_field}
                   >
-                    <option selected>Genre</option>
+                    <option selected>{t('genre')}</option>
                     {genres?.data?.genres.map((genre) => (
                       <option key={genre.id} value={genre.id}>
                         {genre.name}
