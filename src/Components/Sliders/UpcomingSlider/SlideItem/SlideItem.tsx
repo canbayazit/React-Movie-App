@@ -13,6 +13,8 @@ import {
 } from "../../../../Service/movieServices";
 import { Result } from "../../../../Types/upcomingMovies";
 import styles from "./slideItem.module.scss";
+import { useTranslation } from "react-i18next";
+import i18n from "../../../../Assets/i18n";
 interface IProps {
   movie: Result;
   index: number;
@@ -22,7 +24,8 @@ const SlideItem = (props: IProps) => {
   const { movie } = props;
   const [active, setActive] = useState<boolean>(false);
   const [movieId, setMovieId] = useState<number>(0);
-  const genreService = useGetGenresServiceQuery();
+  const { t } = useTranslation();
+  const genreService = useGetGenresServiceQuery(i18n.language.replace("_","-"));
   const movieService = useGetVideoServiceQuery(
     {
       category: "movie"!,
@@ -103,7 +106,7 @@ const SlideItem = (props: IProps) => {
           <div className={styles.container_info_overview}>
             <h1>{movie.title}</h1>
             <div className={styles.container_info_overview_new}>
-              <span>{star()}</span>NEW
+              <span>{star()}</span>{t('new')}
             </div>
             <ul>
               {movie.genre_ids.map((id, i) => {
@@ -116,10 +119,10 @@ const SlideItem = (props: IProps) => {
             <p>{movie.overview}</p>
             <div className={styles.container_info_button}>
               <button onClick={() => handleClickTrailer(movie.id)}>
-                Watch Trailer
+                {t('watchTrailer')}
               </button>
               <button>
-                <Link to={`/movie/${movie.id}`}>See Detail</Link>
+                <Link to={`detail/movie/${movie.id}`}>{t('seeDetail')}</Link>
               </button>
             </div>
           </div>
