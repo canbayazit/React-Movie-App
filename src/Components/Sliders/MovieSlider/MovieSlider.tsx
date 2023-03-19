@@ -86,7 +86,7 @@ const MovieSlider = (props: IProps) => {
         data?.results.length !== 0 ? (
           <div className={styles.container}>
             <div className={styles.container_button}>
-              <h1>{genre.name} {category === "movie" ? t('movies') : t('tvShows')}i</h1>
+              <h1>{genre.name} {category === "movie" ? t('movies') : t('tvShows')}</h1>
               <Link to={`/filter/${category}`}>
                 <button>{t('viewMoreDetail')}</button>
               </Link>
