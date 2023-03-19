@@ -44,6 +44,10 @@ const en = {
         detail:"DETAIL",
         movie:"MOVIES",
         tvShow:"TV SHOWS",
+        //movieTv detail
+        notFoundOverview:"Unfortunately, we do not have a overview in this language for this production.",
+        season:"Seasons",
+        episode:"Episodes",
         //person detail
         department:"Department",
         age:"Age",
@@ -51,6 +55,8 @@ const en = {
         dayOfDeath:"Day of Death",
         placeOfBirth:"Place of Birth",
         biography:"Biography",
+        notFoundBio:"Unfortunately, we don't have a biography in this language for this person.",
+        unknown:"Unknown",
         // crew
         director:"Director",
         //login
@@ -80,7 +86,7 @@ const en = {
         ratingEight:"8 and upper",
         ratingNine:"9 and upper",
         //search
-        noQuery:"There are no movies or tv shows that matched your query.",        
+        noQuery:"There is no result that matched your query.",        
         searchFilter:"Search Filter",
         result:"result...",
         //form validations error 
@@ -116,6 +122,7 @@ const en = {
         removeFavoriteList:"Remove from Favorites List",
         //trailer
         noTrailer:"Trailer Not Found!"
+
 
 
     }

@@ -1,7 +1,7 @@
 const tr = {
   translation: {
-    movies: "Filmler",
-    tvShows: "Diziler",
+    movies: "Filmleri",
+    tvShows: "Dizileri",
     person: "Kişiler",
     //headers
     home: "ANA SAYFA",
@@ -44,6 +44,10 @@ const tr = {
     crew: "YAPIM EKİBİ",
     comment: "YORUMLAR",
     detail: "DETAYLAR",
+    //movieTv detail
+    notFoundOverview:"Maalesef bu yapım için bu dilde özetimiz yok.",
+    season:"Sezonlar",
+    episode:"Bölümler",
     //person detail
     department: "Departman",
     age: "Yaş",
@@ -51,6 +55,8 @@ const tr = {
     dayOfDeath: "Ölüm Tarihi",
     placeOfBirth: "Doğum Yeri",
     biography:"Biyografi",
+    notFoundBio:"Maalesef bu oyuncu için bu dilde biyografimiz yok.",
+    unknown:"Bilinmiyor",
     // crew
     director: "Yönetmen",
     //login
@@ -80,7 +86,7 @@ const tr = {
     ratingEight: "8 ve üzeri",
     ratingNine: "9 ve üzeri",
     //search
-    noQuery: "Sorgunuzla eşleşen film veya dizi bulunamadı.",
+    noQuery: "Sorgunuzla eşleşen bir sonuç bulunamadı.",
     searchFilter: "Arama Filtresi",
     result: "sonuçlar...",
     //form validations error 
