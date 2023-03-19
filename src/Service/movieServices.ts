@@ -144,9 +144,9 @@ export const movieApi = createApi({
         `/${arg.category}/${arg.id}/videos?api_key=${process.env.REACT_APP_API_KEY}`,
       providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
-    getCreditService: builder.query<ICredit, { category: string; id: string }>({
+    getCreditService: builder.query<ICredit, { category: string; id: string; lang:string; }>({
       query: (arg) =>
-        `/${arg.category}/${arg.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`,
+        `/${arg.category}/${arg.id}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=${arg.lang}`,
       providesTags: (result, error, arg) => [{ type: "QUERY", arg }],
     }),
     getPersonCreditService: builder.query<
