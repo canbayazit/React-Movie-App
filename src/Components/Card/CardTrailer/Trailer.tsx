@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { shallowEqual } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { addFavorite } from "../../../Assets/svg/icons/addFavorite";
 import { deleteFavorite } from "../../../Assets/svg/icons/deleteFavorite";
 import { tick } from "../../../Assets/svg/icons/tick";
@@ -66,13 +66,18 @@ const Trailer = (props: IProps) => {
         "?autoplay=1&modestbranding=1&autohide=1&showinfo=0&controls=0";
       setModal(src);
     }
-  }, [getVideo.data?.results, getVideo.isFetching, movie?.id]);
+  }, [getVideo.data?.results, getVideo.isFetching, movie?.id]);  
 
-  const handleOnMouseLeave = () => {
+  const handleOnMouseLeave = () => {    
     dispatch(setMovieId(0));
     dispatch(setGenreId(0));
   };
-  console.log("trailer");
+
+  const changeRoute = ()=>{
+    dispatch(setMovieId(0));
+    dispatch(setGenreId(0));
+    navigate(`/detail/${category}/${movie?.id}`)
+  }
   const handleClick = async (key: string) => {
     if (uid) {
       if (!dataGenre) {
@@ -153,6 +158,7 @@ const Trailer = (props: IProps) => {
     ctx?.closePath();
   }, [movie?.id, movie?.vote_average]);
 
+  console.log("trailer");
   return (
     <>
       <div
@@ -219,19 +225,19 @@ const Trailer = (props: IProps) => {
               </div>
             </div>
           </div>
-          <Link
-            to={`/detail/${category}/${movie?.id}`}
+          <div            
+            onClick={()=>changeRoute()}
             className={styles.container_info_more}
           >
             <span>{t('seeMore')}</span>
-          </Link>
+          </div>
           <div className={styles.container_info_overview}>
             <h3>
               {movie?.original_title
                 ? movie?.original_title
                 : movie?.original_name}
             </h3>
-            <p>{movie?.overview}</p>
+            <p>{movie?.overview || t('notFoundOverview')}</p>
             <span>
               {movie?.release_date
                 ? movie?.release_date
