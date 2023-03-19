@@ -8,6 +8,8 @@ import {
 } from "formik";
 import { useChangePassword } from "../../../../Hooks/useChangePassword";
 import { useTranslation } from "react-i18next";
+import { backArrow } from "../../../../Assets/svg/icons/backArrow";
+import { Link } from "react-router-dom";
 interface IValues {
   password: string;
   confirm:string;
@@ -34,6 +36,7 @@ const ChangePassword = () => {
   useChangePassword(password);
   return (
     <div className={styles.container}>
+      <Link to={"/account"}>{backArrow()}</Link>
       <h1>{t('changePassword')}</h1>
       <Formik
         initialValues={initialValues}

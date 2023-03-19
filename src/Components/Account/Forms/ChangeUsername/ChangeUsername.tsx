@@ -8,6 +8,8 @@ import {
 } from "formik";
 import { useUpdatedDisplayName } from "../../../../Hooks/useChangeDisplayName";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { backArrow } from "../../../../Assets/svg/icons/backArrow";
 interface IValues {
   username: string;
 }
@@ -26,6 +28,7 @@ const ChangeUsername = () => {
   useUpdatedDisplayName(username);
   return (
     <div className={styles.container}>
+      <Link to={"/account"}>{backArrow()}</Link>
       <h1>{t('changeUsername')}</h1>
       <Formik
         initialValues={initialValues}

@@ -4,6 +4,8 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import { useChangeEmail } from "../../../../Hooks/useChangeEmail";
 import { useTranslation } from "react-i18next";
+import { backArrow } from "../../../../Assets/svg/icons/backArrow";
+import { Link } from "react-router-dom";
 interface IValues {
   email: string;
 }
@@ -21,6 +23,7 @@ const ChangeMail = () => {
   useChangeEmail(email);
   return (
     <div className={styles.container}>
+      <Link to={"/account"}>{backArrow()}</Link>
       <h1>{t('changeEmail')}</h1>
       <Formik
         initialValues={initialValues}
