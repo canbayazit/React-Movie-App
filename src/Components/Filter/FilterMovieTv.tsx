@@ -29,7 +29,7 @@ const FilterMovieTv = () => {
   const { category } = useParams();
   const [filter, setFilter] = useState<IValues>();
   const [page, setPage] = useState<number>(1);
-  const genres = useGetGenresServiceQuery(i18n.language);
+  const genres = useGetGenresServiceQuery(i18n.language.replace("_","-"));
   const allMovieTv = useGetMovieOrTvServiceQuery({
     category: category!,
     page: page,
