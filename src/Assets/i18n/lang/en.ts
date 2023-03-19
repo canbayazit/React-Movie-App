@@ -59,6 +59,8 @@ const en = {
         unknown:"Unknown",
         // crew
         director:"Director",
+        viewLess:"...See less",
+        viewMore:"...See more",
         //login
         loginTitle:"Login",        
         loginButton:"LOGIN",

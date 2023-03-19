@@ -4,12 +4,18 @@ import { imageSize } from "../../../../Store/constant";
 import { useGetCreditServiceQuery } from "../../../../Service/movieServices";
 import { ICrew } from "../../../../Types/credit";
 import styles from "./crew.module.scss";
+import { useTranslation } from "react-i18next";
+import i18n from "../../../../Assets/i18n";
 
 const Crew = () => {
   const [group, setGroup] = useState<string[]>([]);
+  const { t } = useTranslation();
   const { category, id } = useParams();
-  const credit = useGetCreditServiceQuery({ category: category!, id: id! });
-
+  const { data, isLoading } = useGetCreditServiceQuery({
+    category: category!,
+    id: id!,
+    lang:i18n.language.replace("_","-")
+  });
   const groupPerson = <K extends string | number | symbol, V>(
     array: V[],
     group: (person: V) => K
@@ -22,7 +28,6 @@ const Crew = () => {
       store[key].push(person);
       return store;
     }, {} as Record<K, V[]>);
-
     let dataArray = [];
     for (const key in groupPerson) {
       if (Object.prototype.hasOwnProperty.call(groupPerson, key)) {
@@ -34,48 +39,42 @@ const Crew = () => {
   };
   const getMoreItems = (data: ICrew[], groupItem: string) => {
     if (group) {
-      //data departmanlardan oluşan personlar
-      console.log(group.includes(groupItem),"groupItem")
-      return group.includes(groupItem)
-        ? data
-        : data.slice(0, 12);
+      return group.includes(groupItem) ? data : data.slice(0, 12);
     }
     return data.slice(0, 12);
   };
   const handleClick = (groupItem: string) => {
-    console.log(group, "group");
     if (group.includes(groupItem)) {
-    const filterArray=group.filter((item): item is string=> item!==groupItem);
-      setGroup(filterArray)
+      const filterArray = group.filter(
+        (item): item is string => item !== groupItem
+      );
+      setGroup(filterArray);
     } else {
-      setGroup(prevNames =>  [...prevNames, groupItem]);
+      setGroup((prevNames) => [...prevNames, groupItem]);
     }
-    
   };
   return (
     <div className={styles.container}>
-      {credit.isLoading ? (
+      {isLoading ? (
         "loading"
       ) : (
         <div className={styles.container_crew}>
-          <div className={styles.container_crew_director}>
-            {credit.data?.crew
-              .filter((item) => item.job === "Director")
-              .map((item, i) => (
-                <>
-                  <div className={styles.container_crew_director_img}>
-                    <h1>Director</h1>
-                    <img src={`${imageSize}${item.profile_path}`} alt="" />
-                  </div>
-                  <div className={styles.container_crew_director_info}>
-                    <h1>{item.name}</h1>
-                    <span>{item.department}</span>
-                  </div>
-                </>
-              ))}
-          </div>
+          {data?.crew
+            .filter((item) => item.job === "Director")
+            .map((item, i) => (
+              <div className={styles.container_crew_director}>
+                <div className={styles.container_crew_director_img}>
+                  <h1>{t("director")}</h1>
+                  <img src={`${imageSize}${item.profile_path}`} alt="" />
+                </div>
+                <div className={styles.container_crew_director_info}>
+                  <h1>{item.name}</h1>
+                  <span>{item.department}</span>
+                </div>
+              </div>
+            ))}
           <div className={styles.container_crew_others}>
-            {groupPerson(credit.data?.crew!, (group) => group.department).map(
+            {groupPerson(data?.crew!, (group) => group.department).map(
               (item, i) => (
                 <div
                   key={`${item.group}_${i}`}
@@ -89,7 +88,9 @@ const Crew = () => {
                   </ul>
                   {item.value.length > 12 ? (
                     <button onClick={() => handleClick(item.group)}>
-                      {group.includes(item.group) ? "...See less": "...See more"}
+                      {group.includes(item.group)
+                        ? t("viewLess")
+                        : t("viewMore")}
                     </button>
                   ) : null}
                 </div>

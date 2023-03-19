@@ -37,12 +37,14 @@
     &_others{
         display: flex;
         justify-content:center;
+        flex-wrap: wrap;           
         width: 100%;
         height: auto;
         &_group{
-            width: 100%;
+            width: 25%;
             margin-right: 30px;
             text-align: center;
+            margin: 20px;
             h3{
                 border-bottom: 1px solid #f9f9f999;
                 padding-bottom: 8px;

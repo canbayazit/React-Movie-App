@@ -59,6 +59,8 @@ const tr = {
     unknown:"Bilinmiyor",
     // crew
     director: "Yönetmen",
+    viewLess:"...Daha az",
+    viewMore:"...Daha fazla",
     //login
     loginTitle: "Giriş",
     loginButton: "GİRİŞ",
