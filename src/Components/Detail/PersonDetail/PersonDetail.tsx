@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { imageSize } from "../../../Store/constant";
 import { useGetDetailServiceQuery } from "../../../Service/movieServices";
@@ -10,19 +9,12 @@ import { useTranslation } from "react-i18next";
 const PersonDetail = () => {
   const { category, id } = useParams();
   const { t } = useTranslation();
-  const [lang, setLang] = useState<string>(i18n.language.replace("_","-"));
-  const { data, isLoading,isFetching } = useGetDetailServiceQuery({
+  const { data, isLoading } = useGetDetailServiceQuery({
     category: category!,
     id: id!,
-    lang:lang
+    lang:i18n.language.replace("_","-")
   });
-  useEffect(() => {
-    if (!isFetching) {
-      if (!data?.biography) {
-        setLang('en-EN')
-      }
-    }    
-  }, [data?.biography, isFetching])
+  
   return (
     <>
       {isLoading ? (
@@ -38,7 +30,7 @@ const PersonDetail = () => {
             <h1>{data?.name}</h1>
             <div className={styles.container_detail_bio}>
               <h3>{t('biography')}</h3>
-              <p>{data?.biography}</p>
+              <p>{data?.biography || t('notFoundBio')}</p>
             </div>
           </section>
         </div>
