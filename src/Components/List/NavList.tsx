@@ -56,7 +56,6 @@ const NavList = () => {
             {item.name}
           </div>
         ))}
-        <div className={styles.indicator}></div>
       </nav>
       {navList[category === "person" ? category : ("movieTv" as keyof INav)].map((item, i) => (
         <div

@@ -15,7 +15,7 @@
     color: #f9f9f9;
     font-weight: 900;
     border-bottom: 1px solid #f9f9f999;
-    padding-bottom: 15px;
+    // padding-bottom: 15px;
     z-index: 998;
 
     &_bar {
@@ -33,41 +33,15 @@
       &.active {
         color: #fff;
         opacity: 1;
+        border-bottom: 3px solid #f9f9f9;
+        padding-bottom: 15px;
+
       }
       &:nth-child(n) {
         width: max-content;
         margin-right: 40px;
-      }
-      &:nth-child(1).active ~ .indicator {
-        transform: translateX(calc(0));
-        width: 145px;
-      }
-      &:nth-child(2).active ~ .indicator {
-        transform: translateX(calc(145px));
-        width: 145px;
-      }
-      &:nth-child(3).active ~ .indicator {
-        transform: translateX(calc(145px * 2));
-        width: 145px;
-      }
-      &:nth-child(4).active ~ .indicator {
-        transform: translateX(calc(145px * 3));
-        width: 145px;
-      }
-    }
-    .indicator {
-      position: absolute;
-      height: 3px;
-      bottom: 0;
-      z-index: 998;
-      width: 145px;
-      background-color: #fff;
-      // border: 4px solid #f9f9f9;
-      border-radius: 50px 50px 0 0;
-      transition-property: transform;
-      transition-duration: 0.5s;
-      filter: drop-shadow(0 0 1px #f9f9f9);
-    }
+      }      
+    }    
   }
   &_nav_content{
     position: relative;

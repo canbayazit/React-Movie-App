@@ -48,49 +48,30 @@
       justify-content: center;
       align-items: center;
       position: relative;
-      a {
+      a {        
         display: flex;
         justify-content: center;
         align-items: center;
         text-decoration: none;
-        width: 110px;
-        color: #fff;
-        font-weight: 600;
-        font-size: 105%;
-        padding: 10px;
+        width: max-content;
+        color: #aaa;
+        font-weight: 900;
+        font-size: 100%;
+        padding-bottom: 6px;
+        margin-right: 20px;
         letter-spacing: 0.05rem;
         z-index: 999;
+        opacity: .7;
+        &:hover{
+          opacity: 1;
+          color: #fff;
+        }
         &[class="active"] {
+          opacity: 1;
           color: $theme-color;
-          text-shadow: 0 0 20px $theme-color;
-        }
-        &:nth-child(1)[class="active"] ~ .indicator {
-          transform: translateX(calc(0));
-          width: 110px;
-        }
-        &:nth-child(2)[class="active"] ~ .indicator {
-          transform: translateX(calc(110px));
-          width: 110px;
-        }
-        &:nth-child(3)[class="active"] ~ .indicator {
-          transform: translateX(calc(110px * 2));
-          width: 110px;
-        }
-      }
-      .indicator {
-        position: absolute;
-        height: 100%;
-        width: 95px;
-        bottom: 0;
-        left: 0;
-        z-index: 0;
-        border-bottom: 3px solid $theme-color;
-        padding-bottom: 8px;
-        border-radius: 0 0 1px 1px;
-        transition-property: transform;
-        transition-duration: 0.5s;
-        filter: drop-shadow(0 0 5px $theme-color);
-      }
+          border-bottom: 3px solid $theme-color;
+        }        
+      }      
     }
   }
 
@@ -100,15 +81,12 @@
     align-items: center;
     height: 100%;
     &_search {
-      width: 100%;
       &_formik {
         width: 100%;
         &_form {
           display: flex;
           justify-content: center;
           align-items: center;
-          // border: 1px solid #fff;
-
           &_input {
             padding: 10px;
             width: 300px;
@@ -160,7 +138,6 @@
       cursor: pointer;
       font: 600 16px "Nunito Sans";
       border-radius: 5px;
-      margin-left: 1rem;
       transition: all 0.3s ease-in-out;
       &:hover {
         background: $background;
@@ -170,7 +147,7 @@
       }
     }
     &_profile {
-      width: 100px;
+      width: 72px;
       height: 100%;
       display: flex;
       justify-content: center;
@@ -244,6 +221,27 @@
             font-weight: 600;
             visibility: hidden;
           }
+        }
+      }
+    }
+    &_lang{
+      width: 50px;
+      height: 40px;
+      margin:0 1.5rem ;
+      button{
+        width: 100%;
+        height: 100%;
+        border: 1px solid #f9f9f9;
+        border-radius: 5px;
+        background-color: transparent;
+        color: #f9f9f9;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        font: 600 16px "Nunito Sans";
+        &:hover {
+          background: $background;
+          border-color: $theme-color;
+          color: #000;
         }
       }
     }

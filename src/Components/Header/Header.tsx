@@ -26,7 +26,7 @@ interface IValues {
 }
 const Header = () => {
   const [isScrolling, setScrolling] = useState(false);
-  const [status, setStatus] = useState<boolean>(true);
+  const [query, setQuery] = useState<string>("");
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -75,11 +75,25 @@ const Header = () => {
       });
     navigate("/login");
   };
-  const changeLang = () => {
-    i18n.changeLanguage(!status ? "en_US" : "tr_TR");
-    localStorage.setItem("language", !status ? "en_US" : "tr_TR");
-    setStatus(!status);
+  const changeLang = (lang:string) => {
+    if (lang==="en_US") {
+      i18n.changeLanguage("tr_TR");
+      localStorage.setItem("language", "tr_TR");
+    }else{
+      i18n.changeLanguage("en_US");
+      localStorage.setItem("language", "en_US");
+    }    
   };
+ useEffect(() => {
+   if (query) {
+    const params = { query: query };
+      navigate({
+      pathname: "/search/movie",
+      search: `?${createSearchParams(params)}`,
+    });
+   }
+ }, [query])
+ 
   return (
     <header
       className={
@@ -100,10 +114,7 @@ const Header = () => {
             <NavLink key={item.id} to={item.to}>
               {item.name}
             </NavLink>
-          ))}
-          {headerList.find((i) => i.to === location.pathname) && (
-            <div className={styles.indicator}></div>
-          )}
+          ))}         
         </div>
       </div>
       <div className={styles.container_right}>
@@ -111,38 +122,42 @@ const Header = () => {
           <Formik
             initialValues={initialValues}
             className={styles.container_right_search_formik}
-            onSubmit={(values: IValues) => {
-              console.log(values);
-              const params = { query: values.query };
-              // to navigate we have to set handlesubmit
+            onSubmit={(values: IValues,{resetForm}:any) => {
+              console.log(values);              
+              // to navigate we have to set handlesubmit           
+              setQuery(values.query)
+              if (!query) {
+                const params = { query: query };
               navigate({
-                pathname: "/search/movie",
-                search: `?${createSearchParams(params)}`,
+              pathname: "/search/movie",
+              search: `?${createSearchParams(params)}`,
               });
+              }              
+              resetForm();
             }}
           >
-            {(props) => (
+            {({submitForm,values}) => (
               <Form className={styles.container_right_search_formik_form}>
                 <Field
                   name="query"
                   placeholder={t("searchPlaceholder")}
                   type="text"
-                  value={props.values.query}
+                  // value={values.query}
                   className={styles.container_right_search_formik_form_input}
                 />
                 <button
                   className={styles.container_right_search_formik_form_button}
                   type="submit"
-                  onClick={() => props.handleSubmit()}
+                  onClick={submitForm}
                 >
-                  <Link to={"/search"}>{search()}</Link>
+                  {search()}
                 </button>
               </Form>
             )}
           </Formik>
         </div>
         <div className={styles.container_right_lang}>
-          <button onClick={() => changeLang()}>
+          <button onClick={() => changeLang(i18n.language)}>
             {i18n.language.substring(0,2).toUpperCase()}
           </button>
         </div>
