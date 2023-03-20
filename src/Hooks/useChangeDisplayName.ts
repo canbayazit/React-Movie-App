@@ -1,11 +1,13 @@
 import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { logOutHandle } from "../Store/authSlice";
 import { useAppDispatch } from "./Hook";
 
 export const useUpdatedDisplayName = (newUsername: string) => {
+  const { t } = useTranslation();
   const auth = getAuth();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ export const useUpdatedDisplayName = (newUsername: string) => {
           displayName: newUsername,
         })
           .then(() => {
-            toast.success("Successfully updated username!", {
+            toast.success(t('updatedUsername'), {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -44,7 +46,7 @@ export const useUpdatedDisplayName = (newUsername: string) => {
           .then(() => {
             dispatch(logOutHandle());
             navigate("/login");
-            toast.warning("you need to login again!", {
+            toast.warning(t('needLoginAgain'), {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -70,5 +72,5 @@ export const useUpdatedDisplayName = (newUsername: string) => {
       };
       update();
     }
-  }, [auth, dispatch, navigate, newUsername]);
+  }, [auth, dispatch, navigate, newUsername, t]);
 };
