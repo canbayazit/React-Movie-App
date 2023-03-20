@@ -1,6 +1,5 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import i18n from "../../../../Assets/i18n";
 import { useGetPersonCreditServiceQuery } from "../../../../Service/movieServices";
 import MovieCard from "../../../Card/MovieCard/MovieCard";
 import styles from "./known.module.scss";
@@ -12,6 +11,7 @@ interface IProps {
 const Known = (props: IProps) => {
   const { keys, credit } = props;
   const { category, id } = useParams();
+  const { i18n } = useTranslation();
   const { data, isLoading } = useGetPersonCreditServiceQuery({
     category: category!,
     id: id!,
@@ -25,14 +25,14 @@ const Known = (props: IProps) => {
         <div>Loading</div>
       ) : (
         <div className={styles.container}>
-          {data?.cast.map((movie) => {
+          {data?.cast.map((movie,i) => {
             const remainder = data.cast.length % 5;
             const lastItems = data.cast.slice(
               remainder === 0 ? -5 : -remainder
             );
             const active = lastItems.includes(movie) ? true : false;
             return (
-              <div key={movie.id} className={styles.container_card}>
+              <div key={`${movie.id}_${i}`} className={styles.container_card}>
                 <MovieCard
                   active={active}
                   movie={movie}

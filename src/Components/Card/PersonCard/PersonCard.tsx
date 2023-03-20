@@ -3,14 +3,13 @@ import { useGetDetailServiceQuery } from '../../../Service/movieServices';
 import notFoundImage from "../../../Assets/img/personUser.png";
 import styles from "./person.module.scss";
 import { Link } from 'react-router-dom';
-import i18n from '../../../Assets/i18n';
 import { useTranslation } from 'react-i18next';
 interface IProps{
    id:number
 }
 const PersonCard = (props:IProps) => {
     const {id} = props
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
     const {data} = useGetDetailServiceQuery({
         category:"person",
         id:id.toString(),

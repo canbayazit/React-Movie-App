@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { shallowEqual } from "react-redux";
-import i18n from "../../../Assets/i18n";
 import { useAppSelector } from "../../../Hooks/Hook";
 import { useGetGenresServiceQuery } from "../../../Service/movieServices";
 import Loading from "../../Loading/Loading";
@@ -18,8 +17,8 @@ const GenreSlider = () => {
   const [category, setCategory] = useState<string>("movie");
   const [height, setHeigh] = useState<number>();
   const [slice, setSlice] = useState<number>(2);
+  const { t, i18n } = useTranslation();
   const { data, isLoading, isFetching } = useGetGenresServiceQuery(i18n.language.replace("_","-"));
-  const { t } = useTranslation();
   // state bu componentte kullanılmasa bile selector ile redux store bağlandıysak herhangi bir state
   // değiştiğinde component render olur o yüzden shallowEqual kullanıyoruz ve state tek tek alıyoruz.
   const genreFilterId = useAppSelector(

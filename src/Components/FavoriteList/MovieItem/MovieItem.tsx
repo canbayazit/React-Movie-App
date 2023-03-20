@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import i18n from "../../../Assets/i18n";
+import { useTranslation } from "react-i18next";
 import { useGetDetailServiceQuery } from "../../../Service/movieServices";
 import { IICon } from "../../../Types/sliceStates";
 import MovieCard from "../../Card/MovieCard/MovieCard";
@@ -12,6 +11,7 @@ interface IProps {
 }
 const WhistItem = (props: IProps) => {
   const { movie, active } = props;
+  const { i18n } = useTranslation();
   const { data, isFetching } = useGetDetailServiceQuery({
     category: movie.category,
     id: movie.id.toString(),

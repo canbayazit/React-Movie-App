@@ -5,11 +5,10 @@ import { useGetCreditServiceQuery } from "../../../../Service/movieServices";
 import { ICrew } from "../../../../Types/credit";
 import styles from "./crew.module.scss";
 import { useTranslation } from "react-i18next";
-import i18n from "../../../../Assets/i18n";
 
 const Crew = () => {
   const [group, setGroup] = useState<string[]>([]);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { category, id } = useParams();
   const { data, isLoading } = useGetCreditServiceQuery({
     category: category!,
@@ -62,7 +61,7 @@ const Crew = () => {
           {data?.crew
             .filter((item) => item.job === "Director")
             .map((item, i) => (
-              <div className={styles.container_crew_director}>
+              <div key={i} className={styles.container_crew_director}>
                 <div className={styles.container_crew_director_img}>
                   <h1>{t("director")}</h1>
                   <img src={`${imageSize}${item.profile_path}`} alt="" />

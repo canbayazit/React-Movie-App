@@ -22,7 +22,6 @@ import {
   usePostWatchListServiceMutation,
 } from "../../../Service/firebaseServices";
 import { useTranslation } from "react-i18next";
-import i18n from "../../../Assets/i18n";
 interface ITagItem {
   key: string;
   name?: string;
@@ -36,7 +35,7 @@ const MovieTvDetail = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [movieId, setMovieId] = useState<number>(0);
   const { category, id } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const uid = useAppSelector((store) => store.auth.user.uid, shallowEqual);
   const favoriteList = useAppSelector(
     (store) => store.movies.favoriteList,
@@ -182,7 +181,7 @@ const MovieTvDetail = () => {
                 <div className={styles.container_detail_info_genres}>
                   <ul>
                     {Tag[category as keyof ITag].map((item, i) => (
-                      <li>
+                      <li key={i}>
                         <span>
                           {data
                             ? item.key === "first_air_date" ||

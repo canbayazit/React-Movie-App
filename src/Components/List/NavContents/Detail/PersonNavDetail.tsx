@@ -1,14 +1,12 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import i18n from "../../../../Assets/i18n";
 import { useGetDetailServiceQuery } from "../../../../Service/movieServices";
 import styles from "./personNavDetail.module.scss";
 
 const PersonNavDetail = () => {
   const { category, id } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data, isLoading } = useGetDetailServiceQuery({
     category: category!,
     id: id!,

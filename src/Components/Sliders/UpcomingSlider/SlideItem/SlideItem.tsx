@@ -14,7 +14,6 @@ import {
 import { Result } from "../../../../Types/upcomingMovies";
 import styles from "./slideItem.module.scss";
 import { useTranslation } from "react-i18next";
-import i18n from "../../../../Assets/i18n";
 interface IProps {
   movie: Result;
   index: number;
@@ -24,7 +23,7 @@ const SlideItem = (props: IProps) => {
   const { movie } = props;
   const [active, setActive] = useState<boolean>(false);
   const [movieId, setMovieId] = useState<number>(0);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const genreService = useGetGenresServiceQuery(i18n.language.replace("_","-"));
   const movieService = useGetVideoServiceQuery(
     {
@@ -116,7 +115,7 @@ const SlideItem = (props: IProps) => {
                 return <li key={i}>{name}</li>;
               })}
             </ul>
-            <p>{movie.overview}</p>
+            <p>{movie.overview || t('notFoundOverview')}</p>
             <div className={styles.container_info_button}>
               <button onClick={() => handleClickTrailer(movie.id)}>
                 {t('watchTrailer')}

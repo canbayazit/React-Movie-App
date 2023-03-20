@@ -3,10 +3,11 @@ import { imageSize } from "../../../../Store/constant";
 import { useGetCreditServiceQuery } from "../../../../Service/movieServices";
 import user from "../../../../Assets/img/user.png";
 import styles from "./cast.module.scss";
-import i18n from "../../../../Assets/i18n";
+import { useTranslation } from "react-i18next";
 
 const Cast = () => {
   const { category, id } = useParams();
+  const { i18n } = useTranslation();
   const { data } = useGetCreditServiceQuery({
     category: category!,
     id: id!,
@@ -16,9 +17,8 @@ const Cast = () => {
   return (
     <div className={styles.container_nav_content_cast}>
       {data?.cast.map((item, i) => (
-        <Link to={`/detail/person/${item.id}`}>
-          <div
-            key={`${i}_${item.name}`}
+        <Link key={`${i}_${item.name}`} to={`/detail/person/${item.id}`}>
+          <div            
             className={styles.container_nav_content_cast_profil}
           >
             <div className={styles.container_nav_content_cast_profil_img}>

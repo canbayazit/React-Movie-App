@@ -3,12 +3,11 @@ import { imageSize } from "../../../Store/constant";
 import { useGetDetailServiceQuery } from "../../../Service/movieServices";
 import notFoundImage from "../../../Assets/img/personUser.png";
 import styles from "./personDetail.module.scss";
-import i18n from "../../../Assets/i18n";
 import { useTranslation } from "react-i18next";
 
 const PersonDetail = () => {
   const { category, id } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data, isLoading } = useGetDetailServiceQuery({
     category: category!,
     id: id!,

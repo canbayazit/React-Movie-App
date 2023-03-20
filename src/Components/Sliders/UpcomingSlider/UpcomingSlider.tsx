@@ -8,7 +8,7 @@ import {
   SampleNextArrowUpcoming,
   SamplePrevArrowUpcoming,
 } from "../../../Utils/Functions";
-import i18n from "../../../Assets/i18n";
+import { useTranslation } from "react-i18next";
 const settings: ISetting = {
   dots: false,
   lazyLoad: "anticipated",
@@ -67,11 +67,11 @@ const settings: ISetting = {
   ],
 };
 const UpcomingSlider = () => {
+  const { i18n } = useTranslation();
   const { data } = useGetUpcomingMoviesServiceQuery({
     page: 1,
     lang: i18n.language.replace("_","-"),
   });
-  
   return (
     <>
       <div className={styles.container}>

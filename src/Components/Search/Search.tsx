@@ -6,7 +6,6 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import i18n from "../../Assets/i18n";
 import { useGetSearchServiceQuery } from "../../Service/movieServices";
 import MovieCard from "../Card/MovieCard/MovieCard";
 import PersonCard from "../Card/PersonCard/PersonCard";
@@ -22,17 +21,17 @@ const Search = () => {
   const { category } = useParams();
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data, isFetching } = useGetSearchServiceQuery({
     category: category!,
     page: page,
     query: searchParams.get("query") || "",
-    lang:i18n.language.replace("_","-")
+    lang: i18n.language.replace("_", "-"),
   });
   const categories: ICategory[] = [
-    { category: "movie", name: t('movies') },
-    { category: "tv", name: t('tvShows') },
-    { category: "person", name: t('person') },
+    { category: "movie", name: t("movies") },
+    { category: "tv", name: t("tvShows") },
+    { category: "person", name: t("person") },
   ];
   useEffect(() => {
     const onScroll = () => {
@@ -64,17 +63,18 @@ const Search = () => {
         <div className={styles.container_query}>
           <h2>
             {searchParams.get("query")
-              ? `"${searchParams.get("query")}" ${t('result')}`
+              ? `"${searchParams.get("query")}" ${t("result")}`
               : " "}
           </h2>
         </div>
         <div className={styles.container_search}>
           <div className={styles.container_search_filter}>
             <ul>
-              <h3>{t('searchFilter')}</h3>
-              {categories.map((item) => (
+              <h3>{t("searchFilter")}</h3>
+              {categories.map((item, i) => (
                 <li
-                  className={item.category === category && styles.active}
+                  key={i}
+                  className={item.category === category ? styles.active : null}
                   onClick={() => handleClick(item.category)}
                 >
                   {item.name}
@@ -84,12 +84,13 @@ const Search = () => {
           </div>
           {data?.results.length === 0 ? (
             <div className={styles.container_search_empty}>
-              <p>{t('noQuery')}</p>
+              <p>{t("noQuery")}</p>
             </div>
           ) : (
             <div className={styles.container_search_result}>
-              {data?.results.map((item) => (
+              {data?.results.map((item, i) => (
                 <div
+                  key={i}
                   className={
                     category === "person"
                       ? styles.container_search_result_person_card

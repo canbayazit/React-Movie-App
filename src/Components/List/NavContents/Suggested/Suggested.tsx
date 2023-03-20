@@ -1,6 +1,6 @@
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
-import i18n from "../../../../Assets/i18n";
 import { useGetSimilarMovieServiceQuery } from "../../../../Service/movieServices";
 import { ISetting } from "../../../../Types/sliderTypes";
 import { SampleNextArrow, SamplePrevArrow } from "../../../../Utils/Functions";
@@ -63,6 +63,7 @@ const settings: ISetting = {
 };
 const Suggested = () => {
   const { category, id } = useParams();
+  const { i18n } = useTranslation();
   const { data, isLoading } = useGetSimilarMovieServiceQuery({
     category: category!,
     id: id!,
