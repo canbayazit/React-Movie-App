@@ -44,10 +44,10 @@ const ChangePassword = () => {
         validateOnChange={true}
         validateOnBlur={true}
         onSubmit={(values: IValues) => {
-          setPassword(values.password)
+          setPassword(values.password)         
         }}
       >
-        {({ errors, touched, isValid, dirty, isSubmitting }) => (
+        {({ errors, touched, isValid, dirty, isSubmitting, submitForm }) => (
           <Form className={styles.container_form}>
             <div className={styles.container_form_password}>
               <Field

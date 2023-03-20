@@ -30,11 +30,12 @@ const ChangeMail = () => {
         validationSchema={commentSchema}
         validateOnChange={true}
         validateOnBlur={true}
-        onSubmit={(values: IValues) => {
+        onSubmit={(values: IValues,{setSubmitting}) => {
           setEmail(values.email);
+          setSubmitting(false)
         }}
       >
-        {({ errors, touched, isValid, dirty, isSubmitting }) => (
+        {({ errors, touched, isValid, dirty, isSubmitting, submitForm }) => (
           <Form className={styles.container_form}>
             <div className={styles.container_form_email}>
               <Field
@@ -53,6 +54,7 @@ const ChangeMail = () => {
               <button
                 type="submit"
                 disabled={!(isValid && dirty) || isSubmitting}
+                onClick={()=>submitForm}
               >
                 {t('changeEmail')}
               </button>
