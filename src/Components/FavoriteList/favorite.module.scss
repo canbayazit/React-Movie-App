@@ -47,7 +47,9 @@
         &_card{
             display: flex;
             flex-wrap: wrap;           
-            
+            &_item{
+                width: 20%;
+            }
         }
     }
 }

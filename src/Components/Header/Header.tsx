@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   createSearchParams,
   NavLink,
-  useLocation,
   useNavigate,
 } from "react-router-dom";
 import { logo } from "../../Assets/svg/icons/logo";
@@ -30,7 +29,6 @@ const Header = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const initialValues: IValues = {
     query: "",
   };
@@ -123,7 +121,6 @@ const Header = () => {
             initialValues={initialValues}
             className={styles.container_right_search_formik}
             onSubmit={(values: IValues,{resetForm}:any) => {
-              console.log(values);              
               // to navigate we have to set handlesubmit           
               setQuery(values.query)
               if (!query) {
@@ -136,13 +133,12 @@ const Header = () => {
               resetForm();
             }}
           >
-            {({submitForm,values}) => (
+            {({submitForm}) => (
               <Form className={styles.container_right_search_formik_form}>
                 <Field
                   name="query"
                   placeholder={t("searchPlaceholder")}
                   type="text"
-                  // value={values.query}
                   className={styles.container_right_search_formik_form_input}
                 />
                 <button

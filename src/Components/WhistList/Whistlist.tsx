@@ -29,7 +29,7 @@ const Whistlist = () => {
           <h1>{t("watchListTitle")}</h1>
           <h4>{t("listTag")}</h4>
           <div className={styles.container_list_card}>
-            {whistList?.map((movie) => {
+            {whistList?.map((movie, i) => {
               const remainder = whistList?.length % 5;
               const lastItems = whistList?.slice(
                 remainder === 0 ? -5 : -remainder
@@ -40,7 +40,11 @@ const Whistlist = () => {
                   : lastItems.includes(movie)
                   ? true
                   : false;
-              return <WhistItem active={active} movie={movie} />;
+              return (
+                <div key={i} className={styles.container_list_card_item}>
+                  <WhistItem key={i} active={active} movie={movie} />
+                </div>
+              );
             })}
           </div>
         </div>

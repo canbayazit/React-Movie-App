@@ -31,7 +31,7 @@ const FavoriteList = () => {
           <h1>{t("favoriteListTitle")}</h1>
           <h4>{t("listTag")}</h4>
           <div className={styles.container_list_card}>
-            {favoritesList?.map((movie) => {
+            {favoritesList?.map((movie,i) => {
               const remainder = favoritesList?.length % 5;
               const lastItems = favoritesList?.slice(
                 remainder === 0 ? -5 : -remainder
@@ -42,7 +42,11 @@ const FavoriteList = () => {
                   : lastItems.includes(movie)
                   ? true
                   : false;
-              return <WhistItem active={active} movie={movie} />;
+              return (
+                <div key={i} className={styles.container_list_card_item}>
+                  <WhistItem active={active} movie={movie} />
+                </div>
+              );
             })}
           </div>
         </div>

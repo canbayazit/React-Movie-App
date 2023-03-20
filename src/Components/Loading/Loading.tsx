@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./loadingBar.module.scss";
 
-const Loading = ({ children }: any) => {
+const Loading = () => {
   return (
     <>
       <div className={styles.container}>

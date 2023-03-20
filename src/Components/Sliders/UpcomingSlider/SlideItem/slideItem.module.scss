@@ -79,6 +79,7 @@
         }
       }
       p {
+        width: 100%;
         font-size: 1em;
         font-family: 'Source Sans Pro', Arial, sans-serif;
         line-height: 1.4;
@@ -198,20 +199,6 @@
   animation-name: modal-animation;
   animation-duration: 0.6s;
   position: relative;
-  //   transform: scale(0);
-  //   &.active {
-  //     transform: scale(1);
-  //   }
-  // @keyframes modal-animation {
-  //   from {
-  //     transform: translateY(-250px);
-  //     opacity: 0;
-  //   }
-  //   to {
-  //     transform: translateY(0);
-  //     opacity: 1;
-  //   }
-  // }
   &_close {
     position: absolute;
     top: 0;
@@ -236,5 +223,11 @@
     iframe {
       border: none;
     }
+  }
+}
+
+@media only screen and (max-width: 1025px){
+  .container_info_image{
+    display: none;
   }
 }

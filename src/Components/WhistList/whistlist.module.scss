@@ -46,7 +46,11 @@
         }
         &_card{
             display: flex;
-            flex-wrap: wrap;           
+            flex-wrap: wrap;
+            &_item{
+                // width: 270px;
+                width: 20%;
+            }           
             
         }
     }
