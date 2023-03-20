@@ -117,6 +117,10 @@ const en = {
         registerSuccessful:"Account created successfully!",
         addMovieTvError:"You need to be logged in to add!",
         logOutSuccessful:"Successfully logged out!",
+        needLoginAgain:"You need to login again!",
+        updatedUsername:"Successfully updated username!",
+        updatedMail:"Successfully updated email!",
+        updatedPassword:"Successfully updated Password!",
         //icon tooltip
         addWhistList:"Add to Watchlist",
         removeWhistList:"Remove from Watchlist",

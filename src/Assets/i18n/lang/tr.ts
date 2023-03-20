@@ -117,6 +117,10 @@ const tr = {
     registerSuccessful:"Hesap başarıyla oluşturuldu!",
     addMovieTvError:"Eklemek için giriş yapmanız gerekiyor!",
     logOutSuccessful:"Başarıyla çıkış yapıldı!",
+    needLoginAgain:"Tekrar giriş yapmalısınız!",
+    updatedUsername:"Kullanıcı adı başarıyla güncellendi!",
+    updatedMail:"E-posta başarıyla güncellendi!",
+    updatedPassword:"Parola başarıyla güncellendi!",
     //icon tooltip
     addWhistList:"İzleme Listesine Ekle",
     removeWhistList:"İzleme Listesinden Kaldır",
