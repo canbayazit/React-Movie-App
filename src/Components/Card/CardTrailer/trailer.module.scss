@@ -1,12 +1,11 @@
-@use "../../../Scss/variables" as *;
+@use "../../../Assets/Scss/variables" as *;
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  z-index: 998;
- 
+  z-index: 998; 
   &_modal {
     display: flex;
     height: 100%;
