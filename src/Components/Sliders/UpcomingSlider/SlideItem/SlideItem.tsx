@@ -24,7 +24,9 @@ const SlideItem = (props: IProps) => {
   const [active, setActive] = useState<boolean>(false);
   const [movieId, setMovieId] = useState<number>(0);
   const { t, i18n } = useTranslation();
-  const genreService = useGetGenresServiceQuery(i18n.language.replace("_","-"));
+  const genreService = useGetGenresServiceQuery(
+    i18n.language.replace("_", "-")
+  );
   const movieService = useGetVideoServiceQuery(
     {
       category: "movie"!,
@@ -92,20 +94,21 @@ const SlideItem = (props: IProps) => {
     <>
       <div
         key={movie.id}
-        className={`${styles.container_background} ${
+        className={`${styles.container} ${
           active ? styles.active : ""
         }`}
       >
         <img
           src={`${imageOriginal}${movie.backdrop_path}`}
           alt=""
-          className={styles.container_background_image}
+          className={styles.container_image}
         />
         <div className={styles.container_info}>
           <div className={styles.container_info_overview}>
             <h1>{movie.title}</h1>
             <div className={styles.container_info_overview_new}>
-              <span>{star()}</span>{t('new')}
+              <span>{star()}</span>
+              {t("new")}
             </div>
             <ul>
               {movie.genre_ids.map((id, i) => {
@@ -115,13 +118,13 @@ const SlideItem = (props: IProps) => {
                 return <li key={i}>{name}</li>;
               })}
             </ul>
-            <p>{movie.overview || t('notFoundOverview')}</p>
-            <div className={styles.container_info_button}>
+            <p>{movie.overview || t("notFoundOverview")}</p>
+            <div className={styles.container_info_overview_button}>
               <button onClick={() => handleClickTrailer(movie.id)}>
-                {t('watchTrailer')}
+                {t("watchTrailer")}
               </button>
               <button>
-                <Link to={`detail/movie/${movie.id}`}>{t('seeDetail')}</Link>
+                <Link to={`detail/movie/${movie.id}`}>{t("seeDetail")}</Link>
               </button>
             </div>
           </div>
@@ -130,8 +133,8 @@ const SlideItem = (props: IProps) => {
           </div>
         </div>
       </div>
-      <dialog className={styles.container} id={`modal_${movieId}`}>
-        <div className={styles.container_modal}>
+      <dialog className={styles.container_dialog} id={`modal_${movieId}`}>
+        <div className={styles.container_dialog_modal}>
           {movieService.data?.results.find((item) => item.type === "Trailer")
             ?.key ? (
             <iframe
@@ -145,10 +148,10 @@ const SlideItem = (props: IProps) => {
               }
             ></iframe>
           ) : (
-            t('noTrailer')
+            t("noTrailer")
           )}
         </div>
-        <div className={styles.container_close}>
+        <div className={styles.container_dialog_close}>
           <button onClick={() => closeModal()}>{closeButton()}</button>
         </div>
       </dialog>

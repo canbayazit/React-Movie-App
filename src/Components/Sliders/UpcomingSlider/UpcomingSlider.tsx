@@ -29,7 +29,20 @@ const settings: ISetting = {
       breakpoint: 1024,
       settings: {
         dots: false,
-        arrows: true,
+        arrows: false,
+        infinite: true,
+        adaptiveHeight: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        initialSlide: 0,        
+      },
+    },
+    {
+      breakpoint: 850,
+      settings: {
+        dots: false,
+        arrows: false,
         infinite: true,
         adaptiveHeight: true,
         speed: 500,
@@ -39,23 +52,10 @@ const settings: ISetting = {
       },
     },
     {
-      breakpoint: 835,
+      breakpoint: 425,
       settings: {
         dots: false,
-        arrows: true,
-        infinite: true,
-        adaptiveHeight: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: 0,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        dots: false,
-        arrows: true,
+        arrows: false,
         infinite: true,
         adaptiveHeight: true,
         speed: 500,
