@@ -1,4 +1,5 @@
 @use "../../Assets/Scss/variables" as *;
+@use "../../Assets/Scss/deviceSize" as *;
 
 .container {
   width: 100%;
@@ -12,35 +13,30 @@
     position: relative;
     width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
     color: #f9f9f9;
     font-weight: 900;
     border-bottom: 1px solid #f9f9f999;
-    // padding-bottom: 15px;
     z-index: 998;
 
     &_bar {
       cursor: pointer;
+      width: max-content;
+      padding-bottom: 10px;
       font-size: 20px;
       letter-spacing: 1.3px;
-      line-height: 1.4;
-      display: flex;
-      justify-content: center;
+      line-height: 1.4;     
       opacity: 0.7;
+      margin-right: 40px;
       &:hover{
       opacity: 1;
-
       }
       &.active {
         color: #fff;
         opacity: 1;
         border-bottom: 3px solid #f9f9f9;
-        padding-bottom: 15px;
-
-      }
-      &:nth-child(n) {
-        width: max-content;
-        margin-right: 40px;
-      }      
+      }          
     }    
   }
   &_nav_content{
@@ -55,4 +51,74 @@
     display: flex;    
     }      
   }
+}
+
+@media only screen and (max-width: $Max_DXS) {
+  .container {
+    padding: 0 calc(3.5vw);
+  }  
+  .container_nav_bar{
+    padding-bottom: 15px;
+
+  }
+}
+@media only screen and (max-width: $Max_TXS) {
+  .container {
+    padding: 0 calc(3.5vw);
+  }
+  .container_nav{
+    justify-content: space-between;
+  }
+  .container_nav_bar{
+      font-size: .94em;
+      letter-spacing: 0;
+      line-height: 0;
+      opacity: 0.7;
+      &:hover{
+      opacity: 1;
+      }
+      &:nth-child(n) {
+        width: max-content;
+        margin-right: 9px;
+      } 
+  }  
+}
+@media only screen and (max-width: $Max_ML) {
+  .container {
+    padding: 0 calc(3.5vw);
+  }
+  .container_nav{
+    justify-content: space-between;
+  }
+  .container_nav_bar{
+      font-size: .8em;
+      letter-spacing: 0;
+      line-height: 0;
+      opacity: 0.7;
+      &:hover{
+      opacity: 1;
+      }
+      &:nth-child(n) {
+        width: max-content;
+        margin-right: 9px;
+      } 
+  }  
+}
+@media only screen and (max-width: $Max_MM) {
+  .container {
+    padding: 0 calc(3.5vw);
+  }  
+  .container_nav_bar{
+      font-size: .7em;
+      letter-spacing: 0;
+      line-height: 0;
+      opacity: 0.7;
+      &:hover{
+      opacity: 1;
+      }
+      &:nth-child(n) {
+        width: max-content;
+        margin-right: 5px;
+      } 
+  }  
 }
