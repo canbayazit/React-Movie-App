@@ -1,3 +1,5 @@
+@use "../../../../Assets/Scss/deviceSize" as *;
+
 .container {
   width: 100%;
   display: flex;
@@ -8,5 +10,15 @@
     width: 20%;
     position: relative;
     height: 195px;
+  }
+}
+@media only screen and (max-width: $Max_DXS) {
+  .container_card {
+    width: 25%;
+  }
+}
+@media only screen and (max-width: $Max_TXS) {
+  .container_card {
+    width: 50%;
   }
 }
