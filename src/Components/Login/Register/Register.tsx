@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { usePostRegisterServiceMutation } from "../../../Service/firebaseServices";
 import Loading from "../../Loading/Loading";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "../../../Hooks/useMediaQuery";
 
 interface IValues {
   email: string;
@@ -23,6 +24,7 @@ interface IValues {
 }
 
 const RegisterForm = () => {
+  const matchesMobile = useMediaQuery("(min-width: 601px)");
   const { t } = useTranslation();
   const initialValues: IValues = {
     email: "",
@@ -124,7 +126,7 @@ const RegisterForm = () => {
                     {errors.email}
                   </div>
                 ) : null}
-                {mail(styles)}
+                {mail(styles,!matchesMobile ? 16 :20)}
                 <h5>{t('emailPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_password}>
@@ -139,7 +141,7 @@ const RegisterForm = () => {
                     {errors.password}
                   </div>
                 ) : null}
-                {lock(styles)}
+                {lock(styles,!matchesMobile ? 10 :20)}
                 <h5>{t('passwordPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_password}>
@@ -154,7 +156,7 @@ const RegisterForm = () => {
                     {errors.confirm}
                   </div>
                 ) : null}
-                {lock(styles)}
+                {lock(styles,!matchesMobile ? 10 :20)}
                 <h5>{t('confirmPasswordPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_button}>

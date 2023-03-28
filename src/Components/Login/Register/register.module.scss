@@ -1,10 +1,10 @@
 @use "../../../Assets/Scss/variables" as *;
+@use "../../../Assets/Scss/deviceSize" as *;
 
 .container {
   position: absolute;
   bottom: 120px;
   left: 80px;
-  // border: 2px solid blue;
   width: 400px;
   h1 {
     color: #f9f9f9;
@@ -333,5 +333,32 @@
         }
       }
     }
+  }
+}
+@media only screen and (max-width: $Max_DXS) {
+  .container {
+    width: 50%;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%,-55%);
+    padding: 0 25px;
+  }
+}
+@media only screen and (max-width: $Max_TS) {
+  .container {
+    width: 100%;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%,-55%);
+    padding: 0 150px;
+  }
+}
+@media only screen and (max-width: $Max_TXS) {
+  .container {
+    width: 100%;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%,-55%);
+    padding: 0 25px;
   }
 }
