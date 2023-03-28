@@ -4,9 +4,9 @@ const tr = {
     tvShows: "Dizileri",
     person: "Kişiler",
     //headers
-    home: "ANA SAYFA",
-    watchList: "İZLEME LİSTEM",
-    favoriteList: "FAVORİLERİM",
+    home: "Ana Sayfa",
+    watchList: "İzleme Listem",
+    favoriteList: "Favorilerim",
     //account
     account: "Hesap",
     logOut: "Oturumu Kapat",
@@ -127,7 +127,9 @@ const tr = {
     addFavoriteList:"Favoriler Listesine Ekle",
     removeFavoriteList:"Favoriler Listesinden Kaldır",
     //trailer
-    noTrailer:"Fragman Bulunamadı!"
+    noTrailer:"Fragman Bulunamadı!",
+    //change language
+    changeLanguage:"Change Language"
   },
 };
 export default tr;

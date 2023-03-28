@@ -4,9 +4,9 @@ const en = {
         tvShows:"Tv Shows",
         person:"People",
         //headers
-        home:"HOME",
-        watchList:"WATCHLIST",
-        favoriteList:"FAVORITES",
+        home:"Home",
+        watchList:"Watchlist",
+        favoriteList:"Favorites",
         //account
         account:"Account",
         logOut:"Log Out",
@@ -127,9 +127,9 @@ const en = {
         addFavoriteList:"Add to Favorites List",
         removeFavoriteList:"Remove from Favorites List",
         //trailer
-        noTrailer:"Trailer Not Found!"
-
-
+        noTrailer:"Trailer Not Found!",
+        //change language
+        changeLanguage:"Change Language"
 
     }
 }
