@@ -1,10 +1,12 @@
 @use "../../Assets/Scss/variables" as *;
+@use "../../Assets/Scss/deviceSize" as *;
+
 .container{
     width: 100%;
-    padding: 0 calc(3.5vw + 24px);
+    padding: 0 calc(3.5vw + 12px);
     position: relative;
     z-index: 2;
-    min-height: 550px;
+    min-height: 680px;
 
     &_empty{
         width: 100%;
@@ -15,9 +17,7 @@
         align-items: center;
         color: #f9f9f9;
         h2{
-            a{
-                color: $theme-color;
-            }
+           text-align: center;
         }
         span{
             border-radius: 50%;
@@ -52,4 +52,29 @@
             }
         }
     }
+}
+@media only screen and (max-width: $Max_DM) {
+    .container {
+        min-height: 700px;
+    }    
+  }
+@media only screen and (max-width: $Max_DXS) {
+    .container {
+      padding: 0 calc(3.5vw + 10px);
+    }
+    .container_list_card {
+      &_item {
+        width: 25%;
+      }
+    }
+  }
+@media only screen and (max-width: $Max_TXS) {
+  .container {
+    padding: 0 calc(3.5vw + 10px);
+  }
+  .container_list_card {
+    &_item {
+      width: 50%;
+    }
+  }
 }

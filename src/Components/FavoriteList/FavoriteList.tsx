@@ -18,12 +18,12 @@ const FavoriteList = () => {
     <div className={styles.container}>
       {!uid ? (
         <div className={styles.container_empty}>
-          <span>{addWhistList(80)}</span>
+          <span>{addWhistList(80,"#fff")}</span>
           <h2>{t("notLoggedIn")}</h2>
         </div>
       ) : favoritesList?.length === 0 ? (
         <div className={styles.container_empty}>
-          <span>{addWhistList(80)}</span>
+          <span>{addWhistList(80,"#fff")}</span>
           <h2>{t("emptyfavoriteList")}</h2>
         </div>
       ) : (
