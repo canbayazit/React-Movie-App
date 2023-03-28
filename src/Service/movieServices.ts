@@ -3,7 +3,6 @@ import { ICredit } from "../Types/credit";
 import { IGenres } from "../Types/genres";
 import { IListMovieTvResponse, IMovieTv } from "../Types/movie_tv";
 import { IMovieTVPersonDetail } from "../Types/detailPage";
-import { IPersonMovies } from "../Types/personMovies";
 import { ISimilar } from "../Types/similar";
 import { IUpcomingMovies } from "../Types/upcomingMovies";
 import { IVideos } from "../Types/video";
@@ -14,22 +13,9 @@ import { ISearch, ISearchMovie } from "../Types/search";
 export const movieApi = createApi({
   reducerPath: "movieApi",
   baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
-  tagTypes: ["QUERY"],
-  // burda query yada mutation larda kullanacağımız tagleri tanımlıyoruz
-  // sonrasında bu tagleri providesTags keyword ile kullanacağımız tag'i
-  // service içine tanımlayarak sen bu tagi kullanaksın diyoruz. Peki bu tagler ne işe yarıyor ?
-  // tagler query nin önbellekteki verinin tekrar fetch edilip edilmeyeceğini veya
-  // verinin önbellekten kaldırılıp kaldırılmayacağını bu bu taglerden anlar algoritma.
-  // providesTags : query (get) sorgusunda kullanılır
-  // invalidatesTags : mutation (post,put,delete) işleminde kullanılır.
-  // Bu 2 Keyword de 3 parametre alır 1. result 2. response error 3. query method (CRUD)
-  // eğer query yada mutation başarılı dönerse error undefined döner, eğer error dönerse result undefined döner.
-
-  // RTK Sorgusu, bir uç nokta için bir mutasyonun , başka bir uç noktadan bir sorgu tarafından sağlanan bazı verileri
-  // geçersiz kılma niyetinde olup olmadığını belirlemek için 'etiketler' kavramını kullanır .
+  tagTypes: ["QUERY"],  
   endpoints: (builder) => ({
-    //<result type, query type>    
-    getUpcomingMoviesService: builder.query<IUpcomingMovies, { lang: string; page: number }>({
+    getUpcomingMoviesService: builder.query<IUpcomingMovies, { page: number; lang: string;}>({
       query: (arg) =>
         `${clientURL.upcoming}?api_key=${process.env.REACT_APP_API_KEY}&page=${arg.page}&language=${arg.lang}`,
       providesTags: (result) =>
