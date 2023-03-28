@@ -1,249 +1,436 @@
 @use "../../Assets/Scss/variables" as *;
+@use "../../Assets/Scss/deviceSize" as *;
+
 // @mixin left($primary: 0) {
 //   transform: translateX(calc($primary));
 // }
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.header {
   height: 65px;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 999;
   background-color: transparent;
-  padding: 0 5rem;
-  transition-duration: 0.3s;
   &.active {
     background-color: $header-bg-color;
     box-shadow: 0 0px 20px #000;
     border-bottom: 1px solid $bg-color;
   }
-  &_left {
+  .container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    &_logo {
-      margin-right: 25px;
-      a {
-        text-decoration: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        font-size: 105%;
-        span {
-          margin-right: 10px;
-        }
-        h1 {
-          color: $theme-color;
-          span {
-            color: white;
-          }
-        }
-      }
-    }
-    &_nav {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    padding: 0 2.5rem;
+    transition-duration: 0.3s;
+    &_left {
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
-      a {        
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-decoration: none;
-        width: max-content;
-        color: #aaa;
-        font-weight: 900;
-        font-size: 100%;
-        padding-bottom: 6px;
-        margin-right: 20px;
-        letter-spacing: 0.05rem;
-        z-index: 999;
-        opacity: .7;
-        &:hover{
-          opacity: 1;
-          color: #fff;
-        }
-        &[class="active"] {
-          opacity: 1;
-          color: $theme-color;
-          border-bottom: 3px solid $theme-color;
-        }        
-      }      
-    }
-  }
-
-  &_right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    &_search {
-      &_formik {
-        width: 100%;
-        &_form {
+      &_logo {
+        margin-right: 25px;
+        a {
+          text-decoration: none;
           display: flex;
           justify-content: center;
           align-items: center;
-          &_input {
-            padding: 10px;
-            width: 300px;
-            height: 40px;
-            border: 1.5px solid #fff;
-            border-right: none;
-            border-radius: 5px 0 0 5px;
-            background-color: transparent;
-            color: #ffffff;
-            outline: none;
-            opacity: 0.75;
-            &:focus {
-              opacity: 1;
-            }
+          cursor: pointer;
+          font-size: 105%;
+          span {
+            margin-right: 10px;
           }
-          &_button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0 10px;
-            height: 40px;
-            border-radius: 0 5px 5px 0;
-            border: 1.5px solid #fff;
-            background-color: transparent;
-            color: #fff;
-            font-weight: 300;
-            cursor: pointer;
-            opacity: 0.75;
-            transition: all 0.3s ease-in-out;
-
-            &:hover {
-              border-color: #ffffff99;
-              opacity: 1;
-              background: $background;
-
-              transition: all 0.3s ease-in-out;
+          h1 {
+            color: $theme-color;
+            span {
+              color: white;
             }
           }
         }
       }
-    }
-    &_login {
-      text-decoration: none;
-      padding: 10px 14px;
-      color: #fff;
-      background-color: transparent;
-      // background-color: #131921;
-      border: 1.5px solid #fff;
-      cursor: pointer;
-      font: 600 16px "Nunito Sans";
-      border-radius: 5px;
-      transition: all 0.3s ease-in-out;
-      &:hover {
-        background: $background;
-        border-color: $theme-color;
-        color: #000;
-        // text-shadow: 0 0 1px $theme-color;
-      }
-    }
-    &_profile {
-      width: 72px;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      ul {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 200px;
+      &_nav {
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
-        background: transparent;
-        border: 1px solid transparent;
-        transition: all 0.5s;
-        color: #fff;
-        pointer-events: none;
-        &:hover {
-          pointer-events: auto;
-          background: #131921;
-          border: 1px solid #979797;
-          li:not(:first-child) {
-            pointer-events: auto;
-            visibility: visible;
-            cursor: pointer;
-            &:hover {
-              opacity: 1;
-            }
-          }
-          li:first-child {
-            border-bottom: 1px solid #979797;
-            h2 {
-              visibility: visible;
-            }
+        position: relative;
+        button {
+          background-color: transparent;
+          border: none;
+          opacity: 0.7;
+          cursor: pointer;
+          &:hover {
+            opacity: 1;
           }
         }
-        li {
-          a{
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-            font-size: 16px;
-            color: #f9f9f9;
-            font-weight: 600;
-          }
-          &:not(:first-child) {
-            visibility: hidden;
-            opacity: 0.7;
-          }
-          pointer-events: none;
+        a {
           display: flex;
-          justify-content: space-between;
+          justify-content: center;
           align-items: center;
-          padding: 20px;
-          height: 62px;
-          width: 100%;
-          font-size: 16px;
-          font-family: sans-serif;
-          img {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            object-fit: contain;
-            width: 52px;
-            height: 52px;
-            pointer-events: auto;
+          text-decoration: none;
+          width: max-content;
+          color: #aaa;
+          font-weight: 900;
+          font-size: 100%;
+          padding-bottom: 6px;
+          margin-right: 20px;
+          letter-spacing: 0.05rem;
+          z-index: 999;
+          opacity: 0.7;
+          &:hover {
+            opacity: 1;
+            color: #fff;
           }
-          h2 {
-            font-weight: 600;
-            visibility: hidden;
+          &[class="active"] {
+            opacity: 1;
+            color: $theme-color;
+            border-bottom: 3px solid $theme-color;
           }
         }
       }
     }
-    &_lang{
-      width: 50px;
-      height: 40px;
-      margin:0 1.5rem ;
-      button{
-        width: 100%;
+
+    &_right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      &_searchIcon {
         height: 100%;
-        border: 1px solid #f9f9f9;
-        border-radius: 5px;
+        button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: transparent;
+          border: none;
+          padding: 10px;
+          height: 100%;
+          // width: 50px;
+        }
+      }
+      &_search {
+        &_formik {
+          width: 100%;
+          &_form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &_input {
+              padding: 10px;
+              width: 300px;
+              height: 40px;
+              border: 1.5px solid #fff;
+              border-right: none;
+              border-radius: 5px 0 0 5px;
+              background-color: transparent;
+              color: #ffffff;
+              outline: none;
+              opacity: 0.75;
+              &:focus {
+                opacity: 1;
+              }
+            }
+            &_button {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 0 10px;
+              height: 40px;
+              border-radius: 0 5px 5px 0;
+              border: 1.5px solid #fff;
+              background-color: transparent;
+              color: #fff;
+              font-weight: 300;
+              cursor: pointer;
+              opacity: 0.75;
+              transition: all 0.3s ease-in-out;
+
+              &:hover {
+                border-color: #ffffff99;
+                opacity: 1;
+                background: $background;
+
+                transition: all 0.3s ease-in-out;
+              }
+            }
+          }
+        }
+      }
+      &_login {
+        text-decoration: none;
+        padding: 10px 14px;
+        color: #fff;
         background-color: transparent;
-        color: #f9f9f9;
+        // background-color: #131921;
+        border: 1.5px solid #fff;
         cursor: pointer;
-        transition: all 0.3s ease-in-out;
         font: 600 16px "Nunito Sans";
+        border-radius: 5px;
+        transition: all 0.3s ease-in-out;
         &:hover {
           background: $background;
           border-color: $theme-color;
           color: #000;
+          // text-shadow: 0 0 1px $theme-color;
+        }
+      }
+      &_profile {
+        width: 72px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        ul {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 200px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          background: transparent;
+          border: 1px solid transparent;
+          transition: all 0.5s;
+          color: #fff;
+          pointer-events: none;
+          &:hover,&:focus, &:active{
+            pointer-events: auto;
+            background: #131921;
+            border: 1px solid #979797;
+            li:not(:first-child) {
+              pointer-events: auto;
+              visibility: visible;
+              cursor: pointer;
+              &:hover {
+                opacity: 1;
+              }
+            }
+            li:first-child {
+              border-bottom: 1px solid #979797;
+              h2 {
+                visibility: visible;
+              }
+            }
+          }
+          li {
+            a {
+              width: 100%;
+              height: 100%;
+              text-decoration: none;
+              font-size: 16px;
+              color: #f9f9f9;
+              font-weight: 600;
+            }
+            &:not(:first-child) {
+              visibility: hidden;
+              opacity: 0.7;
+            }
+            pointer-events: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            height: 62px;
+            width: 100%;
+            font-size: 16px;
+            font-family: sans-serif;
+            img {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              object-fit: contain;
+              width: 52px;
+              height: 52px;
+              pointer-events: auto;
+            }
+            h2 {
+              font-weight: 600;
+              visibility: hidden;
+            }
+          }
+        }
+      }
+      &_lang {
+        width: 50px;
+        height: 40px;
+        margin: 0 1.5rem;
+        button {
+          width: 100%;
+          height: 100%;
+          border: 1px solid #f9f9f9;
+          border-radius: 5px;
+          background-color: transparent;
+          color: #f9f9f9;
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+          font: 600 16px "Nunito Sans";
+          &:hover {
+            background: $background;
+            border-color: $theme-color;
+            color: #000;
+          }
         }
       }
     }
   }
+}
+@media only screen and (max-width: $Max_DXS) {  
+  .header{
+    .container_right_searchIcon {
+      &.active {
+        button {
+          background-color: #262b3a;
+        }
+      }
+    }
+  }
+  
+  .header {
+    .container_right_search {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      padding: 15px 20px;
+      top: 100%; //calc according to all relative height
+      display: none;
+      &.active {
+        display: block;
+        background-color: #262b3a;
+      }
+      &_formik {
+        &_form {
+          flex-direction: row-reverse;
+          &_input {
+            width: 100%;
+            border-radius: 0 5px 5px 0;
+            border-left: none;
+            border-right: 1.5px solid #fff;
+            background-color: #33373d;
+            &::placeholder {
+              color: #fff;
+            }
+            &:focus + button {
+              opacity: 1;
+            }
+          }
+          &_button {
+            transition: all 0s;
+
+            border-radius: 5px 0 0 5px;
+            background-color: #33373d;
+            border-right: none;
+          }
+        }
+      }
+    }
+  }
+}
+@media only screen and (min-width: $Min_TXS) and (max-width: $Max_TS) {
+  .header {
+    .container {
+      padding: 0 10px;
+    }
+  }
+
+  .container_left_logo {
+    a {
+      h1 {
+        font-size: 23px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: $Max_TXS) {  
+  .header {
+    .container_right_searchIcon {
+      margin-right: 5px;
+      button {
+        padding: 5px;
+      }
+    }
+  }
+
+  .header {
+    .container {
+      padding: 0 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  .header {
+    .container_hamburger {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 10px;
+      margin-right: 8px;
+      &.active {
+        background-color: #262b3a;
+      }
+      span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+  .header {
+    .container_right_login {
+      padding: 7px;
+      font: 600 14px "Nunito Sans";
+    }
+  }
+  .header {
+    .container_right_profile {
+      ul {
+        li {
+          img {
+            width: 42px;
+            height: 42px;
+          }
+        }
+      }
+    }
+  }
+  .header {
+    .container_right_lang {
+      &.active {
+        display: none;
+      }
+      width: 32px;
+      height: 32px;
+      margin: 0 0.8rem;
+      button {
+        font: 600 14px "Nunito Sans";
+      }
+    }
+  }
+  .header {
+    .container_left {
+      span {
+        width: 100%;
+      }
+      &_logo {
+        width: 100%;
+        margin-right: 0;
+        a {
+          h1 {
+            font-size: 22px;
+          }
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: $Min_MS) {
+    .header{
+      .container_hamburger{
+        padding: 5px;
+      }
+    }
 }
