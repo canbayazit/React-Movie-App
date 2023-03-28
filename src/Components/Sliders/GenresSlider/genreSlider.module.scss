@@ -1,4 +1,5 @@
 @use "../../../Assets/Scss/variables" as *;
+@use "../../../Assets/Scss/deviceSize" as *;
 
 .container {
   width: 100%;
@@ -7,27 +8,25 @@
   align-items: center;
   flex-direction: column;
   &_button {
+    margin: 60px 0;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25%;
-    margin: 60px 0;
     background-color: transparent;
-    padding: 10px;
     border: 2px solid #fff;
     border-radius: 30px;
-    overflow: hidden;
-
     button {
       background-color: transparent;
       border: none;
       color: #fff;
       font-size: 1.5rem;
       font-weight: 600;
-      width: 100%;
+      padding: 10px 50px;
+      width: max-content;
+      height: 100%;
       z-index: 998;
-      &:hover{
+      &:hover {
         cursor: pointer;
       }
 
@@ -52,31 +51,37 @@
       z-index: 0;
       border-radius: 30px;
       background: $background;
-      // padding-bottom: 8px;
       transition-property: transform;
       transition-duration: 0.5s;
       z-index: 996;
     }
   }
   &_data {
-
+    padding: 2rem 0 2rem 3rem;
     width: 100%;
     display: flex;
     position: relative;
     &_slider {
       position: absolute;
       width: 100%;
-      height: auto;
       top: 0;
       right: 0;
       &:not(:nth-child(1)):nth-child(n) {
         top: (calc(var(--index, 0) * 300px));
       }
-      &:nth-child(n){
-        &:hover{
+      &:nth-child(n) {
+        &:hover {
           z-index: 998;
         }
       }
+    }
+  }
+}
+@media only screen and (max-width: $Max_TXS) {
+  .container_button {
+    button {
+      font-size: 1.1rem;
+      padding: 7px 35px;
     }
   }
 }

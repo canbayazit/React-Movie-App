@@ -18,7 +18,9 @@ const GenreSlider = () => {
   const [height, setHeigh] = useState<number>();
   const [slice, setSlice] = useState<number>(2);
   const { t, i18n } = useTranslation();
-  const { data, isLoading, isFetching } = useGetGenresServiceQuery(i18n.language.replace("_","-"));
+  const { data, isLoading, isFetching } = useGetGenresServiceQuery(
+    i18n.language.replace("_", "-")
+  );
   // state bu componentte kullanılmasa bile selector ile redux store bağlandıysak herhangi bir state
   // değiştiğinde component render olur o yüzden shallowEqual kullanıyoruz ve state tek tek alıyoruz.
   const genreFilterId = useAppSelector(
@@ -29,22 +31,24 @@ const GenreSlider = () => {
     setCategory("movie");
   }, []);
   const buttonList: IButtonItem[] = [
-    { id: 1, name: t('movies'), category: "movie" },
-    { id: 2, name: t('tvShows'), category: "tv" },
+    { id: 1, name: t("movies"), category: "movie" },
+    { id: 2, name: t("tvShows"), category: "tv" },
   ];
   const handleClick = (category: string) => {
     setCategory(category);
-    setSlice(2)
+    setSlice(2);
   };
   useEffect(() => {
     if (!isFetching) {
-      let length = data?.genres.filter(
-        (item) =>
-          item.id !==
-          genreFilterId
-            .filter((item) => item.category === category)
-            .find((i) => i.genreId === item.id)?.genreId
-      ).slice(0,slice).length!;
+      let length = data?.genres
+        .filter(
+          (item) =>
+            item.id !==
+            genreFilterId
+              .filter((item) => item.category === category)
+              .find((i) => i.genreId === item.id)?.genreId
+        )
+        .slice(0, slice).length!;
       setHeigh(310 * length);
     }
   }, [category, data?.genres, genreFilterId, isFetching, isLoading, slice]);
@@ -66,7 +70,7 @@ const GenreSlider = () => {
   return (
     <>
       {isFetching ? (
-        <Loading/>
+        <Loading />
       ) : (
         <div className={styles.container} id="content">
           <div className={styles.container_button}>
@@ -89,7 +93,8 @@ const GenreSlider = () => {
                   genreFilterId
                     .filter((item) => item.category === category)
                     .find((i) => i.genreId === item.id)?.genreId
-              ).slice(0,slice)
+              )
+              .slice(0, slice)
               .map((genre, i) => {
                 return (
                   <div
