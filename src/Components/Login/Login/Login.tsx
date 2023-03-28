@@ -51,7 +51,6 @@ const LoginForm = () => {
           validateOnChange={true}
           validateOnBlur={true}
           onSubmit={async (values: IValues) => {
-            console.log({ values });
             await postLogin({
               email: values.email,
               password: values.password,

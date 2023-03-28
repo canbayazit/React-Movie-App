@@ -157,8 +157,7 @@ const Trailer = (props: IProps) => {
     ctx!.stroke();
     ctx?.closePath();
   }, [movie?.id, movie?.vote_average]);
-
-  console.log("trailer");
+  
   return (
     <>
       <div

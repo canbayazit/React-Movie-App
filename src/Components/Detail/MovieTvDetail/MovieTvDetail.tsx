@@ -104,7 +104,7 @@ const MovieTvDetail = () => {
       }
     } else {
       toast.error(t("addMovieTvError"), {
-        position: "top-right",
+        position: matchesMobile ? "top-right" : "top-center",
         autoClose: 5500,
         hideProgressBar: false,
         closeOnClick: true,
@@ -112,7 +112,7 @@ const MovieTvDetail = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
-      });  
+      });
     }
   };
 
@@ -238,28 +238,32 @@ const MovieTvDetail = () => {
                   <div
                     className={styles.container_detail_button_icons_whistlist}
                   >
-                    <label>
-                      {watchList?.find((i) => i.id === Number(id))
-                        ? t("removeWhistList")
-                        : t("addWhistList")}
-                    </label>
+                    {matchesMobile && (
+                      <label>
+                        {watchList?.find((i) => i.id === Number(id))
+                          ? t("removeWhistList")
+                          : t("addWhistList")}
+                      </label>
+                    )}
                     <span onClick={() => handleClick("whistList")}>
                       {watchList?.find((i) => i.id === Number(id))
                         ? tick()
-                        : addWhistList(30,"#fff")}
+                        : addWhistList(30, "#fff")}
                     </span>
                   </div>
                   <div
                     className={styles.container_detail_button_icons_favorite}
                   >
-                    <label>
-                      {favoriteList?.find((i) => i.id === Number(id))
-                        ? t("removeFavoriteList")
-                        : t("addFavoriteList")}
-                    </label>
+                    {matchesMobile && (
+                      <label>
+                        {favoriteList?.find((i) => i.id === Number(id))
+                          ? t("removeFavoriteList")
+                          : t("addFavoriteList")}
+                      </label>
+                    )}
                     <span onClick={() => handleClick("favorite")}>
                       {favoriteList?.find((i) => i.id === Number(id))
-                        ? deleteFavorite(25,"#ffc107")
+                        ? deleteFavorite(25, "#ffc107")
                         : addFavorite()}
                     </span>
                   </div>
@@ -292,7 +296,9 @@ const MovieTvDetail = () => {
               )}
             </div>
             <div className={styles.container_dialog_close}>
-              <button onClick={() => closeModal()}>{closeButton(33,2.5)}</button>
+              <button onClick={() => closeModal()}>
+                {closeButton(33, 2.5)}
+              </button>
             </div>
           </dialog>
         </>

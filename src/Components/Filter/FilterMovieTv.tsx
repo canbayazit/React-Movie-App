@@ -79,7 +79,6 @@ const FilterMovieTv = () => {
             <Formik
               initialValues={initialValues}
               onSubmit={(values: IValues) => {
-                console.log({ values });
                 if (values.genre && values.imdb) {
                   setFilter({
                     genre: values.genre,

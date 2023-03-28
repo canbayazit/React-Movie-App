@@ -38,7 +38,6 @@ const Search = () => {
       const scrolledToBottom =
         window.innerHeight + window.scrollY + 20 >= document.body.offsetHeight;
       if (scrolledToBottom && !isFetching) {
-        console.log("Fetching more data...");
         setPage(page + 1);
       }
     };

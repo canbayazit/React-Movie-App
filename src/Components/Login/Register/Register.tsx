@@ -65,7 +65,6 @@ const RegisterForm = () => {
           validateOnChange={true}
           validateOnBlur={true}
           onSubmit={async (values: IValues) => {
-            console.log({ values });
             await postRegister({
               username: values.username,
               email: values.email,

@@ -45,7 +45,6 @@ const Menu = () => {
       localStorage.setItem("language", "en_US");
     }
   };
-  console.log(location.pathname);
 
   const handleClick = (path: string) => {
     if (path !== location.pathname) {

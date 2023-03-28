@@ -236,6 +236,7 @@ const Header = () => {
               className={styles.container_right_search_formik}
               onSubmit={(values: IValues, { resetForm }: any) => {
                 // to navigate we have to set handlesubmit
+                setOpenSearch(false);
                 setQuery(values.query);
                 if (!query) {
                   const params = { query: query };
