@@ -22,6 +22,8 @@ import {
   usePostWatchListServiceMutation,
 } from "../../../Service/firebaseServices";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { useMediaQuery } from "../../../Hooks/useMediaQuery";
 interface ITagItem {
   key: string;
   name?: string;
@@ -31,9 +33,10 @@ interface ITag {
   tv: ITagItem[];
 }
 
-const MovieTvDetail = () => {  
+const MovieTvDetail = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [movieId, setMovieId] = useState<number>(0);
+  const matchesMobile = useMediaQuery("(min-width: 601px)");
   const { category, id } = useParams();
   const { t, i18n } = useTranslation();
   const uid = useAppSelector((store) => store.auth.user.uid, shallowEqual);
@@ -68,8 +71,8 @@ const MovieTvDetail = () => {
     ],
     tv: [
       { key: "first_air_date", name: "" },
-      { key: "number_of_seasons", name: t('season')! },
-      { key: "number_of_episodes", name: t('episode')! },
+      { key: "number_of_seasons", name: t("season")! },
+      { key: "number_of_episodes", name: t("episode")! },
     ],
   };
   const toHoursAndMinutes = (min: number) => {
@@ -93,10 +96,23 @@ const MovieTvDetail = () => {
   }, []);
 
   const handleClick = async (key: string) => {
-    if (key === "favorite") {
-      await postFavorite({ uid: uid, id: Number(id), category: category! });
-    } else if (key === "whistList") {
-      await postWatchList({ uid: uid, id: Number(id), category: category! });
+    if (uid) {
+      if (key === "favorite") {
+        await postFavorite({ uid: uid, id: Number(id), category: category! });
+      } else if (key === "whistList") {
+        await postWatchList({ uid: uid, id: Number(id), category: category! });
+      }
+    } else {
+      toast.error(t("addMovieTvError"), {
+        position: "top-right",
+        autoClose: 5500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });  
     }
   };
 
@@ -230,7 +246,7 @@ const MovieTvDetail = () => {
                     <span onClick={() => handleClick("whistList")}>
                       {watchList?.find((i) => i.id === Number(id))
                         ? tick()
-                        : addWhistList(30)}
+                        : addWhistList(30,"#fff")}
                     </span>
                   </div>
                   <div
@@ -243,7 +259,7 @@ const MovieTvDetail = () => {
                     </label>
                     <span onClick={() => handleClick("favorite")}>
                       {favoriteList?.find((i) => i.id === Number(id))
-                        ? deleteFavorite()
+                        ? deleteFavorite(25,"#ffc107")
                         : addFavorite()}
                     </span>
                   </div>
@@ -251,7 +267,7 @@ const MovieTvDetail = () => {
               </div>
 
               <div className={styles.container_detail_overview}>
-                <p>{data?.overview || t('notFoundOverview')}</p>
+                <p>{data?.overview || t("notFoundOverview")}</p>
               </div>
             </div>
           </div>
@@ -261,8 +277,9 @@ const MovieTvDetail = () => {
                 (item) => item.type === "Trailer"
               )?.key ? (
                 <iframe
+                  allow="autoplay"
                   width="100%"
-                  height="500px"
+                  height={matchesMobile ? 500 : 300}
                   title={
                     clientURL.youtube +
                     movieService.data?.results.find(
@@ -275,7 +292,7 @@ const MovieTvDetail = () => {
               )}
             </div>
             <div className={styles.container_dialog_close}>
-              <button onClick={() => closeModal()}>{closeButton()}</button>
+              <button onClick={() => closeModal()}>{closeButton(33,2.5)}</button>
             </div>
           </dialog>
         </>
