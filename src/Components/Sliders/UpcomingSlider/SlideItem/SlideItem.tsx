@@ -14,6 +14,7 @@ import {
 import { Result } from "../../../../Types/upcomingMovies";
 import styles from "./slideItem.module.scss";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "../../../../Hooks/useMediaQuery";
 interface IProps {
   movie: Result;
   index: number;
@@ -23,6 +24,7 @@ const SlideItem = (props: IProps) => {
   const { movie } = props;
   const [active, setActive] = useState<boolean>(false);
   const [movieId, setMovieId] = useState<number>(0);
+  const matchesMobile = useMediaQuery("(min-width: 601px)");
   const { t, i18n } = useTranslation();
   const genreService = useGetGenresServiceQuery(
     i18n.language.replace("_", "-")
@@ -138,8 +140,9 @@ const SlideItem = (props: IProps) => {
           {movieService.data?.results.find((item) => item.type === "Trailer")
             ?.key ? (
             <iframe
+              allow="autoplay"
               width="100%"
-              height="500px"
+              height={matchesMobile ? 600 : 300}
               title={
                 clientURL.youtube +
                 movieService.data?.results.find(
@@ -152,7 +155,7 @@ const SlideItem = (props: IProps) => {
           )}
         </div>
         <div className={styles.container_dialog_close}>
-          <button onClick={() => closeModal()}>{closeButton()}</button>
+          <button onClick={() => closeModal()}>{closeButton(33,2.5)}</button>
         </div>
       </dialog>
     </>
