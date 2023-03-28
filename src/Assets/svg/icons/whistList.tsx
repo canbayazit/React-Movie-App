@@ -1,4 +1,4 @@
-export const addWhistList = (size:number) => (
+export const addWhistList = (size?:number,color?:string,) => (
     <svg
       enableBackground="new 0 0 50 50"
       width={size}
@@ -14,7 +14,7 @@ export const addWhistList = (size:number) => (
       height="30"/>
       <line
         fill="none"
-        stroke="#fff"
+        stroke={color}
         strokeMiterlimit="10"
         strokeWidth="3"
         x1="9"
@@ -24,7 +24,7 @@ export const addWhistList = (size:number) => (
       />
       <line
         fill="none"
-        stroke="#fff"
+        stroke={color}
         strokeMiterlimit="10"
         strokeWidth="3"
         x1="25"

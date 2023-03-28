@@ -1,9 +1,9 @@
-export const mail = (styles: any) => (
+export const mail = (styles: any,size:number) => (
   <svg
     className={styles.svg}
     fill="#000000"
-    width="20"
-    height="20"
+    width={size}
+    height={size}
     viewBox="4 4 15 15"
     data-name="Flat Line"
     xmlns="http://www.w3.org/2000/svg"

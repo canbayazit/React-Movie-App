@@ -1,12 +1,12 @@
-export const logo = () => (
+export const logo = (size:number) => (
     <svg
       fill="#fff"
       version="1.1"
       id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      width="40px"
-      height="40px"
+      width={size}
+      height={size}
       viewBox="0 0 358.635 358.635"
       xmlSpace="preserve"
       style={{ transform: `rotate(270deg)` }}
