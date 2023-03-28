@@ -41,7 +41,7 @@ const tr = {
     //Nav contents
     suggested: "ÖNERİLEN",
     cast: "OYUNCULAR",
-    crew: "YAPIM EKİBİ",
+    crew: "EKİP",
     comment: "YORUMLAR",
     detail: "DETAYLAR",
     //movieTv detail

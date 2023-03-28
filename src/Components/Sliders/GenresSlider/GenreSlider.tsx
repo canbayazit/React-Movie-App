@@ -80,7 +80,7 @@ const GenreSlider = () => {
                 className={`${category === item.category ? "active" : ""}`}
                 onClick={() => handleClick(item.category)}
               >
-                {item.name}
+                {item.name.slice(0,-1)}
               </button>
             ))}
             <div className={styles.indicator}></div>
