@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { scrollToTopButton } from '../../Assets/svg/icons/scrollToTopButton';
+import { useMediaQuery } from '../../Hooks/useMediaQuery';
 import styles from "./scrollTop.module.scss";
 
 const ScrollToTopButton = () => {
     const [status, setStatus] = useState<boolean>(false)
+  const matchesMobile = useMediaQuery("(min-width: 601px)");
     useEffect(() => {
         const onScroll = () => {
           const scrolledToBottom =
-            window.innerHeight +250 <= window.scrollY + window.innerHeight
+            window.innerHeight +700 <= window.scrollY + window.innerHeight
           if (scrolledToBottom) {
             setStatus(true);
           }else{
@@ -23,7 +25,7 @@ const ScrollToTopButton = () => {
         window.scrollTo({top:0, behavior: 'smooth'});
     }
   return (
-    <div className={status ? `${styles.container} ${styles.active}` : styles.container} onClick={()=>handleClick()}>
+    <div className={status ? `${styles.container} ${matchesMobile ? styles.active : ""}` : styles.container} onClick={()=>handleClick()}>
         <span>{scrollToTopButton()}</span>
     </div>
   )
