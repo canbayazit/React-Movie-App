@@ -1,4 +1,5 @@
 @use "../../Assets/Scss/variables" as *;
+@use "../../Assets/Scss/deviceSize" as *;
 
 .container {
   width: 100%;
@@ -6,6 +7,8 @@
   flex-direction: column;
   justify-content: center;
   margin-top: 120px;
+  padding: 0 calc(3.5vw + 12px);
+
   &_query {
     width: 100%;
     color: #f9f9f9;
@@ -70,7 +73,7 @@
             }
           }
           &:not(.active) {
-            &:hover{
+            &:hover, &:active{
               background-color: #ffffff95;
               font-weight: 600;
               color: #000;
@@ -84,5 +87,67 @@
         }
       }
     }
+  }
+}
+@media only screen and (max-width: $Max_DXS) {
+  .container_search {
+    &_filter {
+      width: 50%;
+    }
+    &_result {
+      &_movie_card {
+        width: 50%;
+      }
+      &_person_card {
+        width:50%;
+      }
+    } 
+    &_empty {
+      width: 100%;
+      margin:  0;
+      text-align: center;
+    }   
+  }
+}
+@media only screen and (max-width: $Max_TM) {
+  .container_search {
+    &_filter {
+      width: 50%;
+    }
+    &_result {
+      &_movie_card {
+        width: 50%;
+      }
+      &_person_card {
+        width:50%;
+      }
+    } 
+    &_empty {
+      width: 100%;
+      margin:  0;
+    }   
+  }
+}
+@media only screen and (max-width: $Max_TXS) {
+  .container_search {
+    flex-direction: column;
+    &_filter {
+      width: 100%;
+    }
+    &_result {
+      margin-top: 20px;
+      &_movie_card {
+        width: 50%;
+      }
+      &_person_card {
+        width:100%;
+      }
+    } 
+    &_empty {
+      width: 100%;
+      height: auto;
+      margin: 50px 0;
+      text-align: center;
+    }   
   }
 }
