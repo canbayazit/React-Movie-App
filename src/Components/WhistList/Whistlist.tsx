@@ -16,12 +16,12 @@ const Whistlist = () => {
     <div className={styles.container}>
       {!uid ? (
         <div className={styles.container_empty}>
-          <span>{addWhistList(80)}</span>
+          <span>{addWhistList(80,"#fff")}</span>
           <h2>{t("notLoggedIn")}</h2>
         </div>
       ) : whistList?.length === 0 ? (
         <div className={styles.container_empty}>
-          <span>{addWhistList(80)}</span>
+          <span>{addWhistList(80,"#fff")}</span>
           <h2>{t("emptyWatchList")}</h2>
         </div>
       ) : (
