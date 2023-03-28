@@ -1,21 +1,24 @@
 @use "../../../Assets/Scss/variables" as *;
+@use "../../../Assets/Scss/deviceSize" as *;
+
 .container {
   position: relative;
-  margin: 2rem 0 2rem 3rem;
-  height: auto;
+  margin-left:2rem;
   &_button {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    overflow: visible;
-    margin: 0 0 10px 0;
+    margin-bottom: 10px;
+    padding-right: 20px;
+    padding-left: 5px;
     h1 {
       color: #fff;
       font-size: 1.4rem;
       font-weight: 700;
     }
     button {
+      width: max-content;
       background-color: #032541;
       padding: 5px 10px;
       background-image: $background;
@@ -37,13 +40,28 @@
     }
   }
   &_slider {
-    height: auto;
     width: 100%;
     .movie_card {
       // height: 395px;
       height: auto;
       z-index: 998;
       width: 100%;
+
+    }
+  }
+}
+@media only screen and (max-width: $Max_TXS) {
+  .container{
+    margin-left:1.2rem;
+  }
+  .container_button{
+    padding-right: 5px;
+
+    h1{
+      font-size: 1.2rem;
+    }
+    button{
+      padding: 4px 8px;
     }
   }
 }
