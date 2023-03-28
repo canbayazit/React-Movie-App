@@ -52,7 +52,7 @@ const settings: ISetting = {
       },
     },
     {
-      breakpoint: 425,
+      breakpoint: 428,
       settings: {
         dots: false,
         arrows: false,
