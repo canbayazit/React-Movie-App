@@ -1,0 +1,54 @@
+@use "../../Assets/Scss/deviceSize" as *;
+
+.container {
+  position: absolute;
+  height: calc(100vh);
+  left: -100%;
+  -webkit-animation: slide 0.4s forwards;
+  animation: slide 0.4s forwards;
+  width: 100%;
+  top: 100%;
+  &.active{
+    display: none;
+  }
+  @keyframes slide {
+    100% {
+      left: 0;
+    }
+  }
+  ul {
+    height: calc(100vh);
+    padding: 0 20px;
+    width: 100%;
+    background-color: #262b3a;
+    list-style-type: none;
+    li {
+      a {
+        text-decoration: none;
+        color: #fff;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 0;
+        h3 {
+          margin-left: 15px;
+        }
+        h2 {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+      &:last-child {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: #fff;
+        padding: 20px 0;
+        h3 {
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+}
