@@ -1,92 +1,142 @@
 @use "../../Assets/Scss/variables" as *;
+@use "../../Assets/Scss/deviceSize" as *;
 
-.container{
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 40px;
+  margin-top: 100px;
+  &_header {
     width: 100%;
+    h1 {
+      color: #f9f9f9;
+    }
+  }
+  &_main {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 40px;
-    margin-top: 100px;
-    &_header{
+    width: 100%;
+    margin-top: 20px;
+    &_filter {
+      width: 25%;
+      margin-top: 10px;
+      margin-right: 30px;
+      &_form {
         width: 100%;
-        h1{
-            color: #f9f9f9;
-        }
-    }
-    &_main{
-        display: flex;
-        width: 100%;
-        margin-top: 20px;
-        &_filter{
-            width: 25%;
-            margin-top: 10px;
-            margin-right: 30px;
-            &_form{
-                width: 100%;
-                &_genre{
-                    width: 100%;
-                    margin-bottom: 7px;
-                    &_field{                        
-                        width: 100%;
-                        padding: 8px 10px;
-                        font-size: 16px;
-                        font: normal 14px arial;
-                        color: #2e576f;
-                        border: 1px solid #2f354799;
-                        border-radius: 4px;
-                        cursor: pointer;
-                        &:hover{
-                            background-color: #f2f8fb;
-                        }                        
-                    }
-                }
-                &_imdb{
-                    width: 100%;
-                    margin-bottom: 15px;
-                    &_field{                        
-                        width: 100%;
-                        padding: 8px 10px;
-                        font-size: 16px;
-                        font: normal 14px arial;
-                        color: #2e576f;
-                        border: 1px solid #2f354799;
-                        border-radius: 4px;
-                        cursor: pointer;
-                        &:hover{
-                            background-color: #f2f8fb;
-                        }
-                    }
-                }
-                &_button{
-                    width: 100%;
-                    button{
-                        width: 100%;
-                        padding: 8px 10px;
-                        border: 1px solid #2f354799;
-                        border-radius: 4px;
-                        background: $background;
-                        cursor: pointer;
-                        font: bold 14px arial;
-                        color: #202020;
-                        &:hover{
-                            opacity: .9;
-                        }
-                    }
-                }
-            }
-        }
-        &_movie{
+        &_genre {
+          width: 100%;
+          margin-bottom: 7px;
+          &_field {
             width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            &_card{
-            height: 195px;
-            position: relative;
-            width:25%;
+            padding: 8px 10px;
+            font-size: 16px;
+            font: normal 14px arial;
+            color: #2e576f;
+            border: 1px solid #2f354799;
+            border-radius: 4px;
+            cursor: pointer;
+            &:hover {
+              background-color: #f2f8fb;
             }
+            &_option {
+              padding: 10px;
+            }
+          }
+        }
+        &_imdb {
+          width: 100%;
+          margin-bottom: 15px;
+          &_field {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 16px;
+            font: normal 14px arial;
+            color: #2e576f;
+            border: 1px solid #2f354799;
+            border-radius: 4px;
+            cursor: pointer;
+            &:hover {
+              background-color: #f2f8fb;
+            }
+          }
+        }
+        &_button {
+          width: 100%;
+          button {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #2f354799;
+            border-radius: 4px;
+            background: $background;
+            cursor: pointer;
+            font: bold 14px arial;
+            color: #202020;
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+        }
+      }
+    }
+    &_movie {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      &_card {
+        height: 195px;
+        position: relative;
+        width: 25%;
+      }
+      &_query {
+        color: #fff;
+        h1 {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: $Max_DS) {
+    .container_main {
+      &_filter {
+        width: 75%;
+        margin-bottom: 20px;
+      }
+      &_movie_card {
+        width: 50%;
+      }
+    }
+  }
+@media only screen and (max-width: $Max_TS) {
+    .container_main {
+      flex-direction: column;
+      &_filter {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      &_movie_card {
+        width: 100%;
+      }
+      &_movie_query{
+        h1{
+            margin-top: 40px;
         }
     }
+    }
+  }
+@media only screen and (max-width: $Max_TXS) {
+  .container_main {
+    flex-direction: column;
+    &_filter {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    &_movie_card {
+      width: 100%;
+    }    
+  }
 }

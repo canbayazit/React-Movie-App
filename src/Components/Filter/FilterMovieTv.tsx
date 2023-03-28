@@ -108,7 +108,9 @@ const FilterMovieTv = () => {
                 <Form className={styles.container_main_filter_form}>
                   <div className={styles.container_main_filter_form_genre}>
                     <Field
-                      value={values.defaultValueGenre}
+                      value={
+                        values.genre ? values.genre : values.defaultValueGenre
+                      }
                       as="select"
                       name="genre"
                       className={styles.container_main_filter_form_genre_field}
@@ -125,7 +127,9 @@ const FilterMovieTv = () => {
                   </div>
                   <div className={styles.container_main_filter_form_imdb}>
                     <Field
-                      value={values.defaultValueImdb}
+                      value={
+                        values.imdb ? values.imdb : values.defaultValueImdb
+                      }
                       as="select"
                       name="imdb"
                       className={styles.container_main_filter_form_imdb_field}
@@ -149,7 +153,7 @@ const FilterMovieTv = () => {
           </div>
           {allMovieTv.isFetching && <Loading />}
           <div className={styles.container_main_movie}>
-            {allMovieTv.data?.results.map((movie, i) => (
+            {allMovieTv.data?.results.length!==0 ? allMovieTv.data?.results.map((movie, i) => (
               <div key={i} className={styles.container_main_movie_card}>
                 <MovieCard
                   movie={movie}
@@ -157,8 +161,14 @@ const FilterMovieTv = () => {
                   categoryType={category!}
                 />
               </div>
-            ))}
-          </div>
+              
+            )): 
+            <div className={styles.container_main_movie_query}>
+              <h1>
+                {t('noQuery')}
+              </h1>
+              </div>}
+          </div>          
         </div>
       </div>
     </>
