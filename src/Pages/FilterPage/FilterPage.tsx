@@ -4,7 +4,7 @@ import styles from './filter.module.scss';
 
 const FilterPage = () => {
   return (
-    <div>
+    <div className={styles.container}>
         <FilterMovieTv/>
     </div>
   )
