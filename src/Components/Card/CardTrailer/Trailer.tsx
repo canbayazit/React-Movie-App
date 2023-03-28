@@ -172,6 +172,7 @@ const Trailer = (props: IProps) => {
               <div>LOADING</div>
             ) : (
               <iframe
+                allow="autoplay"
                 title={
                   clientURL.youtube +
                   getVideo.data.results.find((item) => item.type === "Trailer")
@@ -205,8 +206,8 @@ const Trailer = (props: IProps) => {
                   {uid
                     ? watchList?.find((i) => i.id === movie?.id)
                       ? tick()
-                      : addWhistList(30)
-                    : addWhistList(30)}
+                      : addWhistList(30,"#fff")
+                    : addWhistList(30,"#fff")}
                 </span>
               </div>
               <div className={styles.container_info_icons_buttons_favorite}>
@@ -218,7 +219,7 @@ const Trailer = (props: IProps) => {
                 <span onClick={() => handleClick("favoriteList")}>
                   {uid
                     ? favoriteList?.find((i) => i.id === movie?.id)
-                      ? deleteFavorite()
+                      ? deleteFavorite(25,"#ffc107")
                       : addFavorite()
                     : addFavorite()}
                 </span>
