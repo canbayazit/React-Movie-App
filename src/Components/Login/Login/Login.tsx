@@ -11,12 +11,14 @@ import { toast } from "react-toastify";
 import { usePostLoginServiceMutation } from "../../../Service/firebaseServices";
 import Loading from "../../Loading/Loading";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "../../../Hooks/useMediaQuery";
 interface IValues {
   email: string;
   password: string;
 }
 
 const LoginForm = () => {
+  const matchesMobile = useMediaQuery("(min-width: 601px)");
   const { t } = useTranslation();
   const initialValues: IValues = {
     email: "",
@@ -104,7 +106,7 @@ const LoginForm = () => {
                     {errors.email}
                   </div>
                 ) : null}
-                {mail(styles)}
+                {mail(styles,!matchesMobile ? 16 :20)}
                 <h5>{t('emailPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_password}>
@@ -119,7 +121,7 @@ const LoginForm = () => {
                     {errors.password}
                   </div>
                 ) : null}
-                {lock(styles)}
+                {lock(styles,!matchesMobile ? 16 :20 )}
                 <h5>{t('passwordPlaceholder')}</h5>
               </div>
               <div className={styles.container_form_button}>

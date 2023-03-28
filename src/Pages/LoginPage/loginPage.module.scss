@@ -1,7 +1,15 @@
-.container{
-    width: 100%;
-    height: 100vh;
-    position: relative; 
-    background: url("../../Assets/img/background.jpg");
-    background-size: cover;     
+@use "../../Assets/Scss/deviceSize" as *;
+
+.container {
+  width: 100%;
+  height: 100vh;
+  position: relative;  
+  background: url("../../Assets/img/background.jpg");
+  background-size: cover;
+}
+@media only screen and (max-width: $Max_DXS) {
+  .container {
+    background: none;
+    background-color: #040814;   
+  }
 }
