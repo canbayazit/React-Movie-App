@@ -19,7 +19,7 @@ const settings: ISetting = {
   slidesToShow: 1,
   slidesToScroll: 1,
   initialSlide: 0,
-  autoplay: true,
+  autoplay: false,
   autoplaySpeed: 6000,
   pauseOnHover: true,
   nextArrow: <SampleNextArrowUpcoming />,
@@ -35,7 +35,7 @@ const settings: ISetting = {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        initialSlide: 0,        
+        initialSlide: 0,
       },
     },
     {
@@ -70,7 +70,7 @@ const UpcomingSlider = () => {
   const { i18n } = useTranslation();
   const { data } = useGetUpcomingMoviesServiceQuery({
     page: 1,
-    lang: i18n.language.replace("_","-"),
+    lang: i18n.language.replace("_", "-"),
   });
   return (
     <>

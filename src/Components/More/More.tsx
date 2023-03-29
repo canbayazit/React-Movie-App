@@ -15,7 +15,7 @@ const More = () => {
         offset={-60}
         duration={500}
       >
-        <span>{t('more')}</span>
+        <span>{t('more').toUpperCase()}</span>
         <span>{arrowDown("#62b4f5")}</span>
       </Link>
     </div>
