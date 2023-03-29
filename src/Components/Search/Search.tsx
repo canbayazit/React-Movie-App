@@ -57,7 +57,7 @@ const Search = () => {
   };
   return (
     <>
-      {isFetching && <Loading />}
+      {data?.results.length !== 0 && isFetching && <Loading />}
       <div className={styles.container}>
         <div className={styles.container_query}>
           <h2>
