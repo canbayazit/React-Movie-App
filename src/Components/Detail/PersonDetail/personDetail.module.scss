@@ -10,9 +10,7 @@
   top: 200px;
   &_img {
     margin-right: 25px;
-    width: 100%;
     img {      
-      width: 100%;
       height: 350px;
     }
   }
@@ -22,7 +20,7 @@
     align-items: flex-start;
     flex-direction: column;
     color: #f9f9f9;
-    max-width: 1030px;
+    width: 100%;
     line-height: 22px;
     h1 {
       font-weight: 700;
@@ -47,9 +45,7 @@
 @media only screen and (max-width: $Max_DXS) {
   .container {
     padding: 0 calc(3.5vw);    
-    &_detail {
-      width: 100%;
-    }
+    
   }
 }
 @media only screen and (max-width: $Max_TXS) {
@@ -57,7 +53,10 @@
     padding: 0 calc(3.5vw + 12px);
     flex-direction: column;
     &_img {
-      margin-right: 0;
+      width: 100%;
+      img{
+        width: 100%;
+      }
     }
     &_detail {
       h1 {
