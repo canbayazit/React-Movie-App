@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { shallowEqual } from "react-redux";
 import { Link } from "react-router-dom";
+import { addFavorite } from "../../Assets/svg/icons/addFavorite";
+import { deleteFavorite } from "../../Assets/svg/icons/deleteFavorite";
 import { addWhistList } from "../../Assets/svg/icons/whistList";
 import { useAppSelector } from "../../Hooks/Hook";
 import styles from "./favorite.module.scss";
@@ -18,12 +20,12 @@ const FavoriteList = () => {
     <div className={styles.container}>
       {!uid ? (
         <div className={styles.container_empty}>
-          <span>{addWhistList(80,"#fff")}</span>
+          <span>{deleteFavorite(80,"#fff")}</span>
           <h2>{t("notLoggedIn")}</h2>
         </div>
       ) : favoritesList?.length === 0 ? (
         <div className={styles.container_empty}>
-          <span>{addWhistList(80,"#fff")}</span>
+          <span>{deleteFavorite(80,"#fff")}</span>
           <h2>{t("emptyfavoriteList")}</h2>
         </div>
       ) : (

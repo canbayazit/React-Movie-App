@@ -264,7 +264,7 @@ const MovieTvDetail = () => {
                     <span onClick={() => handleClick("favorite")}>
                       {favoriteList?.find((i) => i.id === Number(id))
                         ? deleteFavorite(25, "#ffc107")
-                        : addFavorite()}
+                        : addFavorite(27,"#fff")}
                     </span>
                   </div>
                 </div>

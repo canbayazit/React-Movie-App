@@ -219,8 +219,8 @@ const Trailer = (props: IProps) => {
                   {uid
                     ? favoriteList?.find((i) => i.id === movie?.id)
                       ? deleteFavorite(25,"#ffc107")
-                      : addFavorite()
-                    : addFavorite()}
+                      : addFavorite(27,"#fff")
+                    : addFavorite(27,"#fff")}
                 </span>
               </div>
             </div>
