@@ -27,3 +27,4 @@ My private web project that movies and TV shows are listed, filtered according t
 * SCSS For Styling and Design
 * React Routing
 * Custom React Hooks
+* React i18next for Language Library
