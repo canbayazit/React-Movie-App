@@ -52,11 +52,6 @@
         }
     }
 }
-@media only screen and (max-width: $Max_DM) {
-    .container {
-        min-height: 700px;
-    }    
-  }
 @media only screen and (max-width: $Max_DXS) {
     .container {
       padding: 0 calc(3.5vw + 10px);
